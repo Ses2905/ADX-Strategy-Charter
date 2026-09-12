@@ -154,6 +154,41 @@ full-width navy callout that the page number lands on, switch it to Sky Blue
 (`var(--wm-sky-blue,#a9ddf7)`) inline — the same dark-ground color convention `.k` and
 `.cap` already follow. Do not leave gray-on-navy.
 
+## Charts
+
+Four charts carry the evidence, and chart craft is held to the same standard as copy.
+
+**Colour does one job.** The five-theme bar chart is one series of counts on *nominal*
+categories, so every bar is one colour (True Blue `#0053e2`, validated as a single
+series). It once ran a navy→sky value ramp, which double-encoded bar length as hue and
+spent the only free channel on information the bars already showed. The Display funnel
+is different: its stages are genuinely ordered, so a one-hue light→dark ordinal ramp is
+correct there — that ramp passes all ordinal checks, leave it alone.
+
+**Geometry must equal the data — measure it, don't trust the CSS.** Percentage widths on
+a flex item resolve against the flex container, but a sibling set to `width:100%` gets
+*shrunk* to the track. That mismatch once rendered four of five bars ~44% too long
+relative to the first, flattening the very ranking the slide argues. Put bars in an
+explicit shared track (`flex:1` wrapper, percentage on the inner bar) and verify by
+measuring rendered pixels per unit — all bars must agree within ~1%.
+
+**Plot on a true linear scale.** The market line's three middle points sagged 3–4px,
+making growth read as more accelerating than the forecast. Recompute coordinates from
+the data; don't hand-place them.
+
+**Axis labels live in the same coordinate space as the marks.** Year ticks in an HTML row
+below an `xMidYMid meet` SVG do not align with points inside it — they drift with the
+aspect fit. Put ticks in the SVG at the mark's own x.
+
+**Chrome is recessive.** Axis rules are hairline gray (`#c3c6cd`), never navy — navy is
+ink, not chrome, and the navy-density rule above says the same. No dashed gridlines or
+decorative rules; dashing is reserved for a genuine reference line (the NPS period mean).
+
+**Known open item:** the market chart's area fill is not zero-baselined — the fill bottom
+sits at roughly $59B, so the filled area overstates magnitude even though every point is
+labelled. Fine for a line, arguable for an area. Decide deliberately before this goes to
+leadership.
+
 ## Layout verification
 
 Three failure modes that `scrollHeight` will **not** catch, because `.s` sets
