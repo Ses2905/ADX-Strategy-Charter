@@ -281,6 +281,34 @@ network egress, so nav *behaviour* (prev/next, seek, slide sync) cannot be exerc
 locally — only the shadow root's construction and any method not needing the stage.
 Treat logic changes here as unverified until clicked through in Claude Design.
 
+## `justify-content:center` on a `flex:1` column defeats the header gap
+
+A first-content container set to `display:flex; flex:1; justify-content:center` starts its
+*box* at the correct 32/24px below the header, then centers its *content* in all the
+remaining space — so the content drifts 85–121px down and the separation rule above does
+nothing. Five slides (14, 15, 18, 27, 31) shipped this way; the header and content read as
+unrelated, with a dead band between them. Use `flex-start` and let slack fall to the
+bottom, where a light slide is allowed to be light.
+
+This is also a checker trap: measuring the container's `getBoundingClientRect().top`
+reports the gap as correct. `rhythm.js` measures the first *inked* descendant instead, and
+flags any ink gap over 80px.
+
+## Only one sibling in a peer row may be singled out, and only with a reason
+
+Sweep with `uniform.js` / `uniform2.js`: any structurally parallel row (every sibling
+carrying a `.cap` and a heading) where exactly one differs in border-top, background,
+radius or heading colour. Three shipped at once, all on item **04**: slide 06 "Greater
+selectivity", slide 34 "Ask 04", slide 09's third stat block. Each was the *last* item of a
+set, which is the forbidden case — the emphasis treatment says "this is the pick", and the
+last step of a sequence is where the argument ends, not what it recommends.
+
+Slide 20's step 04 "Advertiser control" is the one legitimate single-out in the deck: it
+sits mid-sequence (4 of 7, so it cannot be misread as the conclusion) and the slide's own
+principle callout states the reason — "automate only when… the advertiser retains
+appropriate control." A single-out needs that kind of on-slide justification; without one
+it is decoration.
+
 ## Layout verification
 
 Three failure modes that `scrollHeight` will **not** catch, because `.s` sets
