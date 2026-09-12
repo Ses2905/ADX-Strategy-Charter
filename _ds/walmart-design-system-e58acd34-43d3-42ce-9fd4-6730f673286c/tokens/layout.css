@@ -1,0 +1,75 @@
+/* ============================================================
+   Walmart Design System — Layout primitives
+   Page frames, section rhythm, and grids so templates stop
+   hand-rolling geometry. Everything sits on the 4px scale.
+   ============================================================ */
+:root {
+  /* ---- Section rhythm ---- */
+  --section-y: var(--space-20);        /* @kind spacing */  /* vertical padding between sections */
+  --section-y-tight: var(--space-12);  /* @kind spacing */
+  --section-y-loose: var(--space-24);  /* @kind spacing */
+  --gutter: var(--space-6);            /* @kind spacing */  /* page edge padding */
+  --grid-gap: var(--space-6);          /* @kind spacing */
+  --grid-gap-tight: var(--space-4);    /* @kind spacing */
+}
+
+/* ---- Page frame ---- */
+.wm-container { width: 100%; max-width: var(--container-max); margin-inline: auto; padding-inline: var(--gutter); }
+.wm-container-narrow { width: 100%; max-width: 880px; margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ---- Sections ---- */
+.wm-section { padding-block: var(--section-y); }
+.wm-section-tight { padding-block: var(--section-y-tight); }
+.wm-section-loose { padding-block: var(--section-y-loose); }
+
+/* ---- Grids ---- */
+.wm-grid { display: grid; gap: var(--grid-gap); }
+.wm-grid-2 { display: grid; gap: var(--grid-gap); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wm-grid-3 { display: grid; gap: var(--grid-gap); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.wm-grid-4 { display: grid; gap: var(--grid-gap); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.wm-grid-6 { display: grid; gap: var(--grid-gap-tight); grid-template-columns: repeat(6, minmax(0, 1fr)); }
+/* Auto-fitting card grid — the default for product and content tiles */
+.wm-grid-auto { display: grid; gap: var(--grid-gap); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+/* Editorial split: primary column plus a narrower rail */
+.wm-split { display: grid; gap: var(--grid-gap); grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.wm-split-even { display: grid; gap: var(--grid-gap); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 900px) {
+  .wm-grid-3, .wm-grid-4, .wm-grid-6, .wm-split, .wm-split-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .wm-grid-2, .wm-grid-3, .wm-grid-4, .wm-grid-6, .wm-split, .wm-split-even { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- Rows ---- */
+.wm-row { display: flex; align-items: center; gap: var(--space-4); }
+.wm-row-between { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+.wm-row-wrap { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+
+/* ---- Dark surfaces ----
+   Any block on Bentonville Blue (or another dark ground) gets the on-dark
+   token set, so headings and body copy stay legible without per-element
+   overrides. Pair with .wm-surface-dark or apply data-surface="dark". */
+.wm-surface-dark, [data-surface="dark"] {
+  --text-primary: var(--on-dark-primary);
+  --text-secondary: var(--on-dark-secondary);
+  --text-tertiary: var(--on-dark-tertiary);
+  --text-link: var(--on-dark-link);
+  --text-eyebrow: var(--on-dark-eyebrow);
+  --border-subtle: var(--on-dark-border);
+  --border-default: var(--on-dark-border-strong);
+  --color-surface: var(--wm-bentonville-blue);
+  background: var(--wm-bentonville-blue);
+  color: var(--on-dark-primary);
+}
+.wm-surface-accent, [data-surface="accent"] {
+  --text-primary: var(--on-dark-primary);
+  --text-secondary: var(--on-dark-secondary);
+  --text-tertiary: var(--on-dark-tertiary);
+  --text-link: var(--on-dark-primary);
+  --text-eyebrow: var(--on-dark-primary);
+  --border-subtle: var(--on-dark-border);
+  --color-surface: var(--wm-true-blue);
+  background: var(--wm-true-blue);
+  color: var(--on-dark-primary);
+}

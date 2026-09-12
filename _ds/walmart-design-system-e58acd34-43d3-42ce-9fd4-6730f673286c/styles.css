@@ -1,0 +1,10 @@
+/* ============================================================
+   Walmart Design System — Global entry point
+   Consumers link THIS file only. Order matters: tokens first,
+   then base element styles.
+   ============================================================ */
+@import url('tokens/colors.css');
+@import url('tokens/typography.css');
+@import url('tokens/spacing.css');
+@import url('tokens/layout.css');
+@import url('tokens/base.css');
