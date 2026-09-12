@@ -123,7 +123,7 @@ deck feel like one system is the constants, not a column count.
 | | |
 |---|---|
 | Canvas | 1280 × 720, full-bleed, never a `border-radius` on `<section class="s">` |
-| Margins | 72px left and right, 56px top |
+| Margins | 72px left and right, 64px top |
 | Bottom reserve | 96px, holding `.pg` / `.tk`; content may flow into it, but never over the marker |
 | Content measure | **1136px** — every slide's widest element ends flush at 72px from the right |
 | Gutters | 24px default, 32px for wide-set columns; all on the 4px scale |
@@ -147,6 +147,38 @@ one of the set above.
 **Changing a rail re-flows its neighbour.** Narrowing a rail widens the content column
 and can re-wrap it, so re-run the verification suite after any track change — that is
 how the 30px narrowing on slide 11 was confirmed safe.
+
+## Vertical rhythm: the header is one group, the content is another
+
+The eyebrow, title and lead paragraph are **one group**. The content below them is a
+different group. The gap separating the two must be decisively larger than the gaps
+inside the header, or the whole upper region reads as one crowded mass jammed against
+the top margin — which is exactly how the deck read at 1.56×.
+
+| Gap | Value |
+|---|---|
+| Eyebrow → title (`.t` inline `margin-top`) | 8px |
+| Title → lead (`.s .d` `margin-top`) | 8px |
+| **Header → first content element** | **32px** where the slide has a lead, **24px** where it does not |
+
+The separation scales with the header's own internal gap so the *ratio* stays ~3× on
+every slide: a slide with a lead has an 11px inner gap and takes 32px; a slide with only
+an eyebrow and title has an 8px inner gap and takes 24px. Holding one flat 32px on the
+no-lead slides is what pushed slides 16 and 26 onto their bottom markers — the header
+tightening frees 10px on a lead slide but only 4px without one.
+
+That gap is a **constant, not a per-slide judgement call**. It once ranged 17→30px across
+29 core slides, and on slide 28 it equalled the title→lead gap exactly, so the two groups
+were not separated at all.
+
+Appendix slides (`data-appendix`, `data-dense`) use `.h` rather than `.t` and keep their
+own tighter rhythm — do not apply the core values there.
+
+**The vertical budget is real and small.** Top margin plus header gap cannot exceed ~96px
+before slide 09 clips; its right rail holds three fixed-height stat blocks that cannot
+shrink, and it is the only slide in the deck that binds. Anything that wants more top air
+than 64px has to buy it by trimming slide 09 first. Re-run the clip and collide checks
+after any change to either value — the two trade against each other.
 
 ## Spacing sits on the 4px scale
 
