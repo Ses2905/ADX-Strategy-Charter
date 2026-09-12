@@ -1,0 +1,85 @@
+/* ============================================================
+   Walmart Design System — Color Tokens
+   2025 brand refresh. Sourced from WMT-Color-Chart ASE + logos.
+   ============================================================ */
+:root {
+  /* ---- Core brand palette (all blue — no yellow in this system) ---- */
+  --wm-true-blue: #0053e2;        /* primary brand + actions */
+  --wm-bentonville-blue: #001e60; /* deep navy — text, headers, footers */
+  --wm-everyday-blue: #4dbdf5;    /* the Spark, accents, highlights */
+  --wm-sky-blue: #a9ddf7;         /* light blue — tints, surfaces */
+  --wm-white: #ffffff;
+
+  /* ---- Extended True Blue ramp (states + tints) ---- */
+  --wm-true-blue-hover: #0045bd;  /* button hover (darken) */
+  --wm-true-blue-press: #003aa0;  /* button active (darken more) */
+  --wm-blue-50: #e8f0ff;          /* faint blue wash / selected row */
+  --wm-blue-100: #cfe0ff;
+  --wm-sky-50: #eaf6fd;           /* sky tint surface */
+  --wm-sky-100: #d6eefb;
+
+  /* ---- Neutral ramp (cool, navy-tinted greys) ---- */
+  --wm-gray-900: #20242b;
+  --wm-gray-800: #2e333c;
+  --wm-gray-700: #46474a;
+  --wm-gray-600: #5e636e;
+  --wm-gray-500: #74767c;         /* secondary text */
+  --wm-gray-400: #97999f;
+  --wm-gray-300: #c3c6cd;         /* default borders */
+  --wm-gray-200: #dee1e6;         /* subtle borders / dividers */
+  --wm-gray-100: #eef0f3;         /* sunken surface */
+  --wm-gray-50:  #f5f6f8;         /* page background */
+
+  /* ---- Semantic status ---- */
+  --wm-success: #128a08;          /* in-stock, savings copy */
+  --wm-success-bg: #e7f4e4;
+  --wm-error: #de1c24;            /* clearance / errors */
+  --wm-error-bg: #fdeaea;
+  --wm-warning: #b25e00;          /* warning text on yellow */
+  --wm-info: var(--wm-true-blue);
+
+  /* ============================================================
+     Semantic aliases — reference these in components
+     ============================================================ */
+  /* White is the primary ground. Grey is a hairline/secondary-text role only. */
+  --color-bg: var(--wm-white);
+  --color-surface: var(--wm-white);
+  --color-surface-sunken: var(--wm-gray-50);
+  --color-surface-brand: var(--wm-bentonville-blue);
+  --color-surface-tint: var(--wm-blue-50);
+
+  --text-primary: var(--wm-bentonville-blue);
+  --text-secondary: var(--wm-gray-600);
+  --text-tertiary: var(--wm-gray-500);
+  --text-on-brand: var(--wm-white);
+  --text-link: var(--wm-true-blue);
+  --text-price: var(--wm-gray-900);
+  --text-savings: var(--wm-success);
+
+  --border-default: var(--wm-gray-300);
+  --border-subtle: var(--wm-gray-200);
+  --text-eyebrow: var(--wm-true-blue);
+  --border-strong: var(--wm-bentonville-blue);
+
+  --action-primary-bg: var(--wm-true-blue);
+  --action-primary-bg-hover: var(--wm-true-blue-hover);
+  --action-primary-bg-press: var(--wm-true-blue-press);
+  --action-primary-text: var(--wm-white);
+
+  --action-secondary-bg: var(--wm-white);
+  --action-secondary-border: var(--wm-gray-900);
+  --action-secondary-text: var(--wm-bentonville-blue);
+
+  --accent: var(--wm-everyday-blue);
+  /* Spark Yellow has been retired from this system. */
+  --focus-ring: var(--wm-true-blue);
+
+  /* ---- On-dark roles (Bentonville Blue and other dark grounds) ---- */
+  --on-dark-primary: var(--wm-white);
+  --on-dark-secondary: #cfe0fb;
+  --on-dark-tertiary: #9fbdf2;
+  --on-dark-link: var(--wm-everyday-blue);
+  --on-dark-eyebrow: var(--wm-everyday-blue);
+  --on-dark-border: rgba(255, 255, 255, 0.18);
+  --on-dark-border-strong: rgba(255, 255, 255, 0.32);
+}

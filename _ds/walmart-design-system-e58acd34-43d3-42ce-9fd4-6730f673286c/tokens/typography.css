@@ -1,0 +1,97 @@
+/* ============================================================
+   Walmart Design System — Typography Tokens
+   Typeface: Everyday Sans (Commercial Type, licensed).
+   Four optical families, webfonts in assets/fonts/<family>/:
+     • Everyday Sans          — text / body / marketing
+     • Everyday Sans Headline — large display & headlines
+     • Everyday Sans UI       — interface text, small sizes
+     • Everyday Sans Mono     — code, tabular data
+   Desktop .otf originals live in assets/fonts/desktop-otf/.
+   ============================================================ */
+
+/* ---- Everyday Sans (text) ---- */
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-Light-Web.woff') format('woff');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-LightItalic-Web.woff') format('woff');font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-Regular-Web.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-RegularItalic-Web.woff') format('woff');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-Medium-Web.woff') format('woff');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-MediumItalic-Web.woff') format('woff');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-Bold-Web.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-BoldItalic-Web.woff') format('woff');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-Black-Web.woff') format('woff');font-weight:900;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans';src:url('../assets/fonts/everyday-sans/EverydaySans-BlackItalic-Web.woff') format('woff');font-weight:900;font-style:italic;font-display:swap}
+
+/* ---- Everyday Sans Headline (display) ---- */
+@font-face{font-family:'Everyday Sans Headline';src:url('../assets/fonts/everyday-sans-headline/EverydaySansHeadline-Light-Web.woff') format('woff');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans Headline';src:url('../assets/fonts/everyday-sans-headline/EverydaySansHeadline-Regular-Web.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans Headline';src:url('../assets/fonts/everyday-sans-headline/EverydaySansHeadline-Medium-Web.woff') format('woff');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans Headline';src:url('../assets/fonts/everyday-sans-headline/EverydaySansHeadline-Bold-Web.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans Headline';src:url('../assets/fonts/everyday-sans-headline/EverydaySansHeadline-BoldItalic-Web.woff') format('woff');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Everyday Sans Headline';src:url('../assets/fonts/everyday-sans-headline/EverydaySansHeadline-Black-Web.woff') format('woff');font-weight:900;font-style:normal;font-display:swap}
+
+/* ---- Everyday Sans UI (interface) ---- */
+@font-face{font-family:'Everyday Sans UI';src:url('../assets/fonts/everyday-sans-ui/EverydaySansUI-Light-Web.woff') format('woff');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans UI';src:url('../assets/fonts/everyday-sans-ui/EverydaySansUI-Regular-Web.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans UI';src:url('../assets/fonts/everyday-sans-ui/EverydaySansUI-RegularItalic-Web.woff') format('woff');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Everyday Sans UI';src:url('../assets/fonts/everyday-sans-ui/EverydaySansUI-Medium-Web.woff') format('woff');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans UI';src:url('../assets/fonts/everyday-sans-ui/EverydaySansUI-Bold-Web.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans UI';src:url('../assets/fonts/everyday-sans-ui/EverydaySansUI-Black-Web.woff') format('woff');font-weight:900;font-style:normal;font-display:swap}
+
+/* ---- Everyday Sans Mono ---- */
+@font-face{font-family:'Everyday Sans Mono';src:url('../assets/fonts/everyday-sans-mono/EverydaySansMono-Regular-Web.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Everyday Sans Mono';src:url('../assets/fonts/everyday-sans-mono/EverydaySansMono-Bold-Web.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+
+:root {
+  /* ---- Families ---- */
+  --font-sans: 'Everyday Sans', "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --font-display: 'Everyday Sans Headline', 'Everyday Sans', "Helvetica Neue", Arial, sans-serif;
+  --font-ui: 'Everyday Sans UI', 'Everyday Sans', system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: 'Everyday Sans Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* Role aliases — what each family is FOR */
+  --font-heading: var(--font-display);  /* Everyday Sans Headline, Light */
+  --font-body: var(--font-ui);          /* Everyday Sans UI, Regular */
+  --font-numeric: var(--font-mono);     /* Everyday Sans Mono, tabular */
+  --font-eyebrow: var(--font-ui);       /* Everyday Sans UI, Medium */
+
+  /* ---- Weights ---- */
+  --fw-light: 300;   /* @kind font */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium: 500;  /* @kind font */
+  --fw-bold: 700;    /* @kind font */
+  --fw-black: 900;   /* @kind font */
+
+  /* ---- Type scale (px) ---- */
+  --text-display: 64px;   /* hero marketing */
+  --text-h1: 44px;
+  --text-h2: 34px;
+  --text-h3: 26px;
+  --text-h4: 20px;
+  --text-h5: 17px;
+  --text-body-lg: 18px;
+  --text-body: 15px;
+  --text-sm: 14px;
+  --text-xs: 12px;
+  --text-eyebrow-size: 8px;
+
+  /* ---- Line heights ---- */
+  --lh-tight: 1.05;   /* @kind font */
+  --lh-snug: 1.15;    /* @kind font */
+  --lh-normal: 1.4;   /* @kind font */
+  --lh-relaxed: 1.55; /* @kind font */
+
+  /* ---- Letter spacing ---- */
+  --ls-tight: -0.02em;   /* @kind font */
+  --ls-snug: -0.01em;    /* @kind font */
+  --ls-normal: 0;        /* @kind font */
+  --ls-wide: 0.04em;     /* @kind font */
+  --ls-eyebrow: 0.25em;  /* @kind font */  /* 2.5 expanded */
+
+  /* ---- Measure: how wide a line of text may run ---- */
+  --measure-heading: 20ch;  /* @kind other */  /* headlines break evenly */
+  --measure-narrow: 45ch;   /* @kind other */
+  --measure: 62ch;          /* @kind other */  /* default body column */
+  --measure-wide: 78ch;     /* @kind other */
+}
+
+/* Bind the typeface globally so consumers inherit it */
+:root { font-family: var(--font-body); }
