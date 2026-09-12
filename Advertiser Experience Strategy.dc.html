@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="_ds/walmart-design-system-e58acd34-43d3-42ce-9fd4-6730f673286c/styles.css">
 <script src="_ds/walmart-design-system-e58acd34-43d3-42ce-9fd4-6730f673286c/_ds_bundle.js"></script>
 <script src="./image-slot.js"></script>
+<script src="./deck-nav.js"></script>
 <style>
   body{margin:0;background:#20242b}
   a{color:#0053e2}a:hover{color:#0045bd}
@@ -56,24 +57,31 @@
   .s .tk span{font-size:13.5px;line-height:1.45;color:#46474a;max-width:1010px}
   .s .tk b{font-family:var(--font-mono);font-size:12px;color:#97999f;font-weight:400;letter-spacing:.06em;flex:none}
   .s .pg{position:absolute;right:72px;bottom:30px;font-family:var(--font-mono);font-size:12px;color:#97999f;letter-spacing:.06em}
+  @keyframes deck-fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:no-preference){
+    [data-deck-active] .anim-1{animation:deck-fade-up .55s .05s cubic-bezier(.2,.8,.2,1) both}
+    [data-deck-active] .anim-2{animation:deck-fade-up .55s .16s cubic-bezier(.2,.8,.2,1) both}
+    [data-deck-active] .anim-3{animation:deck-fade-up .55s .27s cubic-bezier(.2,.8,.2,1) both}
+    [data-deck-active] .anim-4{animation:deck-fade-up .55s .38s cubic-bezier(.2,.8,.2,1) both}
+  }
 </style>
 </helmet>
 <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1280" height="720" hint-size="100%,100%" data-uneditable="">
 
 
 <section class="s" data-label="Cover" data-screen-label="01" data-speaker-notes="Open on the tension, not the team. Walmart Ads has the assets to win the next era of commerce media. Fragmentation is what keeps advertisers from realizing their value. This deck asks for one decision: approve a foundation-first default for FY28." style="background:#001e60;color:#fff;padding:68px 72px;justify-content:space-between">
-  <img src="assets/logos/spark-everyday-blue.svg" alt="Walmart Spark" style="height:44px;width:auto;align-self:flex-start">
+  <img class="anim-1" src="assets/logos/spark-everyday-blue.svg" alt="Walmart Spark" style="height:44px;width:auto;align-self:flex-start">
   <div>
-    <span class="k" style="color:#fff">Advertiser Experience · FY28 strategy</span>
-    <h1 class="h" style="font-size:72px;margin:28px 0 0;max-width:1030px">Walmart Ads can turn experience into its next competitive advantage</h1>
-    <div style="display:flex;align-items:center;gap:0;margin:40px 0 0;max-width:780px">
+    <span class="k anim-2" style="color:#fff">Advertiser Experience · FY28 strategy</span>
+    <h1 class="h anim-2" style="font-size:72px;margin:28px 0 0;max-width:1030px">Walmart Ads can turn experience into its next competitive advantage</h1>
+    <div class="anim-3" style="display:flex;align-items:center;gap:0;margin:40px 0 0;max-width:780px">
       <span style="font-size:15px;color:#fff;font-weight:300">Simplify</span><span style="flex:1;height:1px;background:rgba(255,255,255,.34);margin:0 14px"></span>
       <span style="font-size:15px;color:#fff;font-weight:300">Unify</span><span style="flex:1;height:1px;background:rgba(255,255,255,.34);margin:0 14px"></span>
       <span style="font-size:15px;color:#fff;font-weight:300">Connect</span><span style="flex:1;height:1px;background:rgba(255,255,255,.34);margin:0 14px"></span>
       <span style="font-size:15px;color:#4dbdf5;font-weight:400">Differentiate</span>
     </div>
   </div>
-  <p class="b" style="max-width:720px;color:#fff;font-size:19px">Fragmentation keeps advertisers from realizing the value of assets no competitor can match. This is the sequence that fixes it.</p>
+  <p class="b anim-4" style="max-width:720px;color:#fff;font-size:19px">Fragmentation keeps advertisers from realizing the value of assets no competitor can match. This is the sequence that fixes it.</p>
 </section>
 
 <section class="s" data-label="Strategy in one page" data-screen-label="02" data-speaker-notes="Four sentences, one page. Pressure: competition is moving to ease and trust. Problem: our experience is fragmented and measurably so. Choice: change the order of delivery, not the ambition. Outcome: every release leaves reusable foundations behind, so intelligence lands on something solid.">
@@ -95,7 +103,7 @@
       <h3 class="h" style="font-size:25px;margin:12px 0 14px">Change the order of delivery, not the ambition</h3>
       <p class="bs">Resolve information architecture, terminology and shared services first. Channel work then lands on those patterns instead of inventing its own.</p>
     </div>
-    <div style="border-top:2px solid #4dbdf5;padding-top:18px;background:#f5f6f8;border-radius:12px;padding:18px 22px 22px;margin-top:-2px">
+    <div style="border-top:2px solid #4dbdf5;background:#f5f6f8;border-radius:12px;padding:18px 22px 22px;margin-top:-2px">
       <span class="cap">Outcome</span>
       <h3 class="h" style="font-size:25px;margin:12px 0 14px">Each release leaves reusable foundations behind</h3>
       <p class="bs">Advertisers get a simpler platform now. Teams stop rebuilding the same front end. Intelligence arrives on foundations strong enough to trust it.</p>
@@ -152,14 +160,14 @@
 </section>
 
 <section class="s" data-divider="true" data-label="Act 1 · Why change now" data-screen-label="04" data-speaker-notes="Act one. The market is not slowing down; the definition of a strong platform is changing." style="background:#001e60;color:#fff;justify-content:center;gap:30px">
-  <span class="k" style="color:#fff">Act one</span>
-  <h2 class="h" style="font-size:58px;max-width:1000px">Capabilities are converging. Ease and trust are what remain hard to copy.</h2>
-  <div style="display:flex;align-items:center;gap:0;max-width:620px">
+  <span class="k anim-1" style="color:#fff">Act one</span>
+  <h2 class="h anim-2" style="font-size:58px;max-width:1000px">Capabilities are converging. Ease and trust are what remain hard to copy.</h2>
+  <div class="anim-3" style="display:flex;align-items:center;gap:0;max-width:620px">
     <span style="width:8px;height:8px;background:#4dbdf5;border-radius:50%"></span><span style="flex:1;height:1px;background:rgba(255,255,255,.34)"></span>
     <span style="width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%"></span><span style="flex:1;height:1px;background:rgba(255,255,255,.34)"></span>
     <span style="width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%"></span>
   </div>
-  <span class="cap" style="color:#a9ddf7">Why change now</span>
+  <span class="cap anim-4" style="color:#a9ddf7">Why change now</span>
 </section>
 
 <section class="s" data-label="Market forecast" data-screen-label="05" data-speaker-notes="US commerce media spend grows about 70 percent between 2026 and 2030, to roughly 142 billion dollars. Growth is not the differentiator — as the market matures, capabilities become table stakes and advertisers consolidate toward the platforms that cost them the least effort.">
@@ -278,7 +286,7 @@
     <div style="border-top:1px solid #001e60;padding-top:18px"><span class="cap">Relationship health</span><div class="n" style="font-size:74px;color:#0053e2;margin:12px 0 10px">−27</div><p class="bs">NPS across 1,350 scored responses. Nearly six in ten were detractors.</p></div>
     <div style="border-top:1px solid #001e60;padding-top:18px"><span class="cap">Experience quality</span><div class="n" style="font-size:74px;margin:12px 0 10px">2.2<span style="font-size:32px;color:#97999f">/5</span></div><p class="bs">Average rating of the Ad Center experience across 424 responses.</p></div>
     <div style="border-top:1px solid #001e60;padding-top:18px"><span class="cap">Persistence</span><div class="n" style="font-size:74px;margin:12px 0 10px">19<span style="font-size:32px;color:#97999f">/19</span></div><p class="bs">Months with negative NPS, ranging from −44 to −6. No positive month.</p></div>
-    <div style="border-top:1px solid #4dbdf5;padding-top:18px;background:#f5f6f8;border-radius:12px;padding:18px 22px 22px;margin-top:-1px"><span class="cap">Experience and value</span><div class="n" style="font-size:74px;color:#0053e2;margin:12px 0 10px">0.89</div><p class="bs">Correlation between experience rating and whether advertisers believe the platform helps them advertise.</p></div>
+    <div style="border-top:1px solid #4dbdf5;background:#f5f6f8;border-radius:12px;padding:18px 22px 22px;margin-top:-2px"><span class="cap">Experience and value</span><div class="n" style="font-size:74px;color:#0053e2;margin:12px 0 10px">0.89</div><p class="bs">Correlation between experience rating and whether advertisers believe the platform helps them advertise.</p></div>
   </div>
   <div style="display:flex;gap:34px;align-items:baseline;border-top:1px solid #dee1e6;padding-top:18px;margin-top:6px">
     <span class="cap" style="flex:none;width:120px">How to read it</span>
@@ -409,14 +417,14 @@
 </section>
 
 <section class="s" data-divider="true" data-label="Act 2 · What changes" data-screen-label="14" data-speaker-notes="Act two. The ambition is unchanged. What changes is the order." style="background:#001e60;color:#fff;justify-content:center;gap:30px">
-  <span class="k" style="color:#fff">Act two</span>
-  <h2 class="h" style="font-size:58px;max-width:1000px">The ambition does not change. The order of delivery does.</h2>
-  <div style="display:flex;align-items:center;gap:0;max-width:620px">
+  <span class="k anim-1" style="color:#fff">Act two</span>
+  <h2 class="h anim-2" style="font-size:58px;max-width:1000px">The ambition does not change. The order of delivery does.</h2>
+  <div class="anim-3" style="display:flex;align-items:center;gap:0;max-width:620px">
     <span style="width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%"></span><span style="flex:1;height:1px;background:rgba(255,255,255,.34)"></span>
     <span style="width:8px;height:8px;background:#4dbdf5;border-radius:50%"></span><span style="flex:1;height:1px;background:rgba(255,255,255,.34)"></span>
     <span style="width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%"></span>
   </div>
-  <span class="cap" style="color:#a9ddf7">What changes</span>
+  <span class="cap anim-4" style="color:#a9ddf7">What changes</span>
 </section>
 
 <section class="s" data-label="Adaptive experience" data-screen-label="15" data-speaker-notes="There is no universal best experience. Strategic work needs room to think; execution needs speed. The same platform has to do both, and adapt the amount of guidance to the person's maturity. Today we offer one interface for every job, which is why it feels heavy to experts and impossible to novices.">
@@ -536,7 +544,7 @@
       <span class="cap">Leaves behind · one connected platform</span></div>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
-      <div style="border-top:2px solid #0053e2;border-radius:12px;padding:18px 20px 20px;background:#f5f6f8;height:100%;display:flex;flex-direction:column"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:34px;color:#0053e2">4</span><h3 class="h" style="font-size:27px">Differentiate</h3></div>
+      <div style="border-top:2px solid #4dbdf5;border-radius:12px;padding:18px 20px 20px;background:#f5f6f8;height:100%;display:flex;flex-direction:column"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:34px;color:#0053e2">4</span><h3 class="h" style="font-size:27px">Differentiate</h3></div>
       <p class="bs" style="margin:12px 0 14px;color:#46474a">Adaptive workflows, intelligent defaults, recommendations, automation and agentic experiences across the journey.</p>
       <span class="cap" style="margin-top:auto">Leaves behind · compounding intelligence</span></div>
     </div>
@@ -690,7 +698,7 @@
       <div style="border-top:2px solid #001e60;padding-top:16px;display:flex;flex-direction:column"><span class="cap">02 Recommendation</span><h3 class="h" style="font-size:22px;margin:8px 0 10px">One prioritized queue</h3><p style="font-size:13px;line-height:1.45;font-weight:300;margin:0;color:#46474a">Campaigns, items, audiences and creative in one place</p></div>
       <div style="border-top:2px solid #001e60;padding-top:16px;display:flex;flex-direction:column"><span class="cap">03 Explanation</span><h3 class="h" style="font-size:22px;margin:8px 0 10px">Stated rationale</h3><p style="font-size:13px;line-height:1.45;font-weight:300;margin:0;color:#46474a">Why this, what it assumes, what it will change</p></div>
       <div style="border-top:2px solid #001e60;padding-top:16px;display:flex;flex-direction:column"><span class="cap">04 Control</span><h3 class="h" style="font-size:22px;margin:8px 0 10px">Advertiser decides</h3><p style="font-size:13px;line-height:1.45;font-weight:300;margin:0;color:#46474a">Accept, adjust, dismiss or automate — always reversible</p></div>
-      <div style="border-top:2px solid #4dbdf5;padding-top:16px;background:#f5f6f8;border-radius:12px;padding:16px 18px 18px;margin-top:-2px"><span class="cap">05 Outcome</span><h3 class="h" style="font-size:22px;margin:8px 0 10px">Measured impact</h3><p style="font-size:13px;line-height:1.45;font-weight:300;margin:0;color:#46474a">Experiments confirm whether it worked, feeding the next signal</p></div>
+      <div style="border-top:2px solid #4dbdf5;background:#f5f6f8;border-radius:12px;padding:16px 18px 18px;margin-top:-2px"><span class="cap">05 Outcome</span><h3 class="h" style="font-size:22px;margin:8px 0 10px">Measured impact</h3><p style="font-size:13px;line-height:1.45;font-weight:300;margin:0;color:#46474a">Experiments confirm whether it worked, feeding the next signal</p></div>
     </div>
     <div style="display:flex;align-items:center;gap:14px">
       <span style="flex:1;height:1px;background:#dee1e6"></span>
@@ -766,14 +774,14 @@
 </section>
 
 <section class="s" data-divider="true" data-label="Act 3 · How we execute" data-screen-label="25" data-speaker-notes="Act three. What we are asking leadership to do." style="background:#001e60;color:#fff;justify-content:center;gap:30px">
-  <span class="k" style="color:#fff">Act three</span>
-  <h2 class="h" style="font-size:58px;max-width:1000px">Sequencing only works if ownership, capacity and measurement are settled.</h2>
-  <div style="display:flex;align-items:center;gap:0;max-width:620px">
+  <span class="k anim-1" style="color:#fff">Act three</span>
+  <h2 class="h anim-2" style="font-size:58px;max-width:1000px">Sequencing only works if ownership, capacity and measurement are settled.</h2>
+  <div class="anim-3" style="display:flex;align-items:center;gap:0;max-width:620px">
     <span style="width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%"></span><span style="flex:1;height:1px;background:rgba(255,255,255,.34)"></span>
     <span style="width:8px;height:8px;background:rgba(255,255,255,.4);border-radius:50%"></span><span style="flex:1;height:1px;background:rgba(255,255,255,.34)"></span>
     <span style="width:8px;height:8px;background:#4dbdf5;border-radius:50%"></span>
   </div>
-  <span class="cap" style="color:#a9ddf7">How we execute</span>
+  <span class="cap anim-4" style="color:#a9ddf7">How we execute</span>
 </section>
 
 <section class="s" data-label="Operating model" data-screen-label="26" data-speaker-notes="Our remit is not another hallway. Channel and capability teams own product strategy, business rules and delivery inside their domain. Advertiser Experience owns the connective layer — the end-to-end journey, shared patterns, platform IA and navigation, and consistency across products. Decision rights: we decide shared patterns and IA; channels decide domain capability; sequencing conflicts go to roadmap review.">
@@ -929,12 +937,12 @@
 </section>
 
 <section class="s" data-divider="true" data-label="Appendix" data-screen-label="31" data-speaker-notes="Appendix: the evidence, operating mechanics and reference material behind the strategy." style="background:#001e60;color:#fff;justify-content:flex-end;padding-bottom:76px">
-  <span class="n" style="position:absolute;top:48px;left:72px;font-size:110px;color:rgba(255,255,255,.3)">A</span>
+  <span class="n anim-1" style="position:absolute;top:48px;left:72px;font-size:110px;color:rgba(255,255,255,.3)">A</span>
   <div style="display:flex;flex-direction:column;gap:22px;max-width:880px">
-    <span class="k" style="color:#fff">Reference</span>
-    <div style="width:100%;height:1px;background:rgba(255,255,255,.3)"></div>
-    <h2 class="h" style="font-size:60px;color:#fff">Appendix</h2>
-    <p class="b" style="font-size:19px;color:#fff;max-width:740px">Research detail, platform audit findings, operating mechanics, segment maps, ecosystem hypotheses and sources.</p>
+    <span class="k anim-2" style="color:#fff">Reference</span>
+    <div class="anim-2" style="width:100%;height:1px;background:rgba(255,255,255,.3)"></div>
+    <h2 class="h anim-3" style="font-size:60px;color:#fff">Appendix</h2>
+    <p class="b anim-4" style="font-size:19px;color:#fff;max-width:740px">Research detail, platform audit findings, operating mechanics, segment maps, ecosystem hypotheses and sources.</p>
   </div>
 </section>
 
@@ -1258,7 +1266,7 @@
     <div style="border-top:2px solid #001e60;padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:34px;color:#0053e2">1</span><h3 class="h" style="font-size:25px">Learn</h3></div><span style="font-family:var(--font-mono);font-size:12px;color:#74767c;margin:10px 0 12px">8/21 – 8/28</span><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Launch budget, then eligible tROAS one-click recommendations in Seller Center.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · immediate value + evidence</span></div>
     <div style="border-top:2px solid #001e60;padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:34px;color:#0053e2">2</span><h3 class="h" style="font-size:25px">Measure + de-risk</h3></div><span style="font-family:var(--font-mono);font-size:12px;color:#74767c;margin:10px 0 12px">9/5 – 9/19</span><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Instrument Activate, Expand and Retain while Quick Start discovery advances in parallel.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · attributable outcomes</span></div>
     <div style="border-top:2px solid #001e60;padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:34px;color:#0053e2">3</span><h3 class="h" style="font-size:25px">Convert natively</h3></div><span style="font-family:var(--font-mono);font-size:12px;color:#74767c;margin:10px 0 12px">9/19 – 9/26</span><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Add forecasting, then launch lightweight Sponsored Search inside Seller Center.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · confidence + conversion</span></div>
-    <div style="border-top:2px solid #001e60;padding-top:18px;display:flex;flex-direction:column;height:100%;background:#f5f6f8;border-radius:12px;padding:18px 20px 20px;margin-top:-2px"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:34px;color:#0053e2">4</span><h3 class="h" style="font-size:25px">Sustain + scale</h3></div><span style="font-family:var(--font-mono);font-size:12px;color:#74767c;margin:10px 0 12px">Post-pod</span><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Add management, health and next actions; expand only when evidence and CORE governance support it.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · durable adoption</span></div>
+    <div style="border-top:2px solid #4dbdf5;display:flex;flex-direction:column;height:100%;background:#f5f6f8;border-radius:12px;padding:18px 20px 20px;margin-top:-2px"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:34px;color:#0053e2">4</span><h3 class="h" style="font-size:25px">Sustain + scale</h3></div><span style="font-family:var(--font-mono);font-size:12px;color:#74767c;margin:10px 0 12px">Post-pod</span><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Add management, health and next actions; expand only when evidence and CORE governance support it.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · durable adoption</span></div>
   </div>
   <div class="tk"><span>Each phase has a job: learn, prove, convert, sustain.</span><b>44</b></div>
 </section>
@@ -1414,7 +1422,7 @@
   <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:30px;align-content:start">
     <div style="border-top:2px solid #001e60;padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="cap">Horizon 1</span><span style="font-family:var(--font-mono);font-size:12px;color:#74767c">0–12 months</span></div><h3 class="h" style="font-size:28px;margin:12px 0 14px">Simplify the core experience</h3><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">IA, navigation and terminology, core workflows, Living Design alignment, Creative Hub, reporting and notifications, platform and API mapping.</p><p style="font-size:14px;line-height:1.5;font-weight:400;margin:auto 0 0;padding-top:18px;border-top:1px solid #dee1e6;margin-top:18px">Outcome: a simpler, more consistent Walmart Ads.</p></div>
     <div style="border-top:2px solid #001e60;padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="cap">Horizon 2</span><span style="font-family:var(--font-mono);font-size:12px;color:#74767c">12–24 months</span></div><h3 class="h" style="font-size:28px;margin:12px 0 14px">Unify the platform</h3><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Shared workflow frameworks and components, unified identity and access, common creative, reporting and campaign foundations, UI and API parity, configurable experiences.</p><p style="font-size:14px;line-height:1.5;font-weight:400;margin:auto 0 0;padding-top:18px;border-top:1px solid #dee1e6;margin-top:18px">Outcome: a connected platform that accelerates delivery.</p></div>
-    <div style="border-top:2px solid #4dbdf5;padding-top:18px;display:flex;flex-direction:column;height:100%;background:#f5f6f8;border-radius:12px;padding:18px 20px 20px;margin-top:-2px"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="cap">Horizon 3</span><span style="font-family:var(--font-mono);font-size:12px;color:#74767c">To be validated</span></div><h3 class="h" style="font-size:28px;margin:12px 0 14px">Extend across the ecosystem</h3><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Inventory platforms and data, identify reusable foundations, separate shared-core from market-specific needs, build a sequenced migration roadmap.</p><p style="font-size:14px;line-height:1.5;font-weight:400;margin:auto 0 0;padding-top:18px;border-top:1px solid #dee1e6;margin-top:18px">Outcome: a scalable model for Walmart Ads, Sam’s Club and international.</p></div>
+    <div style="border-top:2px solid #4dbdf5;display:flex;flex-direction:column;height:100%;background:#f5f6f8;border-radius:12px;padding:18px 20px 20px;margin-top:-2px"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="cap">Horizon 3</span><span style="font-family:var(--font-mono);font-size:12px;color:#74767c">To be validated</span></div><h3 class="h" style="font-size:28px;margin:12px 0 14px">Extend across the ecosystem</h3><p style="font-size:14px;line-height:1.55;font-weight:300;margin:0;color:#46474a">Inventory platforms and data, identify reusable foundations, separate shared-core from market-specific needs, build a sequenced migration roadmap.</p><p style="font-size:14px;line-height:1.5;font-weight:400;margin:auto 0 0;padding-top:18px;border-top:1px solid #dee1e6;margin-top:18px">Outcome: a scalable model for Walmart Ads, Sam’s Club and international.</p></div>
   </div>
   <div class="tk"><span>Intelligence is not a final phase. Recommendations, automation, personalization, Marty and agentic workflows develop progressively as foundations become available.</span><b>52</b></div>
 </section>
@@ -1873,6 +1881,7 @@
   <div class="tk"><span>Needs input: links for the four internal sources.</span><b>64</b></div>
 </section>
 </x-import>
+<deck-nav></deck-nav>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:720},&quot;showTakeaways&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Takeaway footers&quot;},&quot;showAppendix&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Include appendix (slides 72–80)&quot;},&quot;dividerTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Bentonville navy&quot;,&quot;True Blue&quot;],&quot;default&quot;:&quot;Bentonville navy&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Section divider color&quot;}}">class Component extends DCLogic {
   componentDidMount() { this._apply(); }
