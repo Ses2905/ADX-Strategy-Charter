@@ -189,6 +189,33 @@ sits at roughly $59B, so the filled area overstates magnitude even though every 
 labelled. Fine for a line, arguable for an area. Decide deliberately before this goes to
 leadership.
 
+## Navigation chrome (`deck-nav.js`)
+
+The deck is read unattended as often as it is presented, so the nav *is* part of the
+reading experience. Three rules it now holds:
+
+- **The menu's open state has one writer.** `_setMenu()` sets `data-open` and the
+  trigger's `aria-expanded` together. The trigger previously advertised
+  `aria-haspopup` but never said whether it was open, so assistive tech could not tell.
+  Never set `data-open` directly — the two will drift.
+- **The seek track shows it is interactive.** It is a 4px strip whose only affordance
+  was `cursor:pointer`; it now has a hover state. Its click mapping is segment-based
+  (68 equal segments), which is internally consistent — clicking at the fill's right
+  edge landing on the next slide is correct segment behaviour, not an off-by-one.
+- **Reduced motion applies to the chrome too.** The deck honours
+  `prefers-reduced-motion` for slide entrances; its nav did not, so the bar still slid
+  and the progress fill still animated. Transitions are now disabled under the query.
+
+**This deck does not get decorative motion.** Entrance animation is deliberately
+confined to the cover and the four act dividers (`.anim-1`–`.anim-4`); content slides
+have none. A leadership strategy deck earns trust by being still and legible — no
+signature-moment flourishes on the evidence slides.
+
+**Testing limit:** `deck-stage` needs a runtime that does not boot in a sandbox without
+network egress, so nav *behaviour* (prev/next, seek, slide sync) cannot be exercised
+locally — only the shadow root's construction and any method not needing the stage.
+Treat logic changes here as unverified until clicked through in Claude Design.
+
 ## Layout verification
 
 Three failure modes that `scrollHeight` will **not** catch, because `.s` sets

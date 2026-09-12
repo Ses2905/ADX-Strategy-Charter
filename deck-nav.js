@@ -22,7 +22,11 @@
     display: flex; flex-direction: column; align-items: stretch;
     pointer-events: none;
   }
-  .track { height: 4px; background: rgba(0,30,96,.22); pointer-events: auto; cursor: pointer; }
+  .track {
+    height: 4px; background: rgba(0,30,96,.22); pointer-events: auto; cursor: pointer;
+    transition: background 140ms cubic-bezier(.2,0,0,1);
+  }
+  .track:hover { background: rgba(0,30,96,.42); }
   .fill { height: 100%; width: 0%; background: ${BLUE}; transition: width 180ms cubic-bezier(.2,0,0,1); }
   .bar {
     display: flex; align-items: center; gap: 14px;
@@ -79,6 +83,9 @@
     min-width: 22px; flex: none;
   }
   .row span:last-child { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  @media (prefers-reduced-motion: reduce) {
+    .fill, .bar, button, .track { transition: none; }
+  }
   @media print { .wrap, .menu { display: none !important; } }
 </style>
 <div class="wrap">
@@ -88,7 +95,7 @@
     <button data-act="next" aria-label="Next slide">&#8594;</button>
     <span class="count"><b data-pos>1</b> / <span data-total>1</span></span>
     <span class="sect" data-sect></span>
-    <button data-act="menu" aria-haspopup="true">Jump to&hellip;</button>
+    <button data-act="menu" aria-haspopup="true" aria-expanded="false">Jump to&hellip;</button>
   </div>
 </div>
 <div class="menu" role="menu"></div>`;
@@ -106,8 +113,7 @@
       r.querySelector('[data-act="menu"]').addEventListener('click', (e) => {
         e.stopPropagation();
         const open = this._menu.getAttribute('data-open') === '1';
-        this._menu.setAttribute('data-open', open ? '0' : '1');
-        if (!open) this._buildMenu();
+        this._setMenu(!open);
       });
       this._track.addEventListener('click', (e) => {
         if (!this._stage) return;
@@ -117,9 +123,13 @@
         const p = Math.min(0.999, Math.max(0, (e.clientX - rect.left) / rect.width));
         this._stage.goTo(list[Math.floor(p * list.length)].i);
       });
-      document.addEventListener('click', () => this._menu.setAttribute('data-open', '0'));
+      document.addEventListener('click', () => this._setMenu(false));
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') this._menu.setAttribute('data-open', '0');
+        if (e.key === 'Escape' && this._menu.getAttribute('data-open') === '1') {
+          this._setMenu(false);
+          const t = this.shadowRoot.querySelector('[data-act="menu"]');
+          if (t) t.focus();
+        }
       });
 
       this._attach();
@@ -130,6 +140,15 @@
         clearTimeout(this._idleT);
         this._wrap.setAttribute('data-idle', '0');
       });
+    }
+
+    /** Single source of truth for the jump menu's open state, so the
+     *  trigger's aria-expanded can never drift from what is on screen. */
+    _setMenu(open) {
+      this._menu.setAttribute('data-open', open ? '1' : '0');
+      const t = this.shadowRoot.querySelector('[data-act="menu"]');
+      if (t) t.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) this._buildMenu();
     }
 
     /** Show the bar, then fade it out after a pause so it never sits over
@@ -210,7 +229,7 @@
           h.appendChild(a); h.appendChild(b);
           h.addEventListener('click', () => {
             this._stage.goTo(s.i);
-            this._menu.setAttribute('data-open', '0');
+            this._setMenu(false);
           });
           h.style.cursor = 'pointer';
           this._menu.appendChild(h);
@@ -227,7 +246,7 @@
         row.appendChild(num); row.appendChild(txt);
         row.addEventListener('click', () => {
           this._stage.goTo(s.i);
-          this._menu.setAttribute('data-open', '0');
+          this._setMenu(false);
         });
         this._menu.appendChild(row);
       });
