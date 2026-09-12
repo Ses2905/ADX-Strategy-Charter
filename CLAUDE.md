@@ -228,6 +228,33 @@ load-bearing: a 17px `padding-top` compensating a 2px border, and the 9–12px r
 that clear the takeaway footer on slides 21, 26, 29 and 30. Check what a value is doing
 before you round it.
 
+## Horizontal rules: seven treatments, each with one job
+
+| Treatment | Job |
+|---|---|
+| `1px #eef0f3` | row hairline inside a list or table |
+| `1px #dee1e6` | rule |
+| `1px #c3c6cd` | visible rule — also the **header underline** of a list or table |
+| `2px #c3c6cd` | card top in a peer row |
+| `1px rgba(255,255,255,.18)` | hairline inside a navy callout |
+| `2px #001e60` | the closing **statement** |
+| `2px #0053e2` | the one **singled-out sibling** in a peer row |
+
+The last two were the same treatment until they were separated. `2px True Blue` meant both
+"this sibling is singled out" *and* "this is the closing statement", so on slides 14, 20,
+23 and 31 the statement rule was indistinguishable from content rules on its own slide —
+slide 14 carried six stage rules in the identical treatment. Navy at 2px is ink on a
+declarative line, not a slab, so it separates the two without reintroducing weight.
+
+**Header underlines were 57 uses of 1px navy**, which the navy-density rule above forbids
+for structural dividers. They are `1px #c3c6cd` now — still heavier than the `#eef0f3` row
+hairlines beneath them, so the hierarchy survives.
+
+**Count rules, not borders.** A tally keyed on `borderTopWidth` counts outlined chips and
+bordered boxes as rules and overstates the treatment count — the first version of this
+audit reported nine treatments when there were seven. A true rule has a top border and no
+other.
+
 ## Hairlines on navy: two weights only
 
 White rules inside navy blocks are `rgba(255,255,255,.30)` for a rule and `.18` for a
