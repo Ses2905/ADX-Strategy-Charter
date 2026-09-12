@@ -11,10 +11,29 @@ Two distinct eyebrow roles. Never style them the same.
 
 **Module / content header** — labels inside content blocks, e.g. Pressure, Problem, Choice, Outcome (`.cap`)
 - Everyday Sans **UI Medium (500)**, **12px**, sentence case, letter-spacing `.01em`
-- Color: Bentonville Navy `#001e60`; Sky Blue `#a9ddf7` on navy/dark slides
-- Not mono, not uppercase, not True Blue — blue belongs to the title eyebrow alone
+- Color: True Blue `#0053e2`; Sky Blue `#a9ddf7` on navy/dark slides
+- Not mono, not uppercase — that distinction still belongs to the title eyebrow. Both
+  eyebrow and content header are now True Blue; the difference is mono/uppercase/8px
+  vs sentence-case/12px, not color.
 
 These are the defaults for new slides and any new deck in this project.
+
+## Color — reduce navy density
+
+Navy (`#001e60`) is reserved for: dark slide backgrounds, primary body/heading text
+color (inherited via the slide's base color), and the *one* deliberately-emphasized
+element in a row (paired with a filled `#f5f6f8` background — see below). It is
+**not** the default for plain structural dividers — those should be light gray
+(`#c3c6cd` for a visible rule, `#dee1e6`/`#eef0f3` for a hairline) so navy stays
+meaningful instead of blanket-heavy. When a set of sibling boxes/cards shares a
+`border-top`, every sibling must use the *same* color and width unless one is
+deliberately singled out — never split a uniform row of boxes across two colors or
+weights without a reason.
+
+**Emphasis-card pattern** (the one box in a row that gets called out): accent-blue
+border (`#4dbdf5`, 1–2px matching its siblings' width), `background:#f5f6f8`,
+`border-radius:12px`. No margin-top offset — its border must align exactly with its
+siblings' top edge.
 
 ## CSS specificity note
 
