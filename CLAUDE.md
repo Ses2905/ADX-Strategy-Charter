@@ -64,6 +64,22 @@ and silently render navy — always keep the `.s ` prefix.
 
 - Slide titles (`.t`) and lead paragraphs (`.d`) carry **no max-width** — they span the full
   content measure so they align with the right edge of the content grid below them.
+  This rule was silently broken on **35 titles** carrying `max-width` between 820 and
+  1040px against the 1136px measure — up to 316px of unused width, wrapping 13 appendix
+  titles onto a second line for nothing. The three act dividers keep theirs (1010/620px):
+  centred display text wants a narrower measure, and all three agree.
+
+**A title wraps only when it genuinely needs to.** Core titles are 42px. A title that
+overflows the measure by a *small* margin steps down the token scale (42 → 40 → 38 → 36)
+until it sets on one line with **at least 40px of clearance**; a title that overflows by
+more than ~10% (05, 06, 07, 10) is simply long and sets on two lines at full size. Slide
+21 was wrapping because it was **6px** over, and slide 25 by 12px — that is the case worth
+fixing. One-line titles running closer than 40px to the right edge (14 and 32 sat at 8px)
+step down too, so nothing hugs the edge.
+
+Everything here is measured in **fallback fonts** — Everyday Sans is not in the repo. That
+is why the rule demands 40px of clearance rather than tuning to the pixel. Slide 23 is the
+tightest in the deck at 34px and should be the first thing checked in Claude Design.
 - Slides are full-bleed and square. Never put a `border-radius` on a `<section class="s">`.
 - Cards, panels and callouts: 12px radius. Chips, cells, lane blocks, image frames: 8px.
   Chart bars: 4px. Progress/confidence bars: pill.
@@ -211,6 +227,20 @@ one system. Gaps between peer bands are equal.
 A slide-level tag (e.g. "Target experience model") goes `position:absolute; top:56px;
 right:72px` — never in a flex row with the `.k` eyebrow, which pushes the whole title
 block down and breaks the 56/80 header position every other slide holds.
+
+## Arrows and connectors: almost never
+
+Slide 07 carried five SVG arrows on `viewBox="0 0 500 30"` with
+`preserveAspectRatio="none"`, stretched to the 1136px measure — so each arrowhead was
+drawn **2.3× too wide for its height**, and all five sat at column *centres* while every
+other element on the slide aligned to column *left* edges. They were the only ink in the
+deck off the left rail. Removed: the band stack plus the words "the connective layer"
+carry the relationship, and words beat decorated geometry in a deck that takes no
+decorative motion elsewhere.
+
+If a connector is ever genuinely needed, never use `preserveAspectRatio="none"` on it —
+that distorts the marks. Give the SVG the mark's own coordinate space, as the chart rule
+above already requires for axis ticks.
 
 ## Page numbers over dark callouts
 

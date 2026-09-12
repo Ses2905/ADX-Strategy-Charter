@@ -82,6 +82,7 @@
      genuine fourth h3 tier (wide/few-item card rows); the rest are named
      numerically since they don't carry a distinct semantic role beyond
      their size. */
+  --text-36: 36px;         /* title tier for long core/appendix titles that must set on one line */
   --text-h3-lg: 28px;      /* h3 tier for wide/few-item card rows */
   --text-110: 110px;
   --text-82: 82px;
