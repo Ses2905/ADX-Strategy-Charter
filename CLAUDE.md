@@ -38,7 +38,10 @@ option in a decision matrix, one priority in a portfolio): light treatment —
 accent-blue border (`#4dbdf5`, 1–2px matching its siblings' width),
 `background:#f5f6f8`, `border-radius:12px`. No margin-top offset — its border must
 align exactly with its siblings' top edge. Reserve this for the box that's *better*
-or *recommended*, not the one that's foundational.
+or *recommended*, not the one that's foundational — and **not** for the last step of a
+sequence. Filling the final card in a before/after or lifecycle row says "this one is
+the pick" when the row is actually saying "this is where it ends up"; leave all the
+siblings identical.
 
 **Foundation/implication callout pattern** (a standalone declarative statement —
 "here's what this depends on," "here's the implication," a load-bearing foundation
@@ -78,6 +81,11 @@ sentences rather than phrases ("Advertisers should not have to translate Walmart
 Walmart"). Don't Title Case a full sentence. The two tiers are deliberate; keep new
 slides consistent with the tier they land in.
 
+Either tier, the title addresses the **audience, not the author**. "Add a future
+expansion horizon" and "Add ecosystem readiness as a guardrail" are edit notes that
+survived into a leadership deck; they read as unfinished. State the thing instead: "A
+fourth horizon extends the platform beyond Walmart US."
+
 ## Evidence strip — the priority-slide component
 
 Each of the four strategic-priority slides (17–20) ends with the same compact block, and
@@ -91,6 +99,21 @@ border-top:1px solid #dee1e6 → grid 158px / 1fr → `.cap` "Evidence behind th
 Every item is a signal traceable to the evidence act (slides 05–12). Uniform border-left
 on *all five* items, including the first — that is the segmented-row treatment, not a
 singled-out sibling.
+
+The five items are **parallel noun-led phrases**, each standing on its own. A strip once
+shipped as a run-on sentence cut across five columns ("Advertisers ask for… / And for… /
+But report… / And limited… / And insufficient…") — clauses, not peers. If an item opens
+with "And" or "But", it belongs to the item before it and the strip is broken.
+
+## Peer rows carry equal weight
+
+Any row of sibling cards — before/after, lifecycle stages, option sets — must come out the
+same height, and so must two rows being compared against each other. One card whose
+subtitle wraps to a second line silently makes its whole row taller, and a before/after
+comparison then reads as unequal weight rather than equal-weight change. Reserve the space
+instead of hoping the copy fits: put a `min-height` on the wrapping element (a 12.5px/1.4
+subtitle is 35px at two lines) so every card is sized for the longest one. The same goes
+for chip rows — a row where two of seven chips wrap is a row with two heights.
 
 ## Page numbers over dark callouts
 
@@ -117,6 +140,14 @@ marker itself is not.
 
 Claims that must never re-enter the deck (see `PRODUCT.md` → Capabilities and
 Constraints): the "60–70% delivery head start" figure, the 3% onsite/offsite buyer
-overlap (sourced from another retailer), and any "no new funding required" framing.
+overlap (sourced from another retailer), any "no new funding required" framing, and any
+statement that agencies are **deliberately** underserved. Thin agency coverage is a real
+read of the FY28 plan and worth surfacing — but presenting it as a settled trade-off
+claims an alignment leadership has not made. Put it as the open question it is.
+
+Two four-word vocabularies exist on purpose and must not be merged: the prioritization
+rubric scores *new* initiatives (Accelerate / Reshape / Sequence / Defer); the core deck's
+dispositions reconcile commitments *already made* (Continue / Reshape / Sequence /
+Reassess). Say which one a slide means.
 Buyer statistics without a restored original source stay out — the deck carries the
 verified Koddi/Forrester findings instead.
