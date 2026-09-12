@@ -115,6 +115,39 @@ instead of hoping the copy fits: put a `min-height` on the wrapping element (a 1
 subtitle is 35px at two lines) so every card is sized for the longest one. The same goes
 for chip rows — a row where two of seven chips wrap is a row with two heights.
 
+## The grid
+
+Fixed 1280×720 artboards — not responsive, so there are no breakpoints. What makes the
+deck feel like one system is the constants, not a column count.
+
+| | |
+|---|---|
+| Canvas | 1280 × 720, full-bleed, never a `border-radius` on `<section class="s">` |
+| Margins | 72px left and right, 56px top |
+| Bottom reserve | 96px, holding `.pg` / `.tk`; content may flow into it, but never over the marker |
+| Content measure | **1136px** — every slide's widest element ends flush at 72px from the right |
+| Gutters | 24px default, 32px for wide-set columns; all on the 4px scale |
+
+**Column counts are content-driven** (2 through 8) and that is fine — a lifecycle wants
+seven, a comparison wants three. A formal 12-column grid was considered and rejected:
+the spans the content actually needs do not divide cleanly into 12, so it would either
+constrain the content or produce fractional spans, for no gain at slide scale. The
+alignment that matters is the outer measure and the rails, and those are fixed.
+
+**Fixed track widths come from one set.** All multiples of 4:
+
+`28 · 40 · 56 · 88 · 132 · 160 · 172 · 176 · 192 · 196 · 208 · 232 · 248 · 300`
+
+There were once 19 distinct values, including **five different right-rail widths used
+once each** (288/290/300/316/330), so the rail edge jumped by up to 42px as you paged.
+The right content rail is now **always 300px** — its left edge lands at x=908 on every
+slide that uses it (08, 09, 10, 11, 17). Do not introduce a new fixed width; reach for
+one of the set above.
+
+**Changing a rail re-flows its neighbour.** Narrowing a rail widens the content column
+and can re-wrap it, so re-run the verification suite after any track change — that is
+how the 30px narrowing on slide 11 was confirmed safe.
+
 ## Spacing sits on the 4px scale
 
 Every `gap` comes from the design system's `--space-*` steps: 4, 8, 12, 16, 20, 24, 32,
