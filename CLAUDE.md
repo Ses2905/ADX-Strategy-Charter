@@ -251,6 +251,50 @@ Check what the content is before choosing the treatment.
 Row padding is **not** uniform deck-wide on purpose — the 9–12px rows on slides 21, 26, 29
 and 30 are load-bearing for footer clearance. Only slides with surplus space were changed.
 
+## Roles carry their own styling — don't rely on remembering an override
+
+**Numbers (`.n`) are True Blue by class.** They were uncoloured, so they inherited navy and
+only looked right where someone added an inline override — 10 of 28 rendered navy, and
+slide 09 carried both colours at once. The colour now lives on the role. Slide 35's
+decorative letter keeps its own inline value and still wins.
+
+**Appendix titles follow the same fit rule as the core.** Base 40px, stepping down only
+where the length demands it. Five arbitrary sizes (32/34/36/38/40) became four, 23 of 32 at
+base. Slides 64 and 65 sat at 32px for titles that need 570px of a 1136px measure. Slide 62
+stays at 34px for a different reason — its content cannot take a taller title without
+reaching the marker, so its size is a *vertical* fit, not a width one.
+
+**Two things that look inconsistent and are not.** `.bs` in navy versus gray-700 is a
+deliberate two-level hierarchy — slide 03 uses navy for its four decision statements and
+gray for the "What changes" footers beneath them, on the same slide. And `.cap` at 11px on
+slides 37, 39, 40, 49 and 67 is the `.s[data-dense]` tier doing its job. Check whether a
+variation is doing work before flattening it.
+
+**Never blanket-replace a token.** Swapping every `var(--text-11,11px)` for 12px to fix five
+caps also silently enlarged the source notes — which must stay *below* the content header —
+and seven elements on slide 62, pushing its content onto the page number. Target the role,
+not the value.
+
+## Top margin is not one value, and the rail jumps
+
+| Tier | Top padding |
+|---|---|
+| Cover (01) | 68px |
+| Core (02–33, 35) | 64px |
+| Slide 34 | 60px |
+| Appendix (`data-appendix`) | **42px** |
+| Dense appendix (`data-dense`) | **26px** |
+
+`.s[data-appendix]` and `.s[data-dense]` set their own `padding` shorthand, which beats the
+base `.s` rule — so raising the base from 56px to 64px moved the core only. Paging from the
+core into the appendix drops the top rail 22px, and into a dense slide 38px.
+
+Whether that is a defect depends on whether the appendix is meant to read as a different
+document. It is at least **three values where the reasoning supports two**: the dense tier
+cannot take the appendix's own 42px (slides 40 and 67 reach the marker), so unifying them
+needs content work on those slides first. **Open decision — do not "fix" this by changing
+one number.**
+
 ## Horizontal rules: seven treatments, each with one job
 
 | Treatment | Job |
