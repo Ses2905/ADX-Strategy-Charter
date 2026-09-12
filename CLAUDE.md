@@ -43,15 +43,27 @@ sequence. Filling the final card in a before/after or lifecycle row says "this o
 the pick" when the row is actually saying "this is where it ends up"; leave all the
 siblings identical.
 
-**Foundation/implication callout pattern** (a standalone declarative statement —
-"here's what this depends on," "here's the implication," a load-bearing foundation
-in a dependency stack): heavy treatment — solid navy fill (`background:#001e60`),
-white body text, sky-blue (`#a9ddf7`) `.cap` label, `border-radius:12px`. This is not
-a sibling-row pattern; it stands alone (e.g. the "Implication" bar on "Where the next
-dollar goes," the "Advertiser Experience" owner box on "Operating model," Priority 03
-on "Four priorities"). Use the heavier navy-fill weight specifically when the content
-is foundational/load-bearing rather than merely preferred — weight should track
-"what everything else depends on," not just "what's most desirable."
+**Statement pattern** (a standalone declarative line closing a slide — a guard, a
+diagnosis, a principle, a standard, an implication, an honest read): **no fill.** A 2px
+True Blue `border-top` across the measure, the `.cap` label on a 132px rail, and the
+statement at `--text-19` weight 300 in the inherited navy. Weight comes from type size,
+the rule and the space above it — not from a slab.
+
+This replaced 13 full-width navy bars. The deck had 25 navy fills on light slides, 14 of
+them full-width bars occupying 10–29% of the slide, and you hit one every other slide when
+paging. They also broke the "combine levers, don't multiply" rule by doing fill *and*
+inverted text *and* full bleed *and* larger type at once. The grayscale test is the one
+that matters: if a block only reads as important because it is dark, the hierarchy is not
+doing its job.
+
+**Navy fill is now reserved for genuine dependency foundations** — where the content is
+literally what everything else on the slide rests on, not merely the closing thought. Three
+survive: **Priority 03** on "Four priorities", the **shared-foundations band** at the base
+of the stacked architecture on slide 19 (where the documented fill-weight ranking requires
+navy at the base), and **the shared platform foundation** on slide 50. If a new block is a
+summary, a caveat or a conclusion, it takes the statement pattern, not a fill.
+
+Navy table-header rows are a separate, legitimate convention and were left alone.
 
 ## CSS specificity note
 
@@ -338,6 +350,29 @@ sits mid-sequence (4 of 7, so it cannot be misread as the conclusion) and the sl
 principle callout states the reason — "automate only when… the advertiser retains
 appropriate control." A single-out needs that kind of on-slide justification; without one
 it is decoration.
+
+## Checkers lie in three specific ways — validate them
+
+Every one of these produced a confident, wrong answer in this deck:
+
+1. **`rgba(0, 0, 0, 0)` is transparent, not black.** A naive `/(\d+), (\d+), (\d+)/`
+   match reads it as pure black, so any transparent box containing the element under test
+   scores as a dark background. This made the page-number checker report a dark ground
+   behind numbers sitting on plain white.
+2. **A text element's box is not its ink.** A full-width `<p>` whose last line ends far
+   left still has a box spanning the whole measure, so box-based overlap tests report
+   collisions with the page number that are not visible. Measure text with
+   `document.createRange()` and its client rects; keep box measurement for filled
+   elements, where the fill really does cover the rect.
+3. **A checker that reports nothing may simply be blind.** Before trusting a clean run,
+   inject a known defect and confirm the checker catches it. `collide_selftest.js` appends
+   a navy bar positioned against the real marker and asserts detection — the first two
+   versions of that self-test were themselves wrong (one walked the marker's own children,
+   one placed the bar where it was clipped) and "passed" a broken deck.
+
+Related: `</?div\b` matches `</div` **without** the closing `>`. A div-matcher built on it
+is off by one at both ends, which silently truncates each block's last character and leaves
+a stray `>` behind.
 
 ## Layout verification
 
