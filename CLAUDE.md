@@ -176,37 +176,44 @@ one of the set above.
 and can re-wrap it, so re-run the verification suite after any track change — that is
 how the 30px narrowing on slide 11 was confirmed safe.
 
-## Vertical rhythm: the header is one group, the content is another
+## Vertical rhythm: the gap scales with the type above it
 
-The eyebrow, title and lead paragraph are **one group**. The content below them is a
-different group. The gap separating the two must be decisively larger than the gaps
-inside the header, or the whole upper region reads as one crowded mass jammed against
-the top margin — which is exactly how the deck read at 1.56×.
+The eyebrow, title and lead are **one group**; the content below is another. The gap
+between them must be decisively larger than the gaps inside the header — but **how much
+larger is set by the size of the element that ends the header**, not by the header's own
+internal gaps.
 
-| Gap | Value |
-|---|---|
-| Eyebrow → title (`.t` inline `margin-top`) | 8px |
-| Title → lead (`.s .d` `margin-top`) | 8px |
-| **Header → first content element** | **32px** where the slide has a lead, **24px** where it does not |
+An earlier version of this rule scaled the separation to the header's *smallest internal*
+gap, which produced exactly the wrong answer: a 42px display title got **24px** of air
+beneath it while a 20px lead paragraph got **35px** — a ratio of 0.57 against 1.75. The
+bigger the type above the gap, the more space it needs below, and seven slides read as
+cramped because of it.
 
-The separation scales with the header's own internal gap so the *ratio* stays ~3× on
-every slide: a slide with a lead has an 11px inner gap and takes 32px; a slide with only
-an eyebrow and title has an 8px inner gap and takes 24px. Holding one flat 32px on the
-no-lead slides is what pushed slides 16 and 26 onto their bottom markers — the header
-tightening frees 10px on a lead slide but only 4px without one.
+| Tier | Header ends with | Gap | Ratio to type above |
+|---|---|---|---|
+| Core | lead (20px) | **36px** | 1.8 |
+| Core | title (38–42px) | **44px** | ~1.05 |
+| Appendix | lead (15–16px) | **28px** | 1.8 |
+| Appendix | title (32–40px) | **36px** | ~1.0 |
 
-That gap is a **constant, not a per-slide judgement call**. It once ranged 17→30px across
-29 core slides, and on slide 28 it equalled the title→lead gap exactly, so the two groups
-were not separated at all.
+Same logic in both tiers, tighter absolutes in the dense appendix. Header internals stay at
+8px (eyebrow→title, title→lead) in core.
 
-Appendix slides (`data-appendix`, `data-dense`) use `.h` rather than `.t` and keep their
-own tighter rhythm — do not apply the core values there.
+The gap is a **constant per tier, not a per-slide judgement**. Core once ranged 17→30px;
+the appendix was worse, running **12 distinct values** from 0 to 34px. Only slide 16 could
+not afford the larger gap, and it paid for it out of its own card padding rather than
+keeping a smaller gap.
 
-**The vertical budget is real and small.** Top margin plus header gap cannot exceed ~96px
-before slide 09 clips; its right rail holds three fixed-height stat blocks that cannot
-shrink, and it is the only slide in the deck that binds. Anything that wants more top air
-than 64px has to buy it by trimming slide 09 first. Re-run the clip and collide checks
-after any change to either value — the two trade against each other.
+**Verify with `audit.js`, not by reading the markup.** It walks the DOM, takes the leading
+run of eyebrow/title/lead as the header, and compares the next element's computed
+`margin-top` against the rule. Two things will fool a text-based pass: these are long
+single lines, so a `max()` over every top-level line containing `class="d"` matches a
+*nested* occurrence far down the slide (this picked child 27 instead of child 2 on slide
+61); and an absolutely-positioned slide-level tag is chrome, not content, so it must be
+skipped or it is mistaken for the first content element (slide 19).
+
+**Slide-level tags sit at `top:64px`**, matching the top margin, so they align with the
+eyebrow. They were left at `top:56px` when the margin moved and sat 8px high.
 
 ## Spacing sits on the 4px scale
 
