@@ -228,6 +228,29 @@ load-bearing: a 17px `padding-top` compensating a 2px border, and the 9–12px r
 that clear the takeaway footer on slides 21, 26, 29 and 30. Check what a value is doing
 before you round it.
 
+## Under-filled slides: match the treatment to the shape
+
+Sixteen slides carried more than 90px of dead space above the marker, slide 48 at 271px —
+a third of the artboard. The fix depends on what the content actually is, and a metric
+alone will mislead you here.
+
+| Shape | Treatment |
+|---|---|
+| A row of cards spanning the measure | **Re-flow to two columns.** Slide 48's four phases went 4-across → 2×2: 271px → 90px, and the wider columns set each body in two lines instead of four. |
+| A table | **Row height.** Rows at 13–15px went to 20px on slides 42, 43, 44, 52 and 54, roughly halving their dead space. 24px would fill more but leaves slides 42 and 54 at 0–1px of marker clearance, which is not survivable in a font we cannot verify. |
+| A lifecycle of six or seven stages | **Leave it.** Compressing a seven-stage row to fill height costs more than the space is worth. |
+| Genuinely under-written | **Leave it, or write more.** Slide 56's three horizons do not fill the height at any type size, and stacking them as full-width bands overflows by 174px. That is a content gap, not a layout one. |
+
+**Two ways to fool yourself here.** Pinning a card's last line to the bottom with
+`margin-top:auto` takes slide 48 from 271px to 19px of measured slack while leaving the
+identical void *inside* every column and pushing a line into the takeaway footer — it games
+the metric. And classifying slide shape by *computed* column count counts table rows as
+card rows: that is how 42, 43, 44, 52 and 54 were first mistaken for 4-across card grids.
+Check what the content is before choosing the treatment.
+
+Row padding is **not** uniform deck-wide on purpose — the 9–12px rows on slides 21, 26, 29
+and 30 are load-bearing for footer clearance. Only slides with surplus space were changed.
+
 ## Horizontal rules: seven treatments, each with one job
 
 | Treatment | Job |
