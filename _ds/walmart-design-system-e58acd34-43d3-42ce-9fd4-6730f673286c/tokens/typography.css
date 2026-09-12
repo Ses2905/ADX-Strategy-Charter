@@ -73,6 +73,50 @@
   --text-xs: 12px;
   --text-eyebrow-size: 8px;
 
+  /* ---- Extended scale ----
+     The core steps above cover general UI type. This deck is a dense,
+     data-heavy slide format (stat callouts, hairline tables, appendix
+     matrices) that legitimately needs sizes between and around the core
+     steps -- these name every size actually in use so nothing in the
+     deck references a raw, untokenized px value. --text-h3-lg is a
+     genuine fourth h3 tier (wide/few-item card rows); the rest are named
+     numerically since they don't carry a distinct semantic role beyond
+     their size. */
+  --text-h3-lg: 28px;      /* h3 tier for wide/few-item card rows */
+  --text-110: 110px;
+  --text-82: 82px;
+  --text-76: 76px;
+  --text-74: 74px;
+  --text-72: 72px;
+  --text-60: 60px;
+  --text-58: 58px;
+  --text-52: 52px;
+  --text-46: 46px;
+  --text-42: 42px;
+  --text-40: 40px;
+  --text-38: 38px;
+  --text-32: 32px;
+  --text-31: 31px;
+  --text-30: 30px;
+  --text-29: 29px;
+  --text-25: 25px;
+  --text-24: 24px;
+  --text-23: 23px;
+  --text-22: 22px;
+  --text-19: 19px;
+  --text-16-5: 16.5px;
+  --text-16: 16px;
+  --text-15-5: 15.5px;
+  --text-14-5: 14.5px;
+  --text-13-5: 13.5px;
+  --text-13: 13px;
+  --text-12-5: 12.5px;
+  --text-11-5: 11.5px;
+  --text-11: 11px;
+  --text-10-5: 10.5px;
+  --text-10: 10px;
+  --text-9-5: 9.5px;
+
   /* ---- Line heights ---- */
   --lh-tight: 1.05;   /* @kind font */
   --lh-snug: 1.15;    /* @kind font */
