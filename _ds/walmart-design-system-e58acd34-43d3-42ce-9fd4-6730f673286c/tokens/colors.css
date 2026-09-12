@@ -60,6 +60,9 @@
   --border-subtle: var(--wm-gray-200);
   --text-eyebrow: var(--wm-true-blue);
   --border-strong: var(--wm-bentonville-blue);
+  --text-content-header: var(--wm-true-blue);   /* "cap" labels: Pressure, Problem, Planning, etc. */
+  --border-emphasis: var(--wm-everyday-blue);   /* the one called-out box in a row of siblings */
+  --surface-emphasis: var(--wm-gray-50);        /* paired background for that same emphasis box */
 
   --action-primary-bg: var(--wm-true-blue);
   --action-primary-bg-hover: var(--wm-true-blue-hover);
