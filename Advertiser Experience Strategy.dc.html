@@ -55,8 +55,8 @@
   .s .li{font-size:15px;line-height:1.5;font-weight:300;padding:9px 0;border-top:1px solid #eef0f3}
   .s .tk{position:absolute;left:72px;right:72px;bottom:30px;border-top:1px solid var(--border-subtle,#dee1e6);padding-top:12px;display:flex;gap:32px;align-items:flex-start;justify-content:space-between}
   .s .tk span{font-size:13.5px;line-height:1.45;color:#46474a;max-width:1010px}
-  .s .tk b{font-family:var(--font-mono);font-size:12px;color:#97999f;font-weight:400;letter-spacing:.06em;flex:none}
-  .s .pg{position:absolute;right:72px;bottom:30px;font-family:var(--font-mono);font-size:12px;color:#97999f;letter-spacing:.06em}
+  .s .tk b{font-family:var(--font-mono);font-size:12px;color:var(--wm-gray-600,#5e636e);font-weight:400;letter-spacing:.06em;flex:none}
+  .s .pg{position:absolute;right:72px;bottom:30px;font-family:var(--font-mono);font-size:12px;color:var(--wm-gray-600,#5e636e);letter-spacing:.06em}
   @keyframes deck-fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   @media (prefers-reduced-motion:no-preference){
     [data-deck-active] .anim-1{animation:deck-fade-up .55s .05s cubic-bezier(.2,.8,.2,1) both}
@@ -76,7 +76,7 @@
     <h1 class="h anim-2" style="font-size:72px;margin:28px 0 0;max-width:1030px">Walmart Ads can turn experience into its next competitive advantage</h1>
     <div class="anim-3" style="display:flex;align-items:center;gap:0;margin:40px 0 0;max-width:780px">
       <span style="font-size:15px;color:var(--wm-white,#fff);font-weight:300">Simplify</span><span style="flex:1;height:1px;background:rgba(255,255,255,.34);margin:0 14px"></span>
-      <span style="font-size:15px;color:var(--wm-white,#fff);font-weight:300">Unify</span><span style="flex:1;height:1px;background:rgba(255,255,255,.34);margin:0 14px"></span>
+      <span style="font-size:15px;color:var(--wm-white,#fff);font-weight:300">Establish</span><span style="flex:1;height:1px;background:rgba(255,255,255,.34);margin:0 14px"></span>
       <span style="font-size:15px;color:var(--wm-white,#fff);font-weight:300">Connect</span><span style="flex:1;height:1px;background:rgba(255,255,255,.34);margin:0 14px"></span>
       <span style="font-size:15px;color:var(--wm-everyday-blue,#4dbdf5);font-weight:400">Differentiate</span>
     </div>
@@ -116,7 +116,10 @@
   <span class="k" style=" color: var(--wm-true-blue)">The decision</span>
   <h2 class="t" style="margin-top:12px">Approve a foundation-first default for FY28</h2>
   <p class="d" style="font-size:19px">Not new funding. A change to the order in which we deliver, and the standard every roadmap item is held to.</p>
-  <div style="flex:1;display:grid;grid-template-columns:1fr 340px;gap:44px;margin-top:28px">
+  <div style="margin-top:12px;padding:10px 18px;border-radius:12px;background:var(--wm-gray-50,#f5f6f8);border-left:3px solid var(--wm-true-blue,#0053e2)">
+    <p class="b" style="font-size:17px;font-weight:500;color:var(--wm-true-blue,#0053e2);margin:0">Recommendation: Option A — accepting that Q1 delivers foundations rather than feature volume, and that some committed channel work is reshaped earlier than planned.</p>
+  </div>
+  <div style="flex:1;display:grid;grid-template-columns:1fr 340px;gap:44px;margin-top:14px">
     <div style="display:flex;flex-direction:column">
       <div style="display:grid;grid-template-columns:1fr 128px 128px;gap:20px;padding-bottom:10px">
         <span class="cap">Option</span>
@@ -138,7 +141,6 @@
         <span style="font-size:16px;font-weight:400;color:var(--wm-gray-600,#5e636e)">Low</span>
         <span style="font-size:16px;font-weight:400;color:var(--wm-gray-600,#5e636e)">Nothing ships</span>
       </div>
-      <p class="b" style="margin-top:18px;max-width:840px">Recommendation: Option A, accepting that Q1 delivers foundations rather than feature volume and that some committed channel work is reshaped earlier than planned.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:16px">
       <div style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);border-radius:12px;padding:22px 24px;flex:1">
@@ -269,7 +271,7 @@
       <p class="src" style="margin-top:8px">Findings by theme. A single finding can carry more than one theme, so the totals are not mutually exclusive. Source: Advertiser Experience platform audit, 2026.</p>
     </div>
     <div style="border-left:1px solid var(--wm-gray-200,#dee1e6);padding-left:34px;display:flex;flex-direction:column;justify-content:center;gap:26px">
-      <div><div class="n" style="font-size:52px">115<span style="font-size:26px;color:var(--wm-gray-400,#97999f)">/125</span></div><p class="bs" style="margin-top:8px;color:var(--wm-gray-700,#46474a)">findings rated Critical or High severity</p></div>
+      <div><div class="n" style="font-size:52px">115<span style="font-size:26px;color:var(--wm-gray-600,#5e636e)">/125</span></div><p class="bs" style="margin-top:8px;color:var(--wm-gray-700,#46474a)">findings rated Critical or High severity</p></div>
       <div style="height:1px;background:var(--wm-gray-200,#dee1e6)"></div>
       <div><div class="n" style="font-size:52px">69</div><p class="bs" style="margin-top:8px;color:var(--wm-gray-700,#46474a)">span more than one platform, so they cannot be fixed inside a single product</p></div>
       <div style="height:1px;background:var(--wm-gray-200,#dee1e6)"></div>
@@ -284,8 +286,8 @@
   <h2 class="t" style="margin-top:12px">Advertiser dissatisfaction is persistent, not episodic</h2>
   <div style="flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:36px;margin-top:34px;align-content:start">
     <div style="border-top:1px solid var(--border-default,#c3c6cd);padding-top:18px"><span class="cap">Relationship health</span><div class="n" style="font-size:74px;color:var(--wm-true-blue,#0053e2);margin:12px 0 10px">−27</div><p class="bs">NPS across 1,350 scored responses. Nearly six in ten were detractors.</p></div>
-    <div style="border-top:1px solid var(--border-default,#c3c6cd);padding-top:18px"><span class="cap">Experience quality</span><div class="n" style="font-size:74px;margin:12px 0 10px">2.2<span style="font-size:32px;color:var(--wm-gray-400,#97999f)">/5</span></div><p class="bs">Average rating of the Ad Center experience across 424 responses.</p></div>
-    <div style="border-top:1px solid var(--border-default,#c3c6cd);padding-top:18px"><span class="cap">Persistence</span><div class="n" style="font-size:74px;margin:12px 0 10px">19<span style="font-size:32px;color:var(--wm-gray-400,#97999f)">/19</span></div><p class="bs">Months with negative NPS, ranging from −44 to −6. No positive month.</p></div>
+    <div style="border-top:1px solid var(--border-default,#c3c6cd);padding-top:18px"><span class="cap">Experience quality</span><div class="n" style="font-size:74px;margin:12px 0 10px">2.2<span style="font-size:32px;color:var(--wm-gray-600,#5e636e)">/5</span></div><p class="bs">Average rating of the Ad Center experience across 424 responses.</p></div>
+    <div style="border-top:1px solid var(--border-default,#c3c6cd);padding-top:18px"><span class="cap">Persistence</span><div class="n" style="font-size:74px;margin:12px 0 10px">19<span style="font-size:32px;color:var(--wm-gray-600,#5e636e)">/19</span></div><p class="bs">Months with negative NPS, ranging from −44 to −6. No positive month.</p></div>
     <div style="border-top:1px solid var(--border-emphasis,#4dbdf5);background:var(--surface-emphasis,#f5f6f8);border-radius:12px;padding:18px 22px 22px"><span class="cap">Experience and value</span><div class="n" style="font-size:74px;color:var(--wm-true-blue,#0053e2);margin:12px 0 10px">0.89</div><p class="bs">Correlation between experience rating and whether advertisers believe the platform helps them advertise.</p></div>
   </div>
   <div style="display:flex;gap:34px;align-items:baseline;border-top:1px solid var(--wm-gray-200,#dee1e6);padding-top:18px;margin-top:6px">
@@ -306,7 +308,7 @@
         <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:10px"><span class="cap">Create or edit</span><div style="height:200px;background:var(--wm-bentonville-blue,#001e60);border-radius:4px 4px 0 0"></div></div>
         <div style="width:56px;display:flex;align-items:center;justify-content:center;padding-bottom:80px"><span style="font-size:13px;color:var(--wm-true-blue,#0053e2);font-family:var(--font-mono)">−46.2%</span></div>
         <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:10px"><span class="cap">Set up</span><div style="height:108px;background:var(--wm-true-blue,#0053e2);border-radius:4px 4px 0 0"></div></div>
-        <div style="width:56px;display:flex;align-items:center;justify-content:center;padding-bottom:60px"><span style="font-size:13px;color:var(--wm-gray-400,#97999f)">→</span></div>
+        <div style="width:56px;display:flex;align-items:center;justify-content:center;padding-bottom:60px"><span style="font-size:13px;color:var(--wm-gray-600,#5e636e)">→</span></div>
         <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:10px"><span class="cap">Three steps complete</span><div style="height:89px;background:var(--wm-everyday-blue,#4dbdf5);border-radius:4px 4px 0 0"></div></div>
       </div>
       <div style="display:flex;gap:0;border-top:1px solid var(--wm-bentonville-blue,#001e60);padding-top:12px">
@@ -377,8 +379,8 @@
     </div>
     <div style="flex:1;display:grid;grid-template-columns:150px 1fr 1fr;gap:14px;margin-top:18px;min-height:0">
       <div style="display:flex;flex-direction:column;justify-content:center"><span class="cap">Same job,<br>two hallways</span></div>
-      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Sponsored homepage — leads with performance and next actions</span><div style="flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><img src="media/image20.png" alt="Sponsored Products homepage" style="width:100%;flex:1;min-height:0;object-fit:cover;object-position:top"></div></div>
-      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Display homepage — leads with reporting, different nav model</span><div style="flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><img src="media/image21.png" alt="Onsite Display homepage" style="width:100%;flex:1;min-height:0;object-fit:cover;object-position:top"></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Sponsored homepage — leads with performance and next actions</span><div style="flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><image-slot id="journeymap-sponsored" shape="rect" placeholder="Sponsored Products homepage — screenshot needed" style="width:100%;flex:1;min-height:0"></image-slot></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Display homepage — leads with reporting, different nav model</span><div style="flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><image-slot id="journeymap-display" shape="rect" placeholder="Onsite Display homepage — screenshot needed" style="width:100%;flex:1;min-height:0"></image-slot></div></div>
     </div>
   </div>
   <div class="tk"><span>What we organize as separate products, advertisers experience as one relationship that keeps asking them to start over.</span><b>12</b></div>
@@ -466,9 +468,9 @@
       <div style="border:1px solid var(--wm-bentonville-blue,#001e60);border-radius:12px;padding:28px 30px"><span class="cap">Surface</span><h3 class="h" style="font-size:38px;margin:10px 0 12px">AI</h3><p class="bs">Guided, conversational and agentic experiences.</p></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:14px 0">
-      <span style="text-align:center;color:var(--wm-gray-400,#97999f);font-size:16px">↓</span>
-      <span style="text-align:center;color:var(--wm-gray-400,#97999f);font-size:16px">↓</span>
-      <span style="text-align:center;color:var(--wm-gray-400,#97999f);font-size:16px">↓</span>
+      <span style="text-align:center;color:var(--wm-gray-600,#5e636e);font-size:16px">↓</span>
+      <span style="text-align:center;color:var(--wm-gray-600,#5e636e);font-size:16px">↓</span>
+      <span style="text-align:center;color:var(--wm-gray-600,#5e636e);font-size:16px">↓</span>
     </div>
     <div style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);border-radius:12px;padding:30px 32px">
       <span class="cap" style="color:var(--wm-sky-blue,#a9ddf7)">One shared capability layer</span>
@@ -495,11 +497,11 @@
       <span class="cap">Today — invent, then reconcile</span>
       <div style="display:flex;align-items:center;gap:0;margin-top:16px;border-top:1px solid var(--wm-gray-200,#dee1e6);padding-top:20px">
         <span style="flex:1;font-size:19px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Channel feature</span>
-        <span style="flex:none;width:44px;text-align:center;color:var(--wm-gray-400,#97999f)">→</span>
+        <span style="flex:none;width:44px;text-align:center;color:var(--wm-gray-600,#5e636e)">→</span>
         <span style="flex:1;font-size:19px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Channel workflow</span>
-        <span style="flex:none;width:44px;text-align:center;color:var(--wm-gray-400,#97999f)">→</span>
+        <span style="flex:none;width:44px;text-align:center;color:var(--wm-gray-600,#5e636e)">→</span>
         <span style="flex:1;font-size:19px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Channel component</span>
-        <span style="flex:none;width:44px;text-align:center;color:var(--wm-gray-400,#97999f)">→</span>
+        <span style="flex:none;width:44px;text-align:center;color:var(--wm-gray-600,#5e636e)">→</span>
         <span style="flex:1;font-size:19px;font-weight:400">Reconcile later</span>
       </div>
     </div>
@@ -560,7 +562,7 @@
       <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="display:flex;align-items:baseline;gap:14px"><span class="cap">Priority 04</span><h3 class="h" style="font-size:28px">Differentiate through intelligence</h3></div><span class="cap">Progressive layer — fed by everything below</span></div>
       <p class="bs" style="margin-top:10px;max-width:1000px">Recommendation framework, personalized guidance, contextual Marty, decision support. Requires clean signals and earned trust from the layers underneath.</p>
     </div>
-    <div style="display:flex;justify-content:center;color:var(--wm-gray-400,#97999f);font-size:15px">↑</div>
+    <div style="display:flex;justify-content:center;color:var(--wm-gray-600,#5e636e);font-size:15px">↑</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
       <div style="border-top:2px solid var(--border-default,#c3c6cd);padding:20px 0 0">
         <div style="display:flex;align-items:baseline;gap:14px"><span class="cap">Priority 01</span><h3 class="h" style="font-size:26px">Simplify the core</h3></div>
@@ -573,7 +575,7 @@
         <span class="cap" style="margin-top:12px">Visible experience track</span>
       </div>
     </div>
-    <div style="display:flex;justify-content:center;color:var(--wm-gray-400,#97999f);font-size:15px">↑</div>
+    <div style="display:flex;justify-content:center;color:var(--wm-gray-600,#5e636e);font-size:15px">↑</div>
     <div style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);border-radius:12px;padding:22px 26px">
       <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="display:flex;align-items:baseline;gap:14px"><span class="cap" style="color:var(--wm-sky-blue,#a9ddf7)">Priority 03</span><h3 class="h" style="font-size:28px;color:var(--wm-white,#fff)">Build a unified ads platform</h3></div><span class="cap" style="color:var(--wm-sky-blue,#a9ddf7)">Shared base — everything above depends on it</span></div>
       <p class="bs" style="margin-top:10px;color:var(--wm-white,#fff);max-width:1000px">Unified identity and permissions, global IA and navigation, shared objects and services, common data and events, shared apps framework.</p>
@@ -669,7 +671,7 @@
       <div style="border-top:2px solid var(--border-default,#c3c6cd);padding-top:12px;font-size:15px;font-weight:400">In-Store</div>
       <div style="border-top:2px solid var(--border-default,#c3c6cd);padding-top:12px;font-size:15px;font-weight:400;color:var(--wm-gray-600,#5e636e)">Future surfaces</div>
     </div>
-    <div style="text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--wm-gray-400,#97999f);padding:10px 0">all configured from</div>
+    <div style="text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--wm-gray-600,#5e636e);padding:10px 0">all configured from</div>
     <div style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);border-radius:12px;padding:28px 32px">
       <span class="cap" style="color:var(--wm-sky-blue,#a9ddf7)">One platform layer</span>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px 36px;margin-top:18px">
@@ -732,7 +734,7 @@
       <div style="background:var(--wm-sky-50,#eaf6fd);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;border-top:1px solid var(--wm-bentonville-blue,#001e60);color:var(--wm-gray-700,#46474a)">Configurable by market</div>
 
       <span style="font-size:14px;font-weight:400;padding-top:10px;border-top:1px solid var(--wm-gray-100,#eef0f3)">Campaign workflows</span>
-      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Audit resolution plan</div>
+      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Audit resolution plan <span style="margin-left:6px;font-size:10.5px;color:var(--wm-gray-600,#5e636e)">— not yet scoped</span></div>
       <div style="background:var(--wm-true-blue,#0053e2);color:var(--wm-white,#fff);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center">Sponsored + Display modernization</div>
       <div style="background:var(--wm-everyday-blue,#4dbdf5);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center">Cross-channel management</div>
       <div style="background:var(--wm-sky-50,#eaf6fd);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Adaptive workflows</div>
@@ -744,14 +746,14 @@
       <div style="background:var(--wm-sky-50,#eaf6fd);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Retention + reactivation</div>
 
       <span style="font-size:14px;font-weight:400;padding-top:10px;border-top:1px solid var(--wm-gray-100,#eef0f3)">Shared capabilities</span>
-      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Dependency mapping</div>
-      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Creative Hub modernization</div>
+      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Dependency mapping <span style="margin-left:6px;font-size:10.5px;color:var(--wm-gray-600,#5e636e)">— not yet scoped</span></div>
+      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Creative Hub modernization <span style="margin-left:6px;font-size:10.5px;color:var(--wm-gray-600,#5e636e)">— not yet scoped</span></div>
       <div style="background:var(--wm-everyday-blue,#4dbdf5);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center">Creative, audience, reporting</div>
       <div style="background:var(--wm-sky-50,#eaf6fd);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Planning + forecasting</div>
 
       <span style="font-size:14px;font-weight:400;padding-top:10px;border-top:1px solid var(--wm-gray-100,#eef0f3)">Guidance + intelligence</span>
-      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Instrumentation + baselines</div>
-      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Recommendation framework</div>
+      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Instrumentation + baselines <span style="margin-left:6px;font-size:10.5px;color:var(--wm-gray-600,#5e636e)">— not yet scoped</span></div>
+      <div style="background:var(--wm-gray-50,#f5f6f8);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Recommendation framework <span style="margin-left:6px;font-size:10.5px;color:var(--wm-gray-600,#5e636e)">— not yet scoped</span></div>
       <div style="background:var(--wm-everyday-blue,#4dbdf5);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center">Personalized guidance</div>
       <div style="background:var(--wm-sky-50,#eaf6fd);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;color:var(--wm-gray-700,#46474a)">Contextual Marty, agentic</div>
     </div>
@@ -759,6 +761,7 @@
       <span class="cap" style="flex:none">Confidence</span>
       <div style="flex:1;display:flex;align-items:center;gap:10px"><span style="flex:1;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--wm-bentonville-blue,#001e60),var(--wm-true-blue,#0053e2),var(--wm-everyday-blue,#4dbdf5),var(--wm-sky-50,#eaf6fd))"></span></div>
       <span style="font-size:12px;color:var(--wm-gray-600,#5e636e);flex:none">committed → directional</span>
+      <span style="display:flex;align-items:center;gap:6px;flex:none;margin-left:8px"><span style="width:10px;height:10px;border-radius:2px;background:var(--wm-gray-50,#f5f6f8);border:1px solid var(--wm-gray-300,#c3c6cd)"></span><span style="font-size:12px;color:var(--wm-gray-600,#5e636e)">gray = not yet scoped</span></span>
     </div>
     <div style="display:grid;grid-template-columns:168px 1fr;gap:12px;border-top:1px solid var(--wm-gray-200,#dee1e6);padding-top:14px;margin-top:12px;align-items:center">
       <span class="cap">Current commitments</span>
@@ -879,9 +882,9 @@
   </div>
   <div style="display:flex;align-items:center;gap:20px;border-top:1px solid var(--wm-gray-200,#dee1e6);padding-top:18px;margin-top:6px">
     <span class="cap" style="flex:none">Flow</span>
-    <span style="font-size:15px;font-weight:300">Ease improves</span><span style="color:var(--wm-gray-400,#97999f)">→</span>
-    <span style="font-size:15px;font-weight:300">advertisers do more</span><span style="color:var(--wm-gray-400,#97999f)">→</span>
-    <span style="font-size:15px;font-weight:300">budget expands</span><span style="color:var(--wm-gray-400,#97999f)">→</span>
+    <span style="font-size:15px;font-weight:300">Ease improves</span><span style="color:var(--wm-gray-600,#5e636e)">→</span>
+    <span style="font-size:15px;font-weight:300">advertisers do more</span><span style="color:var(--wm-gray-600,#5e636e)">→</span>
+    <span style="font-size:15px;font-weight:300">budget expands</span><span style="color:var(--wm-gray-600,#5e636e)">→</span>
     <span style="font-size:15px;font-weight:400;color:var(--wm-true-blue,#0053e2)">reuse makes the next release cheaper</span>
   </div>
   <p class="src" style="margin-top:12px">Two baselines exist today: NPS −27 and experience rating 2.2 of 5. The remainder require instrumentation during the Establish phase, which is why funded measurement is part of the approval.</p>
@@ -1098,8 +1101,8 @@
       <p class="d" style="font-size:15px;margin-top:auto;padding-top:14px;color:var(--wm-bentonville-blue,#001e60)">Different media products may require different workflows. They should not require different platform fundamentals.</p>
     </div>
     <div style="display:grid;grid-template-rows:1fr 1fr;gap:14px;min-height:0">
-      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Sponsored Products</span><div style="display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><img src="media/image20.png" alt="Sponsored Products homepage" style="width:100%;height:178px;object-fit:cover;object-position:top"></div></div>
-      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Onsite Display</span><div style="display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><img src="media/image21.png" alt="Onsite Display homepage" style="width:100%;height:178px;object-fit:cover;object-position:top"></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Sponsored Products</span><div style="display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><image-slot id="divergent-sponsored" shape="rect" placeholder="Sponsored Products homepage — screenshot needed" style="width:100%;height:178px"></image-slot></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;min-height:0"><span class="cap">Onsite Display</span><div style="display:flex;flex-direction:column;border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;overflow:hidden;background:var(--wm-white,#fff)"><div style="flex:none;height:22px;display:flex;align-items:center;gap:5px;padding:0 10px;background:var(--wm-gray-50,#f5f6f8);border-bottom:1px solid var(--wm-gray-200,#dee1e6)"><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span><span style="width:7px;height:7px;border-radius:50%;background:var(--wm-gray-300,#c3c6cd)"></span></div><image-slot id="divergent-display" shape="rect" placeholder="Onsite Display homepage — screenshot needed" style="width:100%;height:178px"></image-slot></div></div>
     </div>
   </div>
   <div class="tk"><span>Moving between products means learning a new UX — and Walmart pays twice to maintain both.</span><b>36</b></div>
@@ -1126,12 +1129,12 @@
   <p class="d">Six changes in how we plan, fund and govern the platform. None of them are technology problems.</p>
   <div style="flex:1;display:flex;flex-direction:column;margin-top:28px">
     <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;padding-bottom:10px"><span></span><span class="cap">From</span><span></span><span class="cap">To</span></div>
-    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-bentonville-blue,#001e60);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">01</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Channel-first planning</span><span style="color:var(--wm-gray-400,#97999f)">→</span><span style="font-size:17px;font-weight:400">Journey-led planning</span></div>
-    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">02</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Feature delivery as the goal</span><span style="color:var(--wm-gray-400,#97999f)">→</span><span style="font-size:17px;font-weight:400">Advertiser outcomes as the goal</span></div>
-    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">03</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Local patterns per product</span><span style="color:var(--wm-gray-400,#97999f)">→</span><span style="font-size:17px;font-weight:400">Shared standards with adoption requirements</span></div>
-    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">04</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Duplicated capabilities</span><span style="color:var(--wm-gray-400,#97999f)">→</span><span style="font-size:17px;font-weight:400">Reusable platform services</span></div>
-    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">05</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">One-size complexity for everyone</span><span style="color:var(--wm-gray-400,#97999f)">→</span><span style="font-size:17px;font-weight:400">Adaptive paths by goal and maturity</span></div>
-    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);border-bottom:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">06</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Project-by-project coordination</span><span style="color:var(--wm-gray-400,#97999f)">→</span><span style="font-size:17px;font-weight:400">Durable governance and decision rights</span></div>
+    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-bentonville-blue,#001e60);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">01</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Channel-first planning</span><span style="color:var(--wm-gray-600,#5e636e)">→</span><span style="font-size:17px;font-weight:400">Journey-led planning</span></div>
+    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">02</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Feature delivery as the goal</span><span style="color:var(--wm-gray-600,#5e636e)">→</span><span style="font-size:17px;font-weight:400">Advertiser outcomes as the goal</span></div>
+    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">03</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Local patterns per product</span><span style="color:var(--wm-gray-600,#5e636e)">→</span><span style="font-size:17px;font-weight:400">Shared standards with adoption requirements</span></div>
+    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">04</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Duplicated capabilities</span><span style="color:var(--wm-gray-600,#5e636e)">→</span><span style="font-size:17px;font-weight:400">Reusable platform services</span></div>
+    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">05</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">One-size complexity for everyone</span><span style="color:var(--wm-gray-600,#5e636e)">→</span><span style="font-size:17px;font-weight:400">Adaptive paths by goal and maturity</span></div>
+    <div style="display:grid;grid-template-columns:34px 1fr 44px 1fr;gap:20px;align-items:center;border-top:1px solid var(--wm-gray-200,#dee1e6);border-bottom:1px solid var(--wm-gray-200,#dee1e6);padding:13px 0"><span style="font-family:var(--font-mono);font-size:12px;color:var(--wm-true-blue,#0053e2)">06</span><span style="font-size:17px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Project-by-project coordination</span><span style="color:var(--wm-gray-600,#5e636e)">→</span><span style="font-size:17px;font-weight:400">Durable governance and decision rights</span></div>
   </div>
   <div class="tk"><span>Each shift moves a decision from inside a product roadmap to across the platform. That is the whole change.</span><b>38</b></div>
 </section>
@@ -1303,7 +1306,7 @@
       <div style="border-top:2px solid var(--border-default,#c3c6cd);padding-top:12px;font-size:15px;font-weight:400">Scintilla</div>
       <div style="border-top:2px solid var(--border-default,#c3c6cd);padding-top:12px;font-size:15px;font-weight:400;color:var(--wm-gray-600,#5e636e)">Future products</div>
     </div>
-    <div style="text-align:center;color:var(--wm-gray-400,#97999f);font-size:12px;letter-spacing:.24em;font-family:var(--font-mono);text-transform:uppercase">All build on</div>
+    <div style="text-align:center;color:var(--wm-gray-600,#5e636e);font-size:12px;letter-spacing:.24em;font-family:var(--font-mono);text-transform:uppercase">All build on</div>
     <div style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);border-radius:12px;padding:28px 32px">
       <span class="cap" style="color:var(--wm-sky-blue,#a9ddf7)">The shared platform foundation</span>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px 28px;margin-top:16px">
@@ -1354,8 +1357,8 @@
       <div style="border-top:1px solid var(--wm-gray-200,#dee1e6);padding-top:16px">
         <span class="cap">Escalation path</span>
         <div style="display:flex;align-items:center;gap:0;margin-top:14px">
-          <span style="flex:1;font-size:14.5px;font-weight:400">Experience review</span><span style="color:var(--wm-gray-400,#97999f);font-size:13px;padding:0 8px">→</span>
-          <span style="flex:1;font-size:14.5px;font-weight:400;text-align:center">Roadmap review</span><span style="color:var(--wm-gray-400,#97999f);font-size:13px;padding:0 8px">→</span>
+          <span style="flex:1;font-size:14.5px;font-weight:400">Experience review</span><span style="color:var(--wm-gray-600,#5e636e);font-size:13px;padding:0 8px">→</span>
+          <span style="flex:1;font-size:14.5px;font-weight:400;text-align:center">Roadmap review</span><span style="color:var(--wm-gray-600,#5e636e);font-size:13px;padding:0 8px">→</span>
           <span style="flex:1;font-size:14.5px;font-weight:400;text-align:right">Platform steering</span>
         </div>
         <p style="font-size:13px;line-height:1.5;font-weight:300;margin:14px 0 0;color:var(--wm-gray-700,#46474a)">An exception unresolved in two consecutive weekly reviews escalates automatically rather than waiting to be raised.</p>
@@ -1377,12 +1380,12 @@
     <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;padding-bottom:9px"><span class="cap">Measure</span><span class="cap">Baseline today</span><span class="cap">FY28 target</span><span class="cap">Instrumentation status</span></div>
     <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-bentonville-blue,#001e60);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Advertiser NPS</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-true-blue,#0053e2)">−27</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-700,#46474a)">Established · Pendo, 1,350 responses</span></div>
     <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Experience rating</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-true-blue,#0053e2)">2.2 / 5</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-700,#46474a)">Established · Pendo poll, n=424</span></div>
-    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Time to complete core tasks</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-400,#97999f)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs task-level instrumentation</span></div>
-    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Task success rate</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-400,#97999f)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs funnel definition per workflow</span></div>
-    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Workflow abandonment</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-400,#97999f)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs event instrumentation</span></div>
+    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Time to complete core tasks</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-600,#5e636e)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs task-level instrumentation</span></div>
+    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Task success rate</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-600,#5e636e)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs funnel definition per workflow</span></div>
+    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Workflow abandonment</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-600,#5e636e)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs event instrumentation</span></div>
     <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline"><span style="font-size:14.5px;font-weight:400">Support reliance</span><span style="font-family:var(--font-mono);font-size:15px">[baseline]</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-700,#46474a)">Derivable from ticket data</span></div>
-    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline;background:var(--wm-gray-50,#f5f6f8)"><span style="font-size:14.5px;font-weight:400">Shared component adoption</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-400,#97999f)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs design-system telemetry</span></div>
-    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline;background:var(--wm-gray-50,#f5f6f8)"><span style="font-size:14.5px;font-weight:400">Time to launch front-end change</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-400,#97999f)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs delivery-cycle tracking</span></div>
+    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline;background:var(--wm-gray-50,#f5f6f8)"><span style="font-size:14.5px;font-weight:400">Shared component adoption</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-600,#5e636e)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs design-system telemetry</span></div>
+    <div style="display:grid;grid-template-columns:1.3fr 150px 150px 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:11px 0;align-items:baseline;background:var(--wm-gray-50,#f5f6f8)"><span style="font-size:14.5px;font-weight:400">Time to launch front-end change</span><span style="font-family:var(--font-mono);font-size:15px;color:var(--wm-gray-600,#5e636e)">Not measured</span><span style="font-family:var(--font-mono);font-size:15px">[target]</span><span style="font-size:12.5px;font-weight:300;color:var(--wm-gray-600,#5e636e)">Needs delivery-cycle tracking</span></div>
   </div>
   <div class="tk"><span>Needs input: targets, and baselines for the rows marked derivable. “Not measured” is the honest answer and worth saying out loud.</span><b>49</b></div>
 </section>
@@ -1873,10 +1876,10 @@
     <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300">Koddi, The State of Programmatic Retail Media 2025</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-true-blue,#0053e2)">10</span></div>
     <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300">The Drum, Retail Media’s Next Phase</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-true-blue,#0053e2)">11</span></div>
     <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300">Harvard Business Review, Trust and Transparency in Retail Media Networks (2025)</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-true-blue,#0053e2)">30</span></div>
-    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">Pendo feedback + poll exports, Feb 2025 – Aug 2026 — needs link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-400,#97999f)">15–17</span></div>
-    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">UXR synthesis, 23 research inputs — needs title + link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-400,#97999f)">13–14</span></div>
-    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">Support-ticket analysis, 28,000+ tickets — needs title + link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-400,#97999f)">—</span></div>
-    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">Advertiser’s Pain Points + Job Stories — needs link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-400,#97999f)">—</span></div>
+    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">Pendo feedback + poll exports, Feb 2025 – Aug 2026 — needs link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-600,#5e636e)">15–17</span></div>
+    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">UXR synthesis, 23 research inputs — needs title + link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-600,#5e636e)">13–14</span></div>
+    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">Support-ticket analysis, 28,000+ tickets — needs title + link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-600,#5e636e)">—</span></div>
+    <div style="display:grid;grid-template-columns:1fr 90px;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0"><span style="font-size:14.5px;font-weight:300;color:var(--wm-gray-500,#74767c)">Advertiser’s Pain Points + Job Stories — needs link</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--wm-gray-600,#5e636e)">—</span></div>
   </div>
   <div class="tk"><span>Needs input: links for the four internal sources.</span><b>64</b></div>
 </section>
