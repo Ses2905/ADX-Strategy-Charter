@@ -115,6 +115,38 @@ instead of hoping the copy fits: put a `min-height` on the wrapping element (a 1
 subtitle is 35px at two lines) so every card is sized for the longest one. The same goes
 for chip rows — a row where two of seven chips wrap is a row with two heights.
 
+## Spacing sits on the 4px scale
+
+Every `gap` comes from the design system's `--space-*` steps: 4, 8, 12, 16, 20, 24, 32,
+40, 48, 64, 80, 96. The deck once ran at 35% compliance, and the off-scale values were
+not an alternative system — they were near-misses two pixels off a real step (26, 34, 28,
+18, 14, 10). Individually invisible; collectively the difference between tight and almost
+tight. `gap` is now 100% on-scale; keep it there.
+
+`padding` and `margin` are **not** blanket-snapped, because some off-scale values are
+load-bearing: a 17px `padding-top` compensating a 2px border, and the 9–12px row paddings
+that clear the takeaway footer on slides 21, 26, 29 and 30. Check what a value is doing
+before you round it.
+
+## Hairlines on navy: two weights only
+
+White rules inside navy blocks are `rgba(255,255,255,.30)` for a rule and `.18` for a
+hairline. Five opacities were in use at one point (.14/.16/.22/.26/.34), including two
+inside a single eight-item grid. Two weights, no more.
+
+## Stacked architecture bands share one container language
+
+Where a slide stacks layers of one system (access → workspaces → foundations), give every
+band the same shape — same radius, same padding — and let **fill weight** carry the rank:
+`#f5f6f8` → `#eaf6fd` → navy, heaviest at the base. Three bands once had three different
+treatments (no container, a bordered box, a navy fill), which told the eye they were three
+unrelated kinds of object on the one slide whose whole argument is that they are layers of
+one system. Gaps between peer bands are equal.
+
+A slide-level tag (e.g. "Target experience model") goes `position:absolute; top:56px;
+right:72px` — never in a flex row with the `.k` eyebrow, which pushes the whole title
+block down and breaks the 56/80 header position every other slide holds.
+
 ## Page numbers over dark callouts
 
 `.pg` is gray (`--wm-gray-600`) on light ground. Where a slide's bottom element is a
@@ -132,6 +164,13 @@ Three failure modes that `scrollHeight` will **not** catch, because `.s` sets
    Check filled boxes too, not just text: a navy callout can swallow the page number.
 3. **Dead zones** — measure slack between the lowest *inked* element and the marker.
    Container rects lie here; a `flex:1` wrapper always reaches the content-box bottom.
+4. **Peer baselines** — for any sibling group whose border-tops land on one line, compare
+   each sibling's first child baseline. A mismatch has many causes (a heavier border, a
+   larger font, a different padding) and checking border *width* alone misses most of
+   them. Spread must be 0.
+
+Bottom slack varies legitimately across slides — a calm slide with little content is not
+a defect, and padding it out to match a dense one is. Chase the outliers, not uniformity.
 
 Content flowing into the 96px bottom padding is normal and tolerated; overlapping the
 marker itself is not.
