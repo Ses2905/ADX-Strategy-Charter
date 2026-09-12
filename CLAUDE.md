@@ -21,19 +21,34 @@ These are the defaults for new slides and any new deck in this project.
 ## Color — reduce navy density
 
 Navy (`#001e60`) is reserved for: dark slide backgrounds, primary body/heading text
-color (inherited via the slide's base color), and the *one* deliberately-emphasized
-element in a row (paired with a filled `#f5f6f8` background — see below). It is
-**not** the default for plain structural dividers — those should be light gray
-(`#c3c6cd` for a visible rule, `#dee1e6`/`#eef0f3` for a hairline) so navy stays
-meaningful instead of blanket-heavy. When a set of sibling boxes/cards shares a
-`border-top`, every sibling must use the *same* color and width unless one is
-deliberately singled out — never split a uniform row of boxes across two colors or
-weights without a reason.
+color (inherited via the slide's base color), and standalone navy-fill callouts (see
+the foundation/implication pattern below). It is **not** the default for plain
+structural dividers — those should be light gray (`#c3c6cd` for a visible rule,
+`#dee1e6`/`#eef0f3` for a hairline) so navy stays meaningful instead of blanket-heavy.
+When a set of sibling boxes/cards shares a `border-top`, every sibling must use the
+*same* color and width unless one is deliberately singled out — never split a
+uniform row of boxes across two colors or weights without a reason.
 
-**Emphasis-card pattern** (the one box in a row that gets called out): accent-blue
-border (`#4dbdf5`, 1–2px matching its siblings' width), `background:#f5f6f8`,
-`border-radius:12px`. No margin-top offset — its border must align exactly with its
-siblings' top edge.
+Two distinct "called out" patterns exist. Never mix them within the same row of
+siblings — a row either uses the light emphasis-card treatment on one sibling, or
+none of them do.
+
+**Emphasis-card pattern** (the one box *among peers* that gets called out, e.g. one
+option in a decision matrix, one priority in a portfolio): light treatment —
+accent-blue border (`#4dbdf5`, 1–2px matching its siblings' width),
+`background:#f5f6f8`, `border-radius:12px`. No margin-top offset — its border must
+align exactly with its siblings' top edge. Reserve this for the box that's *better*
+or *recommended*, not the one that's foundational.
+
+**Foundation/implication callout pattern** (a standalone declarative statement —
+"here's what this depends on," "here's the implication," a load-bearing foundation
+in a dependency stack): heavy treatment — solid navy fill (`background:#001e60`),
+white body text, sky-blue (`#a9ddf7`) `.cap` label, `border-radius:12px`. This is not
+a sibling-row pattern; it stands alone (e.g. the "Implication" bar on "Where the next
+dollar goes," the "Advertiser Experience" owner box on "Operating model," Priority 03
+on "Four priorities"). Use the heavier navy-fill weight specifically when the content
+is foundational/load-bearing rather than merely preferred — weight should track
+"what everything else depends on," not just "what's most desirable."
 
 ## CSS specificity note
 
