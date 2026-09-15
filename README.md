@@ -61,9 +61,15 @@ treated as a source, you are merging two histories by hand and guessing which is
 
 **Editing in Claude Design is fine** — it is where the visual work actually gets done, and
 nothing here asks you to stop. What is not fine is *leaving* it there. A canvas edit is a
-proposal with a deadline: say what changed so it can be applied to `main`, and do it before
-the next sync, which overwrites the canvas from upstream and takes the edit with it. **An
-edit that has not come back to `main` does not exist.**
+proposal with a deadline: bring it back to `main` before the next sync, which overwrites the
+canvas from upstream and takes the edit with it. **An edit that has not come back to `main`
+does not exist.**
+
+Bring back the **artifact, not a description of it** — the deck file, or the verbatim
+`<section>` markup for the slides you touched. A summary is enough only for a change you
+could retype from memory; anything rebuilt needs the bytes, for the reasons in *carry markup,
+not prose* below. "Slide 59 rebuilt with a white compounding treatment" is a true sentence
+that reconstructs nothing.
 
 Guessing is the part that fails. On 15 Sept a published artifact and `main` were compared
 and the artifact was judged "seventeen versions ahead"; a drop-in replacement was prepared
@@ -91,8 +97,8 @@ a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way
 ## Working on the deck
 
 1. Edit in Claude Design, or ask Claude Code to make the change here. If it was the canvas,
-   say what changed in the same sitting so it reaches `main` before the next sync — see
-   *The sync is one-way* above.
+   bring the markup back in the same sitting so it reaches `main` before the next sync — the
+   deck file or the verbatim sections, not a summary. See *The sync is one-way* above.
 2. Claude Code checks it against `CLAUDE.md` and the verification suite — clipped text,
    collisions with the page number, peer-row alignment, the spacing scale, the track set,
    contrast, and a wider-font stress test — plus `tools/checkdeck.py`, a structural check
