@@ -445,6 +445,12 @@ was **content, not layout**: the source deck's capability strip had been dropped
 transcription. Restoring it took the slide to 100px and put back something the author wrote.
 Check the source before reaching for a layout lever.
 
+Slide 70 came down from the canvas at 188px — a two-column table with room to spare, which
+is the one shape the table rule fits. Rows went `padding-top:8px` → `20px` and the column
+`gap` 6 → 16, taking it to **78px** without touching a word. Note that its sibling slide 19
+is *not* the same case: 19 is `data-dense` and sits at 147px because compressing a
+five-finding Today/Should-be grid buys less than it costs.
+
 The FY28 big rocks (36–39) sit at 188–202px each. That is the template being honest about
 one-line card bodies, and it is identical across all four — consistency across the set is
 worth more here than filling each slide individually.
@@ -481,8 +487,11 @@ and 30 are load-bearing for footer clearance. Only slides with surplus space wer
 
 **Numbers (`.n`) are True Blue by class.** They were uncoloured, so they inherited navy and
 only looked right where someone added an inline override — 10 of 28 rendered navy, and
-slide 09 carried both colours at once. The colour now lives on the role. Slide 35's
-decorative letter keeps its own inline value and still wins.
+slide 09 carried both colours at once. The colour now lives on the role. The appendix
+divider's decorative letter on **slide 62** — the oversized `A` at `rgba(255,255,255,.3)`
+— keeps its own inline value and still wins. This file said *slide 35* for a long time;
+slide 35 has no `.n` at all, so a sweep trusting that line would have stripped the real
+override and left the `A` True Blue on navy.
 
 **Appendix titles follow the same fit rule as the core.** Base 40px, stepping down only
 where the length demands it. Five arbitrary sizes (32/34/36/38/40) became four, 23 of 32 at
@@ -535,7 +544,7 @@ core rule. That is expected — do not "fix" it by bumping them to 36px without 
 Whether the rail jump is a defect depends on whether the appendix is meant to read as a
 different document. **Open decision — do not "fix" this by changing one number.**
 
-## Horizontal rules: six treatments, each with one job
+## Horizontal rules: seven treatments, each with one job
 
 | Treatment | Job |
 |---|---|
@@ -543,6 +552,7 @@ different document. **Open decision — do not "fix" this by changing one number
 | `1px #dee1e6` | rule |
 | `1px #c3c6cd` | visible rule — also the **header underline** of a list or table |
 | **`2px #0053e2`** | **card top in a peer row** |
+| `2px #c3c6cd` | the **muted half of a two-part contrast**, paired with `2px #0053e2` on the other |
 | `1px rgba(255,255,255,.18)` | hairline inside a navy callout |
 | `2px #001e60` | the closing **statement** |
 
@@ -573,6 +583,25 @@ hairlines beneath them, so the hierarchy survives.
 bordered boxes as rules and overstates the treatment count — the first version of this
 audit reported nine treatments when there were seven. A true rule has a top border and no
 other.
+
+**`2px #c3c6cd` is a real seventh treatment, not drift.** It appears exactly twice, both
+times as the muted half of a two-part contrast: slide 31's *Today · every initiative starts
+here* against *Future · with shared systems in place*, and slide 51's *Channel and capability
+teams own* against *Advertiser Experience owns*. In both the gray rule is one of three
+elements marking the same half — gray rule, gray `.cap`, and on 31 a gray `.n` — while the
+other half takes True Blue throughout. This is the slide-17 case exactly: **two rows in a
+contrast, not two siblings in a row**, and the colour marks a state rather than a pick. A
+consistency sweep will flag it as an eighth treatment; leave it. Flattening it to True Blue
+would delete the only thing telling the eye which half is which.
+
+That is also why **slide 31's `.n` carries an inline gray** — `~0%` is the *before* figure
+and is muted with its label, while `60–70%` takes the True Blue the role gives it. Like
+slide 62's decorative `A`, the override is doing work. Two documented exceptions — 31 and
+62 — and no others: a bare `.n` takes its colour from the class.
+
+**Grep `class="n`, not `class="n"`.** Slide 62's letter is `class="n anim-1"`, so a check
+anchored on the closing quote reports it as absent and concludes slide 31 is the only
+override. That is exactly how the wrong attribution above survived.
 
 **When a sibling row shares a rule, every sibling takes the same colour and width.** That
 was true when the treatment was gray and it is still true now that it is True Blue. The
