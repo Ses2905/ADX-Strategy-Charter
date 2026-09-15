@@ -113,8 +113,19 @@ and raising it to the 40px the width rule wants would push content onto the page
 Real type is **wider** than the fallback was. Re-fitting against it moved nine titles
 (17, 24, 35, 44, 65, 69 → 38px; 21, 28, 60 → 40px) and pulled **three off a second line**
 (21, 24, 60). **Six stay at base on two lines** — 03, 06, 16, 42, and the display statements
-09 and 11 — plus 59 at 58px. After the pass, 45 of 54 measured titles sit correctly and the
-only two flagged are the two named above.
+09 and 11 — plus 59 at 58px.
+
+**The Sep 15 pass re-fit them again, and mostly upward.** Ten of the titles were rewritten
+in that pass and sentence case sets narrower than Title Case, so titles that had been
+stepped down now clear the measure at a larger size: 10 → 38; 17, 27, 31 → 40;
+24, 28, 66, 67, 68 → 42; and 35, 46, 60 back to base at 42 (they wrap to two lines at every
+step, so base wins — a title that cannot fit on one line should at least be full size).
+One went the other way: **34 → 36**, which had only 9px of clearance at 38. 61 and 64 are
+still the two correctly-ignored flags named above.
+
+The lesson is not the numbers, it is that **the ladder is downstream of the words.** Any
+title rewrite invalidates its own size; re-run `refit2.js` rather than carrying the old
+step forward.
 ## Where fonts, logos and images live
 
 Two directories, one boundary, and it matters:
@@ -155,8 +166,16 @@ title. "Faces registered" is not "faces loaded".
 
 ## Deck structure (Sept 15 source)
 
-69 slides: **61 core (01–61) + 8 appendix (62–69)**, with section dividers at
+70 slides: **61 core (01–61) + 9 appendix (62–70)**, with section dividers at
 **04, 12, 23, 29, 40, 49, 54, 56, 58** and the appendix divider at **62**.
+
+Slide **70** arrived in the Sep 15 markup-decisions pass. Slide 19 used to carry all nine
+terminology and taxonomy findings and was unreadable at that density; it now presents the
+**five highest-impact fixes** as Today → Should be and points at 70 for the rest. The two
+are one argument split across two densities — if a finding changes, it changes on both, and
+19's closing line naming slide 70 has to keep naming the right number. The appendix toggle
+in the deck's `text/x-dc` component reads **62–70**; it is a label, not a computed range,
+so it does not update itself.
 
 ## Section dividers — the progression-line component
 
@@ -226,16 +245,23 @@ deck. Pull from the archive rather than rewriting if any of it is wanted back.
 
 ## Slide titles — core vs appendix
 
-**Core slides (01–61)** use Title Case takeaway titles, matching the Sept 15 source:
-"Advertisers Do Not Experience One Walmart Ads Platform", not "The advertiser's reality".
-Every core title should advance the argument on its own — someone reading only the titles
-should get the strategy. The exception is a title that is a **full sentence** (the market
-statement slides 09 and 11, the closing 59): those stay sentence case.
+**Every title in the deck is sentence case.** This reverses what this file said until the
+Sep 15 markup-decisions pass, and the reversal is the author's, made against the design
+system's own casing rule: "Advertisers do not experience one Walmart Ads platform", not
+"Advertisers Do Not Experience One Walmart Ads Platform". All 48 content titles were
+re-cased in one pass. Proper nouns and acronyms keep their capitals — *Walmart US*,
+*Sam's Club Connect*, *Ad Center*, *Onsite Display* — and a title that is two sentences
+capitalises the second one (09 and 11). Nothing else takes a capital.
 
-**Appendix slides (63–69)** keep sentence-case assertion titles, because they are full
-sentences rather than phrases ("Advertisers should not have to translate Walmart to use
-Walmart"). Don't Title Case a full sentence. The two tiers are deliberate; keep new
-slides consistent with the tier they land in.
+The two-tier split that used to live here — Title Case in the core, sentence case in the
+appendix — is **retired**. It was a real distinction and it is gone on purpose: two casing
+systems in one deck read as an inconsistency long before they read as a hierarchy, and the
+appendix tier already separates itself by type size, top padding and the `.h` title class.
+
+What survives from that rule is the part that was doing the work: **every title asserts.**
+Someone reading only the titles should get the strategy. A title that names its slide
+("Roadmap", "Simplify the Advertiser Experience") wastes the deck's most-read line — the
+name belongs in the `.k` eyebrow, the argument in the title.
 
 Either tier, the title addresses the **audience, not the author**. "Add a future
 expansion horizon" and "Add ecosystem readiness as a guardrail" are edit notes that
@@ -430,6 +456,14 @@ the metric. And classifying slide shape by *computed* column count counts table 
 card rows: that is how 42, 43, 44, 52 and 54 were first mistaken for 4-across card grids.
 Check what the content is before choosing the treatment.
 
+**Slide 57 is the tightest slide in the deck and it was tighter.** The canvas build left
+**3px** between the *Immediate ask* statement and the takeaway footer — measured clean, no
+collision, and no headroom at all: one extra word in that sentence lands on the marker.
+The five table rows went `padding:14px 0` → `12px`, which buys **23px** of clearance for
+10px of row height nobody will notice. The header gap was the wrong lever — at 30px it is
+already under the 36px core tier, so tightening it further would have traded a real rule
+for a measurement.
+
 **`justify-content:space-between` on a content well is the same trap wearing a different
 hat, and it was tested rather than argued.** A Sept 15 audit proposed switching multi-band
 wells from `flex-start` to `space-between` to distribute the dead space. On slide 57 —
@@ -473,12 +507,17 @@ not the value.
 |---|---|---|
 | Cover (01) | 68px | 01, 61 |
 | Core | 64px | everything else in 01–61 |
-| Dense (`data-dense`) | **26px** | 14, 19, 20, 52 |
+| Dense (`data-dense`) | **26px** | 14, 19, 20, 52, 70 |
 | Appendix (`data-appendix`) | **42px** | 63–69 |
 
 `.s[data-appendix]` and `.s[data-dense]` set their own `padding` shorthand, which beats the
 base `.s` rule. Paging from the core into the appendix drops the top rail 22px, and into a
 dense slide 38px.
+
+**Slide 70 carries both `data-appendix` and `data-dense`**, and is the only slide that
+does. The dense tier wins the `padding` shorthand, so 70 sits at the dense 26px top rather
+than the appendix 42px. That is the tier order working, not a conflict — but note it means
+70 is *not* on the appendix rail, so paging 69 → 70 moves the top edge 16px.
 
 **`data-dense` is a density tier, not an appendix marker.** Four slides in the core
 narrative carry it — the five-theme grid (14), the two platform-audit findings (19, 20) and
@@ -581,6 +620,45 @@ across every channel" already carry the relationship, and 120px is off the spaci
 besides. **Text arrows inside a single chain are different and are allowed**: the `→` between
 steps on slides 30 and 59 is type set on the baseline, not decorated geometry, and it is how
 the source deck writes those chains.
+
+## Icons — the reusable pattern
+
+The deck went 69 slides with no icons at all, which was the right default: an icon that
+repeats a word next to it is decoration, and this deck spends its ink on evidence. Slide 24
+is the exception that earned one — six design principles, each an abstract quality
+(*clarity*, *connection*, *adaptivity*), where the icons give six parallel cards a scannable
+left edge that six more lines of type could not. **Slide 24 is the reference use.** Match
+it or do not use icons.
+
+Four rules, and they are the whole pattern:
+
+- **The outline set only.** The design system ships filled and outline families; this deck
+  uses outline, which sits at the weight of a hairline rule rather than competing with
+  navy type. Mixing the two in one deck reads as two icon systems.
+- **26px, always.** Not a range, not scaled per slide. `width:26px;height:26px;flex:none`
+  on a `viewBox="0 0 16 16"` — the glyph's own coordinate space, never
+  `preserveAspectRatio="none"` (see *Arrows and connectors* above, which this rule is a
+  sibling of).
+- **Inline the SVG, and fill with `currentColor`.** `<img src>` cannot inherit colour, so
+  an `<img>` icon is stuck at whatever the file says and goes invisible the moment the
+  slide turns navy. Inline, `fill="currentColor"` plus a `color:` on the element makes the
+  icon obey the same light/dark convention as `.k` and `.cap`. Slide 24 sets
+  `color:var(--wm-bentonville-blue,#001e60)`.
+- **Every member of a set, or none of them.** Five icons and one text label is worse than
+  six labels — the unlabelled sibling reads as the odd one out, the same failure as the
+  single-out rule below. If one concept in a row has no honest icon, the row has no icons.
+
+Each icon carries `role="img"` and an `aria-label` naming **the principle, not the
+picture** — `aria-label="Fewer controls"`, not `aria-label="Sliders"`. Same requirement
+the content SVGs already hold.
+
+The outline set is **not** in the `_ds` bundle, so the six in use — `adjust`, `categories`,
+`featured`, `grid-outline`, `map`, `refresh` — are vendored to `assets/icons/`. That is
+deck material rather than design system, so it sits under `assets/` and survives a
+re-sync; see *Where fonts, logos and images live*. The deck inlines them, so those files
+are the **source set for the next icon-bearing slide**, not a runtime dependency — nothing
+breaks if they are missing, which is exactly why they are easy to lose. Pull any new icon
+from the same design-system outline family rather than drawing one.
 
 ## Page numbers over dark callouts
 
@@ -734,6 +812,24 @@ real painted ancestor and computes the contrast ratio.
 a 2.12:1 failure. Starting the walk at `parentElement` gives navy and 7.32:1. Same family
 of error as the `rgba(0,0,0,0)` trap below.
 
+**Everyday Blue is a navy-ground colour. On white it fails, and the deck no longer uses
+it there.** `#4dbdf5` measures **2.12:1** against white — below the 3:1 non-text floor —
+and seven glyphs were set that way: the `+` and `=` on slide 21, the `→` on 31, and the
+four 44px `→` connectors the Sep 15 rebuild put on 59. All seven are True Blue `#0053e2`
+now, at **6.30:1**. Deck-wide text contrast failures: **7 → 0**.
+
+Two things this is not. It is not a ban on Everyday Blue: on navy it measures 7.32:1 and
+remains correct for the active navigator dot, the focus ring and the dark-ground marks.
+And it is not a loss of hierarchy — on slide 59 the connectors now match the True Blue
+bars beside them, so arrow and bar read as one mechanism against the navy words, which is
+a cleaner three-tier read than a pale arrow floating between them. **A connector stays
+recessive by being small, not by being unreadable.** Size never rescues contrast: the 3:1
+floor applies to non-text marks whatever their scale, which is why the 44px arrows on 59
+failed exactly as hard as the 26px ones on 21.
+
+Slide 26's Everyday Blue → True Blue gradient is a 3px rule, not text, and it is left
+alone — a continuum bar whose whole job is the ramp between the two.
+
 **Authored px, not rendered px.** The stage scales the 1280×720 artboard to the viewport, so
 any measurement has to be divided by the live scale — and an audit normalising to a
 1920×1080 presentation surface reports authored sizes 1.5× larger than they are. A 24px hit
@@ -758,6 +854,19 @@ Every one of these produced a confident, wrong answer in this deck:
    a navy bar positioned against the real marker and asserts detection — the first two
    versions of that self-test were themselves wrong (one walked the marker's own children,
    one placed the bar where it was clipped) and "passed" a broken deck.
+
+4. **A clean layout suite is not a well-formed document.** The whole browser suite
+   measures *rendered* geometry, and browsers silently forgive malformed markup: a deck
+   carrying **two** `</x-dc>`, `data-dc-script`, `</body>` and `</html>` blocks — with
+   slide 70 stranded after the first `</html>` — rendered identically to a correct one and
+   passed `clip`, `collide`, `stress`, `pgcheck`, `peers` and `uniform2`. The cause was a
+   merge: the old deck's slide 69 was its *last* section, so a splitter that slices on
+   `<section` boundaries handed it the document tail attached, and the new tail was then
+   appended after slide 70. **Any splice that reuses the last section of another build
+   carries that build's tail with it.** `tools/checkdeck.py` asserts the singletons, the
+   1..N slide order, `<section>`/`</section>` balance, that nothing follows the tail, and
+   that the appendix toggle label matches the slide count. Run it before the browser suite
+   — it needs no browser and it catches what the browser cannot see.
 
 Related: `</?div\b` matches `</div` **without** the closing `>`. A div-matcher built on it
 is off by one at both ends, which silently truncates each block's last character and leaves

@@ -2,7 +2,7 @@
 
 Working repo for the Walmart Global Ads Advertiser Experience strategy deck.
 
-**The deck is `Advertiser Experience Strategy.dc.html`** — 69 slides, presented from
+**The deck is `Advertiser Experience Strategy.dc.html`** — 70 slides, presented from
 Claude Design. Everything else in here supports it.
 
 ## What's in here
@@ -47,12 +47,36 @@ python3 -m pip install python-pptx
 python3 tools/build_v2.py deck/…Sept-15-2026_source.pptx out.pptx
 ```
 
+## The sync is one-way — `main` is the trunk
+
+Claude Design **pulls** from GitHub `main`. There is no push. Each sync snapshots canvas
+edits into `Advertiser Experience Strategy (local edits Sep 15).dc.html` — a parking lot,
+not a copy of the deck — and then overwrites the main file from upstream. **Visual edits
+made in Claude Design do not flow back to the repo on their own, and the next sync
+destroys them.**
+
+So: edit the deck in one place. Prefer `main`, with Claude Design as the render and review
+surface. Two writeable copies behind a one-way sync is how work gets lost.
+
+When a pass *does* happen in Claude Design, it has to come back by hand, and the bridge is
+a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way:
+
+- **Carry markup, not prose, for anything past roughly slide 56.** The deck is ~290 KB and
+  growing, so a full-file read truncates in the tail — exactly where a prose summary
+  becomes unrecoverable. "Slide 59 rebuilt with a white compounding treatment" cannot be
+  reconstructed; the `<section>` can. Put the verbatim sections in an appendix, or extract
+  them to small side files (see `uploads/tail-57-59-70.html` and
+  `uploads/tail-58-60-69.html`, which together carry slides 57–70 verbatim).
+- **Prefer copying the deck file wholesale** over replaying described edits. The patch doc
+  is a change *record* for review; the `.dc.html` is the artifact.
+
 ## Working on the deck
 
 1. Edit in Claude Design, or ask Claude Code to make the change here.
 2. Claude Code checks it against `CLAUDE.md` and the verification suite — clipped text,
    collisions with the page number, peer-row alignment, the spacing scale, the track set,
-   contrast, and a wider-font stress test.
+   contrast, and a wider-font stress test — plus `tools/checkdeck.py`, a structural check
+   that needs no browser and catches what a renderer forgives.
 3. Commit. Small topic branches (`fix/skai-figure`, `slide-50-roles`) or straight to `main`
    — this is a small repo and either is fine.
 
@@ -67,7 +91,11 @@ be confirmed there.
   report give ~60% and 68%. Resolve before presenting.
 - **Slide 05's source vintage conflicts** — the deck says EMARKETER 25 Aug 2026, the source
   deck says June 2026.
-- **Slide 50 needs team roles**; the source shipped placeholders.
+- **Slide 50 needs team roles and headshots**; Sarah Scherer is confirmed as Product
+  Director, the remaining eight are grouped as "Remit in confirmation". The four domains
+  the team covers are settled.
+- **Slide 42's Express Pod timing is relative** ("Pod weeks 1–2") pending real dates; the
+  stale Aug–Sep 2025 calendar was removed.
 - The market chart's area fill is not zero-baselined.
 
 Full list and rationale: `deck/CHANGELOG.md` and the *Evidence guardrails* section of
