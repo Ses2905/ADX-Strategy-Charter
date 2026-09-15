@@ -47,6 +47,28 @@ python3 -m pip install python-pptx
 python3 tools/build_v2.py deck/…Sept-15-2026_source.pptx out.pptx
 ```
 
+## The sync is one-way — `main` is the trunk
+
+Claude Design **pulls** from GitHub `main`. There is no push. Each sync snapshots canvas
+edits into `Advertiser Experience Strategy (local edits Sep 15).dc.html` — a parking lot,
+not a copy of the deck — and then overwrites the main file from upstream. **Visual edits
+made in Claude Design do not flow back to the repo on their own, and the next sync
+destroys them.**
+
+So: edit the deck in one place. Prefer `main`, with Claude Design as the render and review
+surface. Two writeable copies behind a one-way sync is how work gets lost.
+
+When a pass *does* happen in Claude Design, it has to come back by hand, and the bridge is
+a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way:
+
+- **Carry markup, not prose, for anything past roughly slide 56.** The deck is ~290 KB and
+  growing, so a full-file read truncates in the tail — exactly where a prose summary
+  becomes unrecoverable. "Slide 59 rebuilt with a white compounding treatment" cannot be
+  reconstructed; the `<section>` can. Put the verbatim sections in an appendix, or extract
+  them to a small side file (see `uploads/tail-57-59-70.html`).
+- **Prefer copying the deck file wholesale** over replaying described edits. The patch doc
+  is a change *record* for review; the `.dc.html` is the artifact.
+
 ## Working on the deck
 
 1. Edit in Claude Design, or ask Claude Code to make the change here.
@@ -59,25 +81,6 @@ python3 tools/build_v2.py deck/…Sept-15-2026_source.pptx out.pptx
 Fonts fall back to system faces outside Claude Design, so exact line breaks should always
 be confirmed there.
 
-## Three slides are behind the design project
-
-The Sep 15 markup-decisions pass was made in the Claude Design project and pulled back
-here through the sync tool, which **caps a single file read at 256 KiB**. The deck is
-larger than that, so the read returned slides 01–56 complete and stopped mid-57.
-
-What is here is the recovered pass: slides 01–56 verbatim from the design project, slide
-70 rebuilt from the nine-finding table it was moved off, and the specified title, casing
-and ladder changes applied to 57–69. **Three items are still only in the design project:**
-
-| Slide | What is missing |
-|---|---|
-| 57 | The rebuild that prices every decision — three costing nothing, two needing AOP and engineering input. Not reconstructed: which two carry cost is a commitment, not a formatting choice. |
-| 59 | The white compounding treatment (words left, Everyday Blue arrows, compounding bars). The *Differentiate → Advance* rename **is** applied; the visual rebuild is not. |
-| 19 → 70 | Slide 70 here is a faithful port of slide 19's original nine-finding table, not a copy of the version built in the canvas. Compare before presenting. |
-
-To close the gap, split the deck in the design project into two files under 256 KiB each
-(or paste those three sections' markup) and they can be brought over exactly.
-
 ## Known open items
 
 - **Three figures carry no citation** — the 60–70% delivery head start (slide 31) and the
@@ -86,7 +89,14 @@ To close the gap, split the deck in the design project into two files under 256 
   report give ~60% and 68%. Resolve before presenting.
 - **Slide 05's source vintage conflicts** — the deck says EMARKETER 25 Aug 2026, the source
   deck says June 2026.
-- **Slide 50 needs team roles**; the source shipped placeholders.
+- **Slide 50 needs team roles and headshots**; Sarah Scherer is confirmed as Product
+  Director, the remaining eight are grouped as "Remit in confirmation". The four domains
+  the team covers are settled.
+- **Slide 42's Express Pod timing is relative** ("Pod weeks 1–2") pending real dates; the
+  stale Aug–Sep 2025 calendar was removed.
+- **Everyday Blue `#4dbdf5` glyphs sit at 2.12:1 on white** — the `+` on slide 21 and the
+  `→` connectors on 31 and 59, all below the 3:1 non-text floor. True Blue `#0053e2`
+  clears it at 6.30:1.
 - The market chart's area fill is not zero-baselined.
 
 Full list and rationale: `deck/CHANGELOG.md` and the *Evidence guardrails* section of

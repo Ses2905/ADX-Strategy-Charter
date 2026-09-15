@@ -499,12 +499,17 @@ not the value.
 |---|---|---|
 | Cover (01) | 68px | 01, 61 |
 | Core | 64px | everything else in 01–61 |
-| Dense (`data-dense`) | **26px** | 14, 19, 20, 52 |
+| Dense (`data-dense`) | **26px** | 14, 19, 20, 52, 70 |
 | Appendix (`data-appendix`) | **42px** | 63–69 |
 
 `.s[data-appendix]` and `.s[data-dense]` set their own `padding` shorthand, which beats the
 base `.s` rule. Paging from the core into the appendix drops the top rail 22px, and into a
 dense slide 38px.
+
+**Slide 70 carries both `data-appendix` and `data-dense`**, and is the only slide that
+does. The dense tier wins the `padding` shorthand, so 70 sits at the dense 26px top rather
+than the appendix 42px. That is the tier order working, not a conflict — but note it means
+70 is *not* on the appendix rail, so paging 69 → 70 moves the top edge 16px.
 
 **`data-dense` is a density tier, not an appendix marker.** Four slides in the core
 narrative carry it — the five-theme grid (14), the two platform-audit findings (19, 20) and
@@ -798,6 +803,16 @@ real painted ancestor and computes the contrast ratio.
 `rgba(255,255,255,.4)` fill, reporting the navy dividers as a white ground and the ring as
 a 2.12:1 failure. Starting the walk at `parentElement` gives navy and 7.32:1. Same family
 of error as the `rgba(0,0,0,0)` trap below.
+
+**Open finding: Everyday Blue on white does not clear the non-text floor.** `#4dbdf5`
+measures **2.12:1** against white — the `+` on slide 21, and the `→` connectors on 31 and
+on 59, where the Sep 15 rebuild set four of them at 44px. The same blue is correct on navy
+(7.32:1) and that is the ground it was designed for; on white it is decoration the eye
+loses. True Blue `#0053e2` clears it at 6.30:1 and is already the deck's light-ground
+accent. **Not changed** — these came down from the canvas and the colour is the author's
+call, but it is a real WCAG failure on a leadership deck and should be settled before any
+external readout. Size does not rescue it: the 3:1 floor applies to non-text marks
+regardless of scale.
 
 **Authored px, not rendered px.** The stage scales the 1280×720 artboard to the viewport, so
 any measurement has to be divided by the live scale — and an audit normalising to a
