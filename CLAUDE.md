@@ -153,6 +153,30 @@ The rules between the dots are `rgba(255,255,255,.3)`, matching the documented t
 scale. The previous deck shipped them at `.34`, which was a survivor of the five-opacity
 era; the dots stay at `.4` because a dot is a mark, not a rule.
 
+**The progression line is a navigator.** Each dot is a `<button class="dot" data-goto="N">`
+that jumps to that section, shows `01 · Market Shift` on hover and focus, and carries an
+`aria-label` plus `aria-current` on the active one. `data-goto` is the **child index inside
+`<deck-stage>`, which is slide number − 1** — not the visible-list ordinal, because
+`goTo()` indexes raw children and `data-deck-skip` slides still occupy positions.
+
+Two mechanics worth not rediscovering:
+
+- **The hit target is 24px, the mark is still 8px.** `width:8px; padding:8px; margin:-8px;
+  background-clip:content-box` grows the button to 24×24 for the pointer while the painted
+  dot stays 8px and the row lays out exactly as the static line did. It needs
+  `box-sizing:content-box` set explicitly — the UA stylesheet gives `<button>` border-box,
+  under which `width:8px` with 8px padding collapses to a 16px box and the accessible
+  target is silently lost. Measure it; don't assume the CSS did what it reads like.
+- **The tooltip sits below the line, not above.** Above, it lands in the 32px gap the
+  three-line divider titles descend into. Below needs room made for it: `.secnav` carries
+  `margin-bottom:16px` so the `.cap` clears it at 48px.
+
+The click handler is wired in the deck's own `text/x-dc` component on mount and update, not
+as an inline `onclick`, and it is idempotent (`el.__dcGoto`). **`goTo()` itself is unverified
+locally** — `deck-stage` does not boot in a sandbox without network egress, so the markup,
+CSS, geometry and hover state were measured but the actual jump was not. Click through the
+nine dots in Claude Design before presenting.
+
 The previous 68-slide build (31 core + 4 acts + 33 appendix) is preserved verbatim as
 `Advertiser Experience Strategy (Sep 12 archive).dc.html`. Content that lived only in that
 appendix — behavioral evidence, decision rights, readiness gates, the evidence-capability
@@ -676,8 +700,35 @@ coverage is a real read of the FY28 plan and worth surfacing — but presenting 
 settled trade-off claims an alignment leadership has not made. Put it as the open question
 it is.
 
-**The 13% / 42% maturity pair on slide 07 is sourced** — Koddi's Commerce Media Playbook,
-citing Forrester's maturity criteria. That one is fine.
+**The 13% / 42% maturity pair on slide 07 is sourced, and now independently verified** —
+Koddi's *All Commerce Media Playbook*, a study commissioned from Forrester Consulting:
+online survey of 788 global decision-makers, July 2025, published 19 November 2025. The
+slide carries the methodology and links the report. That one is fine.
+
+## Source links — the citation status vocabulary
+
+Slide 63 is the bibliography and every cited source appears on it with the slide it
+supports and one of three states:
+
+| State | Means |
+|---|---|
+| **Linked** | a URL exists, was checked, and the figure it supports matches |
+| **Check figure** | the URL is real but the number attributed to it does not match the published report |
+| **Needs link** | no URL available — either not supplied, or internal and only the author can provide it |
+
+**A link is an assertion that the source supports the claim.** Only link inline, next to a
+figure, when both are true. Slide 10's Skai figure is the case that made this rule: the
+report page is real and verifiable, but published summaries of it give **~60%** and **68%**
+on spend consolidation where the slide says **50%**. The link therefore sits in the
+bibliography under *Check figure*, not beside the number on slide 10, and both the row and
+the slide's takeaway say why. Resolve the figure before linking it inline.
+
+Two links are live: the Koddi playbook (author-supplied in the source deck's speaker notes)
+and the Skai report page. Six sources still need links, four of them internal — the
+platform audit, the Pendo exports, and the two figure sets carried without citation.
+
+Citation links are `<a target="_blank" rel="noopener">` and inherit `.src a` / `.srclink`:
+True Blue, underlined at 1px with a 2px offset. Do not restyle them per slide.
 
 Two four-word vocabularies exist on purpose and must not be merged: the prioritization
 rubric on slide 34 scores *new* initiatives (Accelerate / Reshape / Sequence / Defer); the
