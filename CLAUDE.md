@@ -242,6 +242,21 @@ expansion horizon" and "Add ecosystem readiness as a guardrail" are edit notes t
 survived into a leadership deck; they read as unfinished. State the thing instead: "A
 fourth horizon extends the platform beyond Walmart US."
 
+## Answer-first applies to hierarchy, not just narrative (slide 03)
+
+The executive summary used to run four equal numbered columns and then put the actual
+recommendation last, in the statement slot, at `--text-19` — the smallest type on the slide
+after body copy. Answer-first in the narrative, supports-first in the weight.
+
+It is inverted now: the recommendation leads the well at `--text-32`, full measure, under
+the navy statement rule; the four pillars sit beneath it demoted (`.n` 26 → 19px, `h3`
+19 → 17px, body 15 → 13.5px) as the supports they are. One dominant element, and the slide
+survives being read as a standalone leave-behind.
+
+Note the statement rule here is **navy**, not True Blue — `2px #001e60` is the statement,
+`2px #0053e2` is the peer-row card top. An audit recommending "keep the 2px True Blue
+border-top" on this block had the two crossed.
+
 ## The big-rock component (slides 36–39)
 
 The four FY28 big rocks share one template and must stay identical across all four so the
@@ -260,6 +275,19 @@ a one-line heading; that is the reservation doing its job, not a defect.
 The closing label differs by slide on purpose — *Why it matters* / *Measurement contract* /
 *Platform test* / *Trust test* — because each rock is held to a different standard. The
 shape stays constant; only the label and the sentence change.
+
+**The titles argue; the eyebrow carries the name.** These four once used the priority's
+name as the title — *Simplify the Advertiser Experience* — which is the one thing the
+divider rule forbids on the deck's most consequential slides. They assert now (*Every
+Workflow We Fix Should Leave a Pattern Behind*), and the name moved into the `.k` eyebrow
+alongside the rock number. That move is required, not optional: an audit assumed the name
+already lived in the eyebrow, but the eyebrow read only `FY28 big rock 01`, so rewriting
+the title without moving the name would have lost it.
+
+**All four hold one size.** Slide 39's first rewrite ran long and wanted 38px, which would
+have broken the set — one rock at a different size reads as a different kind of object.
+The title was shortened instead. If a big-rock title will not fit at the size the other
+three use, cut the title, not the size.
 
 The earlier *Evidence behind this priority* strip belonged to the Sep 12 priority slides
 (17–20) and is not in this build. It is preserved in the archive file if the traceability
@@ -395,12 +423,22 @@ The FY28 big rocks (36–39) sit at 188–202px each. That is the template being
 one-line card bodies, and it is identical across all four — consistency across the set is
 worth more here than filling each slide individually.
 
-**Two ways to fool yourself here.** Pinning a card's last line to the bottom with
+**Three ways to fool yourself here.** Pinning a card's last line to the bottom with
 `margin-top:auto` takes slide 48 from 271px to 19px of measured slack while leaving the
 identical void *inside* every column and pushing a line into the takeaway footer — it games
 the metric. And classifying slide shape by *computed* column count counts table rows as
 card rows: that is how 42, 43, 44, 52 and 54 were first mistaken for 4-across card grids.
 Check what the content is before choosing the treatment.
+
+**`justify-content:space-between` on a content well is the same trap wearing a different
+hat, and it was tested rather than argued.** A Sept 15 audit proposed switching multi-band
+wells from `flex-start` to `space-between` to distribute the dead space. On slide 57 —
+five decision cards plus the closing *Immediate ask* statement — it pushes the statement
+to the artboard bottom and opens a ~180px void *between the cards and the conclusion they
+support*. The measured dead band shrinks; the slide gets worse, because the void moves from
+below everything (where a light slide is allowed to be light) to inside the one
+relationship on the slide that has to hold. **Rejected.** Keep wells at `flex-start` and
+let slack fall to the bottom.
 
 Row padding is **not** uniform deck-wide on purpose — the 9–12px rows on slides 21, 26, 29
 and 30 are load-bearing for footer clearance. Only slides with surplus space were changed.
