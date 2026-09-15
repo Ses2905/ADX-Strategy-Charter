@@ -86,28 +86,68 @@ and silently render navy — always keep the `.s ` prefix.
   titles onto a second line for nothing. The three act dividers keep theirs (1010/620px):
   centred display text wants a narrower measure, and all three agree.
 
-**A title wraps only when it genuinely needs to.** Core titles are 42px. A title that
-overflows the measure by a *small* margin steps down the token scale (42 → 40 → 38 → 36)
-until it sets on one line with **at least 40px of clearance**; a title that overflows by
-more than ~10% is simply long and sets on two lines at full size. One-line titles running
-closer than 40px to the right edge step down too, so nothing hugs the edge.
+**A title wraps only when it genuinely needs to.** Core titles are 42px, appendix titles
+40px. A title that overflows the measure steps down its ladder (core 42 → 40 → 38 → 36;
+appendix 40 → 38 → 36 → 34) until it sets on one line with **at least 24px of clearance**.
+A title that never fits on one line at any step is simply long and sets on two lines at
+full size.
 
-**Measure it, don't simulate it.** `titlefit.js` reads the rendered line count, the widest
-line and the actual clearance to the content edge for every non-divider slide; `coresize.js`
-simulates each candidate size and tells you which one a title lands on. Use the simulator to
-pick the size, then the measurement to confirm — the two disagree on `data-dense` slides,
-where `.s[data-dense] h2` (specificity 0,2,1) beats `.s .t` (0,2,0) and the title renders at
-29px regardless of what the simulator assumed.
+**The clearance was 40px, and 40px was a guess.** Everyday Sans was not in the repo, so
+every measurement ran in fallback faces and the rule carried a 40px margin to absorb the
+error. The fonts are vendored now (see below), so the margin can be what it should be: 24px
+of real clearance on a 1136px measure. Do not re-inflate it — that number bought certainty
+the repo no longer needs.
 
-In the Sept 15 build twelve titles stepped down (17, 24, 35, 44, 46 → 40px; 13, 25, 27, 31,
-55 → 38px; 10, 34 → 36px). **Four stay at 42px on two lines** — 03, 06, 16 and 42 — because
-each overflows by 10–16%, which is long, not a near miss. Slides 09, 11 and 59 are display
-*statements* rather than titles and set on three lines by design; they are not candidates
-for the step-down. After the pass: zero one-line titles under 40px of clearance.
+**Measure it, don't simulate it.** `refit2.js` walks every title, tries each step of the
+right ladder against loaded type, and prints the smallest size that clears the threshold on
+one line. It excludes dividers and `data-dense` slides, and it must: `.s[data-dense] h2`
+(specificity 0,2,1) beats `.s .t` (0,2,0), so those titles render at 29px whatever a
+simulator assumes, and an inline size set by a measuring script beats both — which is how
+an earlier pass came to propose *raising* three dense titles to 36–38px.
 
-Everything here is measured in **fallback fonts** — Everyday Sans is not in the repo. That
-is why the rule demands 40px of clearance rather than tuning to the pixel. Slide 23 is the
-tightest in the deck at 34px and should be the first thing checked in Claude Design.
+**Two titles it will keep flagging, correctly ignored.** Slide 61 is the 72px "Thank you"
+display, not a content title. Slide 64 sits at 34px because its content cannot take a
+taller title without reaching the marker — its size is a *vertical* fit, not a width one,
+and raising it to the 40px the width rule wants would push content onto the page number.
+
+Real type is **wider** than the fallback was. Re-fitting against it moved nine titles
+(17, 24, 35, 44, 65, 69 → 38px; 21, 28, 60 → 40px) and pulled **three off a second line**
+(21, 24, 60). **Six stay at base on two lines** — 03, 06, 16, 42, and the display statements
+09 and 11 — plus 59 at 58px. After the pass, 45 of 54 measured titles sit correctly and the
+only two flagged are the two named above.
+## Where fonts, logos and images live
+
+Two directories, one boundary, and it matters:
+
+| | |
+|---|---|
+| `_ds/walmart-design-system-<id>/**` | The **design system**, vendored from the Claude Design project of the same id. Replaced wholesale on re-sync. Never hand-edit it, never put deck material in it. Type, tokens, colour and the typefaces are all here. |
+| `assets/**` | This **deck's own** material — logos it places, screenshots, diagrams. Hand-managed, and survives a design-system re-sync. |
+
+**The Everyday Sans `.woff` files live in `_ds/…/assets/fonts/`** because they are the
+design system, not deck assets — the `@font-face` rules in `_ds/…/tokens/typography.css`
+point at exactly those paths. Putting them under the top-level `assets/` would leave those
+24 rules dangling, which is precisely the state the repo was in until they were added: the
+design system had been imported without its font binaries, so every face silently fell back
+and no local measurement meant anything.
+
+The 24 referenced faces (920KB) were copied from `Ses2905/Walmart-Design-System`, branch
+`claude/confident-bohr-vx845h`, at `web/public/fonts/**`. That repo carries 68; take only
+what `@font-face` asks for, and re-derive the list rather than guessing:
+
+```bash
+grep -rho "url('\.\./assets/fonts/[^']*'" _ds/ | sed "s/url('\.\.\///;s/'$//" | sort -u
+```
+
+**These are proprietary Walmart typefaces.** They are here because this repo is private.
+If it is ever made public, they come out first — and so does everything else, since the
+deck also carries the team roster, unreleased roadmap, internal NPS data and customer
+verbatims.
+
+Confirm fonts actually load before trusting any text measurement: `fontcheck.js` reports
+the `.woff` responses, the registered face count, and the resolved `font-family` on a real
+title. "Faces registered" is not "faces loaded".
+
 - Slides are full-bleed and square. Never put a `border-radius` on a `<section class="s">`.
 - Cards, panels and callouts: 12px radius. Chips, cells, lane blocks, image frames: 8px.
   Chart bars: 4px. Progress/confidence bars: pill.
