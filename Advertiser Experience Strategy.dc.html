@@ -52,7 +52,8 @@
   .s .cap{font-family:var(--font-ui);font-size:var(--text-xs,12px);font-weight:500;letter-spacing:.01em;text-transform:none;color:var(--text-content-header,#0053e2);display:block}
   .s .n{font-family:var(--font-display);font-weight:300;letter-spacing:-.03em;line-height:.9;color:var(--wm-true-blue,#0053e2)}
   .s .src{font-size:var(--text-11,11px);line-height:1.45;color:#74767c;margin:0}
-  .s .src a,.s .srclink{color:var(--wm-true-blue,#0053e2);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+  .s .src a,.s .srclink{display:inline-block;padding:14px 0;margin:-14px 0;
+    color:var(--wm-true-blue,#0053e2);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
   .s .src a:hover,.s .srclink:hover{color:#0045bd}
   .s .li{font-size:var(--text-body,15px);line-height:1.5;font-weight:300;padding:9px 0;border-top:1px solid #eef0f3}
   .s .tk{position:absolute;left:72px;right:72px;bottom:30px;border-top:1px solid var(--border-subtle,#dee1e6);padding-top:12px;display:flex;gap:32px;align-items:flex-start;justify-content:space-between}
@@ -64,7 +65,7 @@
      margin so the row lays out exactly as the static line did. */
   .secnav{display:flex;align-items:center;gap:0;max-width:620px;margin-bottom:16px}
   .secnav .rule{flex:1;height:1px;background:rgba(255,255,255,.3)}
-  .secnav .dot{position:relative;width:8px;height:8px;padding:8px;margin:-8px;border:0;
+  .secnav .dot{position:relative;width:8px;height:8px;padding:18px;margin:-18px;border:0;
     box-sizing:content-box;border-radius:50%;background:rgba(255,255,255,.4);background-clip:content-box;
     cursor:pointer;-webkit-appearance:none;appearance:none;flex:none}
   .secnav .dot[aria-current="true"]{background:var(--wm-everyday-blue,#4dbdf5);background-clip:content-box}
@@ -148,7 +149,7 @@
   <p class="d">US commerce media spend reaches about $142B by 2030. As it grows, the basis of competition shifts from expansion to execution.</p>
   <div style="flex:1;display:flex;flex-direction:column;margin-top:36px;min-height:0">
     <div data-om-raster="true" style="flex:1;position:relative;min-height:0">
-      <svg viewBox="0 0 1000 330" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
+      <svg viewBox="0 0 1000 330" role="img" aria-label="US commerce media spend grows about 70% from $83.7B in 2026 to $142.1B in 2030." preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
         <polygon points="60,236 285,189 510,143 735,104 960,66 960,300 60,300" fill="#eaf6fd"></polygon>
         <polyline points="60,236 285,189 510,143 735,104 960,66" fill="none" stroke="#0053e2" stroke-width="3"></polyline>
         <line x1="60" y1="300" x2="960" y2="300" stroke="#c3c6cd" stroke-width="1"></line>
@@ -338,7 +339,7 @@
   <div style="flex:1;display:grid;grid-template-columns:1fr 300px;gap:40px;margin-top:36px;min-height:0">
     <div style="display:flex;flex-direction:column;min-height:0">
       <div data-om-raster="true" style="flex:1;position:relative;min-height:0">
-        <svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
+        <svg viewBox="0 0 1000 500" role="img" aria-label="Nineteen consecutive months of measured advertiser satisfaction, none of them positive. Period average −27 NPS." preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
           <rect x="60" y="103" width="900" height="274" fill="#eaf6fd"></rect>
           <line x1="60" y1="60" x2="960" y2="60" stroke="#001e60" stroke-width="1.5"></line>
           <text x="52" y="65" text-anchor="end" font-family="var(--font-mono)" font-size="16" fill="#001e60">0</text>
@@ -625,7 +626,7 @@
 <section class="s" data-label="Foundation first" data-screen-label="30" data-speaker-notes="The vision does not change &#8212; the sequence does. Simplify, unify and modernize the platform foundation before scaling new experiences on top of it. Foundation first, so innovation compounds.">
   <span class="k">Our recommendation</span>
   <h2 class="t" style="margin-top:8px">The Vision Does Not Change, But the Sequence Does</h2>
-  <p class="d">Today every channel improvement is reconciled after the fact. Building the shared foundation first means each channel execution inherits patterns instead of reinventing them.</p>
+  <p class="d">Building channel-first and reconciling later is what created today&#8217;s fragmentation. Foundation first reverses the order.</p>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:32px;margin-top:36px">
     <div style="border-top:1px solid #dee1e6;padding:20px 0 0">
       <span class="cap">Current approach &#8212; reconcile later</span>

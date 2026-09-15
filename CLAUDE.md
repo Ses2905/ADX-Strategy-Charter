@@ -711,6 +711,35 @@ before/after, not five siblings within one row, and the fill marks a state rathe
 pick. The rule bans filling **one card among peers**; it does not ban distinguishing
 *after* from *before*.
 
+## Accessibility: what is measured, and how to measure it
+
+| | |
+|---|---|
+| Focus ring | `:focus-visible`, 2px. Everyday Blue `#4dbdf5` on navy (7.32:1), True Blue `#0053e2` on white (6.30:1). Both clear the 3:1 non-text floor. |
+| Target size | Navigator dot **44×44** on an 8px painted mark; citation links **44px tall** on a 14px line box. Both use padding with a cancelling negative margin, so layout is untouched — the nav line is still exactly 620px. |
+| Content SVGs | Both carry `role="img"` and an `aria-label` that states the **finding**, not the chart type. |
+| Headings | One `h1`, one `h2` per slide, no skipped levels. |
+| Reduced motion | Honoured; entrance animation suppressed, not shortened. |
+
+**A focus ring cannot be measured on an unfocused element.** `getComputedStyle(el).outlineStyle`
+returns `none` for every control at rest, which is the resting state and not a finding. A
+Sept 15 audit reported "0 of 12 interactive elements" have a visible focus indicator on
+exactly that basis; all twelve have one. `focustest.js` calls `el.focus()` first and reads
+the computed style *then*; `focusvis.js` additionally resolves the ring colour against the
+real painted ancestor and computes the contrast ratio.
+
+**Resolve a control's ground from its parent, not itself.** The first version of
+`focusvis.js` walked up from the element and stopped at the dot's own
+`rgba(255,255,255,.4)` fill, reporting the navy dividers as a white ground and the ring as
+a 2.12:1 failure. Starting the walk at `parentElement` gives navy and 7.32:1. Same family
+of error as the `rgba(0,0,0,0)` trap below.
+
+**Authored px, not rendered px.** The stage scales the 1280×720 artboard to the viewport, so
+any measurement has to be divided by the live scale — and an audit normalising to a
+1920×1080 presentation surface reports authored sizes 1.5× larger than they are. A 24px hit
+area reads as 36px, and the canvas itself reads as 1920×1080 when `.s` is plainly
+`width:1280px;height:720px`. State which space a number is in.
+
 ## Checkers lie in three specific ways — validate them
 
 Every one of these produced a confident, wrong answer in this deck:
