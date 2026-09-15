@@ -113,8 +113,19 @@ and raising it to the 40px the width rule wants would push content onto the page
 Real type is **wider** than the fallback was. Re-fitting against it moved nine titles
 (17, 24, 35, 44, 65, 69 → 38px; 21, 28, 60 → 40px) and pulled **three off a second line**
 (21, 24, 60). **Six stay at base on two lines** — 03, 06, 16, 42, and the display statements
-09 and 11 — plus 59 at 58px. After the pass, 45 of 54 measured titles sit correctly and the
-only two flagged are the two named above.
+09 and 11 — plus 59 at 58px.
+
+**The Sep 15 pass re-fit them again, and mostly upward.** Ten of the titles were rewritten
+in that pass and sentence case sets narrower than Title Case, so titles that had been
+stepped down now clear the measure at a larger size: 10 → 38; 17, 27, 31 → 40;
+24, 28, 66, 67, 68 → 42; and 35, 46, 60 back to base at 42 (they wrap to two lines at every
+step, so base wins — a title that cannot fit on one line should at least be full size).
+One went the other way: **34 → 36**, which had only 9px of clearance at 38. 61 and 64 are
+still the two correctly-ignored flags named above.
+
+The lesson is not the numbers, it is that **the ladder is downstream of the words.** Any
+title rewrite invalidates its own size; re-run `refit2.js` rather than carrying the old
+step forward.
 ## Where fonts, logos and images live
 
 Two directories, one boundary, and it matters:
@@ -155,8 +166,16 @@ title. "Faces registered" is not "faces loaded".
 
 ## Deck structure (Sept 15 source)
 
-69 slides: **61 core (01–61) + 8 appendix (62–69)**, with section dividers at
+70 slides: **61 core (01–61) + 9 appendix (62–70)**, with section dividers at
 **04, 12, 23, 29, 40, 49, 54, 56, 58** and the appendix divider at **62**.
+
+Slide **70** arrived in the Sep 15 markup-decisions pass. Slide 19 used to carry all nine
+terminology and taxonomy findings and was unreadable at that density; it now presents the
+**five highest-impact fixes** as Today → Should be and points at 70 for the rest. The two
+are one argument split across two densities — if a finding changes, it changes on both, and
+19's closing line naming slide 70 has to keep naming the right number. The appendix toggle
+in the deck's `text/x-dc` component reads **62–70**; it is a label, not a computed range,
+so it does not update itself.
 
 ## Section dividers — the progression-line component
 
@@ -226,16 +245,23 @@ deck. Pull from the archive rather than rewriting if any of it is wanted back.
 
 ## Slide titles — core vs appendix
 
-**Core slides (01–61)** use Title Case takeaway titles, matching the Sept 15 source:
-"Advertisers Do Not Experience One Walmart Ads Platform", not "The advertiser's reality".
-Every core title should advance the argument on its own — someone reading only the titles
-should get the strategy. The exception is a title that is a **full sentence** (the market
-statement slides 09 and 11, the closing 59): those stay sentence case.
+**Every title in the deck is sentence case.** This reverses what this file said until the
+Sep 15 markup-decisions pass, and the reversal is the author's, made against the design
+system's own casing rule: "Advertisers do not experience one Walmart Ads platform", not
+"Advertisers Do Not Experience One Walmart Ads Platform". All 48 content titles were
+re-cased in one pass. Proper nouns and acronyms keep their capitals — *Walmart US*,
+*Sam's Club Connect*, *Ad Center*, *Onsite Display* — and a title that is two sentences
+capitalises the second one (09 and 11). Nothing else takes a capital.
 
-**Appendix slides (63–69)** keep sentence-case assertion titles, because they are full
-sentences rather than phrases ("Advertisers should not have to translate Walmart to use
-Walmart"). Don't Title Case a full sentence. The two tiers are deliberate; keep new
-slides consistent with the tier they land in.
+The two-tier split that used to live here — Title Case in the core, sentence case in the
+appendix — is **retired**. It was a real distinction and it is gone on purpose: two casing
+systems in one deck read as an inconsistency long before they read as a hierarchy, and the
+appendix tier already separates itself by type size, top padding and the `.h` title class.
+
+What survives from that rule is the part that was doing the work: **every title asserts.**
+Someone reading only the titles should get the strategy. A title that names its slide
+("Roadmap", "Simplify the Advertiser Experience") wastes the deck's most-read line — the
+name belongs in the `.k` eyebrow, the argument in the title.
 
 Either tier, the title addresses the **audience, not the author**. "Add a future
 expansion horizon" and "Add ecosystem readiness as a guardrail" are edit notes that
@@ -581,6 +607,45 @@ across every channel" already carry the relationship, and 120px is off the spaci
 besides. **Text arrows inside a single chain are different and are allowed**: the `→` between
 steps on slides 30 and 59 is type set on the baseline, not decorated geometry, and it is how
 the source deck writes those chains.
+
+## Icons — the reusable pattern
+
+The deck went 69 slides with no icons at all, which was the right default: an icon that
+repeats a word next to it is decoration, and this deck spends its ink on evidence. Slide 24
+is the exception that earned one — six design principles, each an abstract quality
+(*clarity*, *connection*, *adaptivity*), where the icons give six parallel cards a scannable
+left edge that six more lines of type could not. **Slide 24 is the reference use.** Match
+it or do not use icons.
+
+Four rules, and they are the whole pattern:
+
+- **The outline set only.** The design system ships filled and outline families; this deck
+  uses outline, which sits at the weight of a hairline rule rather than competing with
+  navy type. Mixing the two in one deck reads as two icon systems.
+- **26px, always.** Not a range, not scaled per slide. `width:26px;height:26px;flex:none`
+  on a `viewBox="0 0 16 16"` — the glyph's own coordinate space, never
+  `preserveAspectRatio="none"` (see *Arrows and connectors* above, which this rule is a
+  sibling of).
+- **Inline the SVG, and fill with `currentColor`.** `<img src>` cannot inherit colour, so
+  an `<img>` icon is stuck at whatever the file says and goes invisible the moment the
+  slide turns navy. Inline, `fill="currentColor"` plus a `color:` on the element makes the
+  icon obey the same light/dark convention as `.k` and `.cap`. Slide 24 sets
+  `color:var(--wm-bentonville-blue,#001e60)`.
+- **Every member of a set, or none of them.** Five icons and one text label is worse than
+  six labels — the unlabelled sibling reads as the odd one out, the same failure as the
+  single-out rule below. If one concept in a row has no honest icon, the row has no icons.
+
+Each icon carries `role="img"` and an `aria-label` naming **the principle, not the
+picture** — `aria-label="Fewer controls"`, not `aria-label="Sliders"`. Same requirement
+the content SVGs already hold.
+
+The outline set is **not** in the `_ds` bundle, so the six in use — `adjust`, `categories`,
+`featured`, `grid-outline`, `map`, `refresh` — are vendored to `assets/icons/`. That is
+deck material rather than design system, so it sits under `assets/` and survives a
+re-sync; see *Where fonts, logos and images live*. The deck inlines them, so those files
+are the **source set for the next icon-bearing slide**, not a runtime dependency — nothing
+breaks if they are missing, which is exactly why they are easy to lose. Pull any new icon
+from the same design-system outline family rather than drawing one.
 
 ## Page numbers over dark callouts
 

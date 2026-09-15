@@ -2,7 +2,7 @@
 
 Working repo for the Walmart Global Ads Advertiser Experience strategy deck.
 
-**The deck is `Advertiser Experience Strategy.dc.html`** — 69 slides, presented from
+**The deck is `Advertiser Experience Strategy.dc.html`** — 70 slides, presented from
 Claude Design. Everything else in here supports it.
 
 ## What's in here
@@ -58,6 +58,25 @@ python3 tools/build_v2.py deck/…Sept-15-2026_source.pptx out.pptx
 
 Fonts fall back to system faces outside Claude Design, so exact line breaks should always
 be confirmed there.
+
+## Three slides are behind the design project
+
+The Sep 15 markup-decisions pass was made in the Claude Design project and pulled back
+here through the sync tool, which **caps a single file read at 256 KiB**. The deck is
+larger than that, so the read returned slides 01–56 complete and stopped mid-57.
+
+What is here is the recovered pass: slides 01–56 verbatim from the design project, slide
+70 rebuilt from the nine-finding table it was moved off, and the specified title, casing
+and ladder changes applied to 57–69. **Three items are still only in the design project:**
+
+| Slide | What is missing |
+|---|---|
+| 57 | The rebuild that prices every decision — three costing nothing, two needing AOP and engineering input. Not reconstructed: which two carry cost is a commitment, not a formatting choice. |
+| 59 | The white compounding treatment (words left, Everyday Blue arrows, compounding bars). The *Differentiate → Advance* rename **is** applied; the visual rebuild is not. |
+| 19 → 70 | Slide 70 here is a faithful port of slide 19's original nine-finding table, not a copy of the version built in the canvas. Compare before presenting. |
+
+To close the gap, split the deck in the design project into two files under 256 KiB each
+(or paste those three sections' markup) and they can be brought over exactly.
 
 ## Known open items
 
