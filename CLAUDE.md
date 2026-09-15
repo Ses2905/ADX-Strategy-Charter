@@ -394,23 +394,35 @@ core rule. That is expected — do not "fix" it by bumping them to 36px without 
 Whether the rail jump is a defect depends on whether the appendix is meant to read as a
 different document. **Open decision — do not "fix" this by changing one number.**
 
-## Horizontal rules: seven treatments, each with one job
+## Horizontal rules: six treatments, each with one job
 
 | Treatment | Job |
 |---|---|
 | `1px #eef0f3` | row hairline inside a list or table |
 | `1px #dee1e6` | rule |
 | `1px #c3c6cd` | visible rule — also the **header underline** of a list or table |
-| `2px #c3c6cd` | card top in a peer row |
+| **`2px #0053e2`** | **card top in a peer row** |
 | `1px rgba(255,255,255,.18)` | hairline inside a navy callout |
 | `2px #001e60` | the closing **statement** |
-| `2px #0053e2` | the one **singled-out sibling** in a peer row |
 
-The last two were the same treatment until they were separated. `2px True Blue` meant both
-"this sibling is singled out" *and* "this is the closing statement", so on slides 14, 20,
-23 and 31 the statement rule was indistinguishable from content rules on its own slide —
-slide 14 carried six stage rules in the identical treatment. Navy at 2px is ink on a
-declarative line, not a slab, so it separates the two without reintroducing weight.
+**The peer-row card top is True Blue, not gray** — the author's change on slide 03, carried
+across all 113 uses on 27 slides. The argument for it is that the rule now matches the
+content header directly beneath it (the `.n` numeral, the `.cap` label), so the eye reads
+*rule → label → body* as one unit instead of treating the rule as unrelated chrome. It
+makes a four-card row scan as four cards rather than one band of text under a gray line.
+
+This treatment previously meant "the one **singled-out sibling** in a peer row". That
+meaning is retired, and nothing is lost: the single-out mark had **zero** uses in this
+build, and the job is already covered by the emphasis-card pattern (accent border,
+`#f5f6f8`, 12px radius) that slide 30 uses. If a future single-out is needed, reach for the
+card, not a rule colour — a rule colour that also marks every peer cannot single one out.
+
+`2px #001e60` and `2px #0053e2` were the same treatment until they were separated. `2px
+True Blue` once meant both "this sibling is singled out" *and* "this is the closing
+statement", so the statement rule was indistinguishable from content rules on its own
+slide. Navy at 2px is ink on a declarative line, not a slab — and with peer tops now True
+Blue, the contrast between the two does more work than before, not less: the only navy rule
+on a light slide is the one that closes the argument.
 
 **Header underlines were 57 uses of 1px navy**, which the navy-density rule above forbids
 for structural dividers. They are `1px #c3c6cd` now — still heavier than the `#eef0f3` row
@@ -420,6 +432,12 @@ hairlines beneath them, so the hierarchy survives.
 bordered boxes as rules and overstates the treatment count — the first version of this
 audit reported nine treatments when there were seven. A true rule has a top border and no
 other.
+
+**When a sibling row shares a rule, every sibling takes the same colour and width.** That
+was true when the treatment was gray and it is still true now that it is True Blue. The
+place this breaks is a promoted appendix slide: check `rules.js` after any promotion, since
+appendix-era markup can carry `#c3c6cd` literals that the deck-wide replacement in the
+builder does not see if they are written a different way.
 
 ## Hairlines on navy: two weights only
 
