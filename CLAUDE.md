@@ -515,12 +515,39 @@ aspect fit. Put ticks in the SVG at the mark's own x.
 
 **Chrome is recessive.** Axis rules are hairline gray (`#c3c6cd`), never navy — navy is
 ink, not chrome, and the navy-density rule above says the same. No dashed gridlines or
-decorative rules; dashing is reserved for a genuine reference line (the NPS period mean).
+decorative rules; dashing is reserved for a genuine reference line — the NPS period mean,
+and the 2026-level baseline carried across the market chart.
+
+**A delta figure is annotated, not captioned.** The market chart's growth figure was once a
+free-floating `+70% growth, 2026 to 2030` set in the middle of the area fill, claiming a
+rise it was not attached to. It is now a proper delta annotation: a dashed line carrying the
+2026 level (`y=236`) across the plot, a True Blue measure line rising from it to the 2030
+point (`y=66`) with a tick at the baseline, and the figure set beside the measure. Both
+endpoints are the series' own y values, so they move with the data rather than being
+hand-placed — the same requirement the linear-scale rule above imposes on the points.
+
+**A reference line must be lighter than the axis it sits behind.** The measure annotation
+was specified with `#a9b0bd` on the reasoning that it was lighter than the `#c3c6cd` axis.
+It is not: relative luminance 0.43 against the axis's 0.56, so it reads *heavier* than the
+structure it is supposed to recede behind, and it is not a design-system value at all. The
+dashed baseline is `#dee1e6` (gray-200, L 0.75) — genuinely lighter, and a real token.
+Check luminance rather than eyeballing a hex: two grays that look adjacent in a spec can
+sit on opposite sides of the axis weight.
 
 **Known open item:** the market chart's area fill is not zero-baselined — the fill bottom
 sits at roughly $59B, so the filled area overstates magnitude even though every point is
 labelled. Fine for a line, arguable for an area. Decide deliberately before this goes to
 leadership.
+
+The delta annotation helps this without resolving it: the dashed line now marks the 2026
+level explicitly, so a reader can see that the comparison starts at $83.7B rather than at
+the bottom of the shading. The fill still runs below that line to an unlabelled floor,
+which is the part still worth deciding.
+
+**Second open item on the same slide:** the source note reads *EMARKETER, 25 August 2026*
+while the Sept 15 deck cites *eMarketer Forecast, June 2026* for the same series. Two
+different vintages of the same forecast, and it is not obvious which is current. Left as
+found — a citation date is not something to change on inference.
 
 ## Navigation chrome (`deck-nav.js`)
 
