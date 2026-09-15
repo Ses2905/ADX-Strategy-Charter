@@ -96,9 +96,6 @@ be confirmed there.
   the team covers are settled.
 - **Slide 42's Express Pod timing is relative** ("Pod weeks 1–2") pending real dates; the
   stale Aug–Sep 2025 calendar was removed.
-- **Everyday Blue `#4dbdf5` glyphs sit at 2.12:1 on white** — the `+` on slide 21 and the
-  `→` connectors on 31 and 59, all below the 3:1 non-text floor. True Blue `#0053e2`
-  clears it at 6.30:1.
 - The market chart's area fill is not zero-baselined.
 
 Full list and rationale: `deck/CHANGELOG.md` and the *Evidence guardrails* section of

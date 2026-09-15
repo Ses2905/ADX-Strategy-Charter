@@ -456,6 +456,14 @@ the metric. And classifying slide shape by *computed* column count counts table 
 card rows: that is how 42, 43, 44, 52 and 54 were first mistaken for 4-across card grids.
 Check what the content is before choosing the treatment.
 
+**Slide 57 is the tightest slide in the deck and it was tighter.** The canvas build left
+**3px** between the *Immediate ask* statement and the takeaway footer — measured clean, no
+collision, and no headroom at all: one extra word in that sentence lands on the marker.
+The five table rows went `padding:14px 0` → `12px`, which buys **23px** of clearance for
+10px of row height nobody will notice. The header gap was the wrong lever — at 30px it is
+already under the 36px core tier, so tightening it further would have traded a real rule
+for a measurement.
+
 **`justify-content:space-between` on a content well is the same trap wearing a different
 hat, and it was tested rather than argued.** A Sept 15 audit proposed switching multi-band
 wells from `flex-start` to `space-between` to distribute the dead space. On slide 57 —
@@ -804,15 +812,23 @@ real painted ancestor and computes the contrast ratio.
 a 2.12:1 failure. Starting the walk at `parentElement` gives navy and 7.32:1. Same family
 of error as the `rgba(0,0,0,0)` trap below.
 
-**Open finding: Everyday Blue on white does not clear the non-text floor.** `#4dbdf5`
-measures **2.12:1** against white — the `+` on slide 21, and the `→` connectors on 31 and
-on 59, where the Sep 15 rebuild set four of them at 44px. The same blue is correct on navy
-(7.32:1) and that is the ground it was designed for; on white it is decoration the eye
-loses. True Blue `#0053e2` clears it at 6.30:1 and is already the deck's light-ground
-accent. **Not changed** — these came down from the canvas and the colour is the author's
-call, but it is a real WCAG failure on a leadership deck and should be settled before any
-external readout. Size does not rescue it: the 3:1 floor applies to non-text marks
-regardless of scale.
+**Everyday Blue is a navy-ground colour. On white it fails, and the deck no longer uses
+it there.** `#4dbdf5` measures **2.12:1** against white — below the 3:1 non-text floor —
+and seven glyphs were set that way: the `+` and `=` on slide 21, the `→` on 31, and the
+four 44px `→` connectors the Sep 15 rebuild put on 59. All seven are True Blue `#0053e2`
+now, at **6.30:1**. Deck-wide text contrast failures: **7 → 0**.
+
+Two things this is not. It is not a ban on Everyday Blue: on navy it measures 7.32:1 and
+remains correct for the active navigator dot, the focus ring and the dark-ground marks.
+And it is not a loss of hierarchy — on slide 59 the connectors now match the True Blue
+bars beside them, so arrow and bar read as one mechanism against the navy words, which is
+a cleaner three-tier read than a pale arrow floating between them. **A connector stays
+recessive by being small, not by being unreadable.** Size never rescues contrast: the 3:1
+floor applies to non-text marks whatever their scale, which is why the 44px arrows on 59
+failed exactly as hard as the 26px ones on 21.
+
+Slide 26's Everyday Blue → True Blue gradient is a 3px rule, not text, and it is left
+alone — a continuum bar whose whole job is the ramp between the two.
 
 **Authored px, not rendered px.** The stage scales the 1280×720 artboard to the viewport, so
 any measurement has to be divided by the live scale — and an audit normalising to a
