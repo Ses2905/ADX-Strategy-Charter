@@ -65,7 +65,8 @@ a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way
   growing, so a full-file read truncates in the tail — exactly where a prose summary
   becomes unrecoverable. "Slide 59 rebuilt with a white compounding treatment" cannot be
   reconstructed; the `<section>` can. Put the verbatim sections in an appendix, or extract
-  them to a small side file (see `uploads/tail-57-59-70.html`).
+  them to small side files (see `uploads/tail-57-59-70.html` and
+  `uploads/tail-58-60-69.html`, which together carry slides 57–70 verbatim).
 - **Prefer copying the deck file wholesale** over replaying described edits. The patch doc
   is a change *record* for review; the `.dc.html` is the artifact.
 
@@ -74,7 +75,8 @@ a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way
 1. Edit in Claude Design, or ask Claude Code to make the change here.
 2. Claude Code checks it against `CLAUDE.md` and the verification suite — clipped text,
    collisions with the page number, peer-row alignment, the spacing scale, the track set,
-   contrast, and a wider-font stress test.
+   contrast, and a wider-font stress test — plus `tools/checkdeck.py`, a structural check
+   that needs no browser and catches what a renderer forgives.
 3. Commit. Small topic branches (`fix/skai-figure`, `slide-50-roles`) or straight to `main`
    — this is a small repo and either is fine.
 

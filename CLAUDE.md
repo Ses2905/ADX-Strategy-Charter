@@ -839,6 +839,19 @@ Every one of these produced a confident, wrong answer in this deck:
    versions of that self-test were themselves wrong (one walked the marker's own children,
    one placed the bar where it was clipped) and "passed" a broken deck.
 
+4. **A clean layout suite is not a well-formed document.** The whole browser suite
+   measures *rendered* geometry, and browsers silently forgive malformed markup: a deck
+   carrying **two** `</x-dc>`, `data-dc-script`, `</body>` and `</html>` blocks — with
+   slide 70 stranded after the first `</html>` — rendered identically to a correct one and
+   passed `clip`, `collide`, `stress`, `pgcheck`, `peers` and `uniform2`. The cause was a
+   merge: the old deck's slide 69 was its *last* section, so a splitter that slices on
+   `<section` boundaries handed it the document tail attached, and the new tail was then
+   appended after slide 70. **Any splice that reuses the last section of another build
+   carries that build's tail with it.** `tools/checkdeck.py` asserts the singletons, the
+   1..N slide order, `<section>`/`</section>` balance, that nothing follows the tail, and
+   that the appendix toggle label matches the slide count. Run it before the browser suite
+   — it needs no browser and it catches what the browser cannot see.
+
 Related: `</?div\b` matches `</div` **without** the closing `>`. A div-matcher built on it
 is off by one at both ends, which silently truncates each block's last character and leaves
 a stray `>` behind.
