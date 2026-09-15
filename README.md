@@ -55,13 +55,15 @@ not a copy of the deck — and then overwrites the main file from upstream. **Vi
 made in Claude Design do not flow back to the repo on their own, and the next sync
 destroys them.**
 
-So: edit the deck in one place. Prefer `main`, with Claude Design as the render and review
-surface. Two writeable copies behind a one-way sync is how work gets lost.
+So: **`main` is the only source of truth.** Every other copy — the design project, a
+published artifact, an exported `.pptx` — is a render of it. The moment one of them is
+treated as a source, you are merging two histories by hand and guessing which is newer.
 
-**`main` is the only copy that gets edited. Every other copy is regenerated from it and is
-disposable.** Not "prefer main" — *only* main. A design project, a published artifact, an
-exported `.pptx`: all outputs, never sources. The moment one of them is treated as a source,
-you are merging two histories by hand and guessing which is newer.
+**Editing in Claude Design is fine** — it is where the visual work actually gets done, and
+nothing here asks you to stop. What is not fine is *leaving* it there. A canvas edit is a
+proposal with a deadline: say what changed so it can be applied to `main`, and do it before
+the next sync, which overwrites the canvas from upstream and takes the edit with it. **An
+edit that has not come back to `main` does not exist.**
 
 Guessing is the part that fails. On 15 Sept a published artifact and `main` were compared
 and the artifact was judged "seventeen versions ahead"; a drop-in replacement was prepared
@@ -88,7 +90,9 @@ a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way
 
 ## Working on the deck
 
-1. Edit in Claude Design, or ask Claude Code to make the change here.
+1. Edit in Claude Design, or ask Claude Code to make the change here. If it was the canvas,
+   say what changed in the same sitting so it reaches `main` before the next sync — see
+   *The sync is one-way* above.
 2. Claude Code checks it against `CLAUDE.md` and the verification suite — clipped text,
    collisions with the page number, peer-row alignment, the spacing scale, the track set,
    contrast, and a wider-font stress test — plus `tools/checkdeck.py`, a structural check
