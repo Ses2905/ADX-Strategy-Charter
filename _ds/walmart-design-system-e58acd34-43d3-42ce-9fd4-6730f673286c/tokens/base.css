@@ -1,0 +1,68 @@
+/* ============================================================
+   Walmart Design System — Base / Reset
+   Applies the brand typeface and sensible defaults.
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--fw-regular);
+  color: var(--text-primary);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  color: var(--text-primary);
+  text-wrap: balance;
+  hyphens: none;
+}
+/* Titles & headlines: Everyday Sans Headline, Light by default */
+h1, h2 { font-family: var(--font-display); font-weight: var(--fw-light); line-height: var(--lh-tight); }
+/* Sub-headers: Everyday Sans Headline, Regular by default */
+h3, h4, h5, h6 { font-family: var(--font-display); font-weight: var(--fw-regular); }
+
+/* Numerals: Everyday Sans Mono, lining & tabular */
+.wm-numeric, [data-numeric] { font-family: var(--font-numeric); font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1; letter-spacing: var(--ls-snug); }
+
+p, li { margin: 0; text-wrap: pretty; hyphens: none; overflow-wrap: break-word; }
+
+/* ---- Even, symmetrical text blocks ----
+   Headings balance across lines; body copy avoids orphans; every text block
+   gets a comfortable measure so lines break at the same place every time. */
+.wm-measure { max-width: var(--measure); }
+.wm-measure-narrow { max-width: var(--measure-narrow); }
+.wm-measure-wide { max-width: var(--measure-wide); }
+.wm-balance { text-wrap: balance; }
+.wm-center { text-align: center; margin-inline: auto; }
+.wm-stack { display: flex; flex-direction: column; gap: var(--space-4); }
+.wm-stack-tight { display: flex; flex-direction: column; gap: var(--space-2); }
+
+a { color: var(--text-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img, svg { display: block; max-width: 100%; }
+
+button { font-family: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- Optional helper classes (display type) ---- */
+.wm-display { font-size: var(--text-display); font-weight: var(--fw-black); line-height: var(--lh-tight); letter-spacing: var(--ls-tight); }
+.wm-eyebrow { font-family: var(--font-eyebrow); font-size: var(--text-eyebrow-size); font-weight: var(--fw-medium); line-height: 1.2; letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--text-eyebrow); }
+
+/* ---- Editorial rules: white is the ground, hairlines do the dividing ---- */
+.wm-rule { border: 0; border-top: 1px solid var(--border-subtle); margin: 0; }
+.wm-rule-strong { border: 0; border-top: 2px solid var(--wm-bentonville-blue); margin: 0; }
