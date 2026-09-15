@@ -89,10 +89,21 @@ and silently render navy — always keep the `.s ` prefix.
 **A title wraps only when it genuinely needs to.** Core titles are 42px. A title that
 overflows the measure by a *small* margin steps down the token scale (42 → 40 → 38 → 36)
 until it sets on one line with **at least 40px of clearance**; a title that overflows by
-more than ~10% (05, 06, 07, 10) is simply long and sets on two lines at full size. Slide
-21 was wrapping because it was **6px** over, and slide 25 by 12px — that is the case worth
-fixing. One-line titles running closer than 40px to the right edge (14 and 32 sat at 8px)
-step down too, so nothing hugs the edge.
+more than ~10% is simply long and sets on two lines at full size. One-line titles running
+closer than 40px to the right edge step down too, so nothing hugs the edge.
+
+**Measure it, don't simulate it.** `titlefit.js` reads the rendered line count, the widest
+line and the actual clearance to the content edge for every non-divider slide; `coresize.js`
+simulates each candidate size and tells you which one a title lands on. Use the simulator to
+pick the size, then the measurement to confirm — the two disagree on `data-dense` slides,
+where `.s[data-dense] h2` (specificity 0,2,1) beats `.s .t` (0,2,0) and the title renders at
+29px regardless of what the simulator assumed.
+
+In the Sept 15 build twelve titles stepped down (17, 24, 35, 44, 46 → 40px; 13, 25, 27, 31,
+55 → 38px; 10, 34 → 36px). **Four stay at 42px on two lines** — 03, 06, 16 and 42 — because
+each overflows by 10–16%, which is long, not a near miss. Slides 09, 11 and 59 are display
+*statements* rather than titles and set on three lines by design; they are not candidates
+for the step-down. After the pass: zero one-line titles under 40px of clearance.
 
 Everything here is measured in **fallback fonts** — Everyday Sans is not in the repo. That
 is why the rule demands 40px of clearance rather than tuning to the pixel. Slide 23 is the
@@ -104,9 +115,43 @@ tightest in the deck at 34px and should be the first thing checked in Claude Des
 
 ## Deck structure (Sept 15 source)
 
-69 slides: **61 core (01–61) + 8 appendix (62–69)**, with ten numbered section dividers at
-**04, 12, 23, 29, 40, 49, 54, 56, 58, 62**. Each divider carries `Section NN`, the section
-name, its description, and a ten-step progress rail with the active step in Everyday Blue.
+69 slides: **61 core (01–61) + 8 appendix (62–69)**, with section dividers at
+**04, 12, 23, 29, 40, 49, 54, 56, 58** and the appendix divider at **62**.
+
+## Section dividers — the progression-line component
+
+The nine narrative dividers use the component the previous deck refined, unchanged in
+structure:
+
+```
+navy ground, justify-content:center, gap:32px
+  .k  "Section one"…"Section nine"   — mono, 8px, uppercase, white
+  h2  58px display, max-width:1010px — the section's ARGUMENT, not its name
+  progression line: 9 dots (8px, border-radius:50%) joined by
+    flex:1 hairlines of rgba(255,255,255,.3); the active dot is
+    Everyday Blue #4dbdf5, the rest rgba(255,255,255,.4); max-width:620px
+  .cap  the section name — Sky Blue #a9ddf7
+  anim-1 / -2 / -3 / -4 on the four elements, in that order
+```
+
+**The 58px line carries the argument, not the label.** A divider reading just "Roadmap" at
+58px wastes the component and breaks the rule that someone paging only the titles should
+get the strategy. The section *name* lives in the `.cap` beneath the line; the title says
+what the section argues ("Every increment improves a real advertiser job and leaves
+something reusable behind"). Those nine lines are authored — the Sept 15 source gives each
+section only a name and a description, so a divider rewrite has to write the argument.
+
+**The appendix divider (62) is deliberately a different object** and keeps its own
+treatment from the previous deck: an oversized `.n` letter "A" at `top:48px; left:72px` in
+`rgba(255,255,255,.3)`, a white rule, a 60px title and a lead. It carries **no** progression
+line, because the appendix is reference material rather than the tenth step of the
+argument — which is also why the line has nine dots and not ten. The content map on slide
+02 still lists the appendix as item 10; a table of contents and a progression line are
+different objects and are allowed to disagree.
+
+The rules between the dots are `rgba(255,255,255,.3)`, matching the documented two-weight
+scale. The previous deck shipped them at `.34`, which was a survivor of the five-opacity
+era; the dots stay at `.4` because a dot is a mark, not a rule.
 
 The previous 68-slide build (31 core + 4 acts + 33 appendix) is preserved verbatim as
 `Advertiser Experience Strategy (Sep 12 archive).dc.html`. Content that lived only in that
@@ -192,12 +237,24 @@ alignment that matters is the outer measure and the rails, and those are fixed.
 There were once 19 distinct values, including **five different right-rail widths used
 once each** (288/290/300/316/330), so the rail edge jumped by up to 42px as you paged.
 The right content rail is now **always 300px** — its left edge lands at x=908 on every
-slide that uses it (08, 09, 10, 11, 17). Do not introduce a new fixed width; reach for
-one of the set above.
+slide that uses it. Do not introduce a new fixed width; reach for one of the set above.
+
+**The set applies to the whole deck now, not just the core.** Promoting Sep 12 appendix
+slides into the narrative carried nine off-set tracks with them (34, 44, 122, 126, 200,
+260, 280, 340, 430). They were snapped and re-verified: slide 25's two numeral columns
+went 34/44 → 40/40 (two parallel numeral columns should have been equal anyway), 28 went
+200/260 → 196/248, and the three right rails on 33, 48 and 34 went 280/340/**430** → 300.
+Slide 34's matrix survived losing 130px of rail; that was the one worth measuring rather
+than assuming.
 
 **Changing a rail re-flows its neighbour.** Narrowing a rail widens the content column
 and can re-wrap it, so re-run the verification suite after any track change — that is
-how the 30px narrowing on slide 11 was confirmed safe.
+how the 30px narrowing on slide 11 was confirmed safe, and how the 430 → 300 above was.
+
+`consist2.js` sweeps this, plus the `gap` scale, radii, white opacities on navy, `.k`/`.cap`
+role styling, `.n` colour, `.t`/`.d` max-width and `preserveAspectRatio="none"`, and prints
+`consistency: clean on every documented rule` when the deck holds all of them. Run it after
+any structural change; it is the cheapest way to catch a rule that was quietly re-broken.
 
 ## Vertical rhythm: the gap scales with the type above it
 
@@ -396,6 +453,14 @@ decorative motion elsewhere.
 If a connector is ever genuinely needed, never use `preserveAspectRatio="none"` on it —
 that distorts the marks. Give the SVG the mark's own coordinate space, as the chart rule
 above already requires for axis ticks.
+
+The Sept 15 rebuild briefly reintroduced this on the team-charter slide (51): a row of four
+`↓` glyphs spaced at `gap:120px` between the channel row and the Advertiser Experience band.
+It was removed for the same reason — the band stack and the words "the horizontal band
+across every channel" already carry the relationship, and 120px is off the spacing scale
+besides. **Text arrows inside a single chain are different and are allowed**: the `→` between
+steps on slides 30 and 59 is type set on the baseline, not decorated geometry, and it is how
+the source deck writes those chains.
 
 ## Page numbers over dark callouts
 
