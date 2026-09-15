@@ -58,6 +58,22 @@ destroys them.**
 So: edit the deck in one place. Prefer `main`, with Claude Design as the render and review
 surface. Two writeable copies behind a one-way sync is how work gets lost.
 
+**`main` is the only copy that gets edited. Every other copy is regenerated from it and is
+disposable.** Not "prefer main" — *only* main. A design project, a published artifact, an
+exported `.pptx`: all outputs, never sources. The moment one of them is treated as a source,
+you are merging two histories by hand and guessing which is newer.
+
+Guessing is the part that fails. On 15 Sept a published artifact and `main` were compared
+and the artifact was judged "seventeen versions ahead"; a drop-in replacement was prepared
+from it. Unpacked and diffed slide by slide, that artifact was the deck as it stood *before*
+the Sep 15 markup-decisions pass — no icons on 24, no priced table on 57, no ticket rail on
+22, no evidence footnotes on 66/67, Title Case titles, dividers carrying names instead of
+arguments, and no slide 70. Committing it would have reverted the entire pass. Both copies
+read "updated 15 Sept", which is exactly as much as a modification date can tell you.
+
+**Diff content, never dates.** `tools/checkdeck.py` gives the slide count and structure in
+a second; the markers above are greppable. If a copy claims to be ahead, make it prove it.
+
 When a pass *does* happen in Claude Design, it has to come back by hand, and the bridge is
 a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way:
 
