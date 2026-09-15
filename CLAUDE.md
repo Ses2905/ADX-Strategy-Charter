@@ -57,11 +57,16 @@ that matters: if a block only reads as important because it is dark, the hierarc
 doing its job.
 
 **Navy fill is now reserved for genuine dependency foundations** — where the content is
-literally what everything else on the slide rests on, not merely the closing thought. Three
-survive: **Priority 03** on "Four priorities", the **shared-foundations band** at the base
-of the stacked architecture on slide 19 (where the documented fill-weight ranking requires
-navy at the base), and **the shared platform foundation** on slide 50. If a new block is a
-summary, a caveat or a conclusion, it takes the statement pattern, not a fill.
+literally what everything else on the slide rests on, not merely the closing thought. In
+the Sept 15 build **two** survive on light slides: **the shared platform foundation** band
+at the base of slide 53, and the *Accelerate* cell of the 2×2 matrix on slide 34 (the
+matrix's own fill ramp, which encodes rank, not emphasis). If a new block is a summary, a
+caveat or a conclusion, it takes the statement pattern, not a fill.
+
+Slide 44's "Core message" arrived from the Sep 12 appendix as a 545×450 navy panel — 27% of
+the artboard, and a summary, not a foundation. It is the statement pattern now. Check
+`navy.js` after promoting anything else out of that archive: appendix-era slides carry
+appendix-era fills.
 
 Navy table-header rows are a separate, legitimate convention and were left alone.
 
@@ -97,14 +102,28 @@ tightest in the deck at 34px and should be the first thing checked in Claude Des
   Chart bars: 4px. Progress/confidence bars: pill.
 - Highlighted rows inside hairline-ruled tables and matrix cells stay square.
 
+## Deck structure (Sept 15 source)
+
+69 slides: **61 core (01–61) + 8 appendix (62–69)**, with ten numbered section dividers at
+**04, 12, 23, 29, 40, 49, 54, 56, 58, 62**. Each divider carries `Section NN`, the section
+name, its description, and a ten-step progress rail with the active step in Everyday Blue.
+
+The previous 68-slide build (31 core + 4 acts + 33 appendix) is preserved verbatim as
+`Advertiser Experience Strategy (Sep 12 archive).dc.html`. Content that lived only in that
+appendix — behavioral evidence, decision rights, readiness gates, the evidence-capability
+slide, capacity, governance, baselines, risks, the initiative template, the competitive
+benchmark, experience-vs-effectiveness and segment coverage — is **not** in the current
+deck. Pull from the archive rather than rewriting if any of it is wanted back.
+
 ## Slide titles — core vs appendix
 
-**Core slides (01–34)** use Title Case takeaway titles, matching the revision brief:
-"Advertisers Need Better Planning, Control & Confidence in Results", not "Advertiser
-Feedback". Every core title should advance the argument on its own — someone reading
-only the titles should get the strategy.
+**Core slides (01–61)** use Title Case takeaway titles, matching the Sept 15 source:
+"Advertisers Do Not Experience One Walmart Ads Platform", not "The advertiser's reality".
+Every core title should advance the argument on its own — someone reading only the titles
+should get the strategy. The exception is a title that is a **full sentence** (the market
+statement slides 09 and 11, the closing 59): those stay sentence case.
 
-**Appendix slides (36–68)** keep sentence-case assertion titles, because they are full
+**Appendix slides (63–69)** keep sentence-case assertion titles, because they are full
 sentences rather than phrases ("Advertisers should not have to translate Walmart to use
 Walmart"). Don't Title Case a full sentence. The two tiers are deliberate; keep new
 slides consistent with the tier they land in.
@@ -114,24 +133,28 @@ expansion horizon" and "Add ecosystem readiness as a guardrail" are edit notes t
 survived into a leadership deck; they read as unfinished. State the thing instead: "A
 fourth horizon extends the platform beyond Walmart US."
 
-## Evidence strip — the priority-slide component
+## The big-rock component (slides 36–39)
 
-Each of the four strategic-priority slides (17–20) ends with the same compact block, and
-it must stay identical across all four so the priorities read as one system:
+The four FY28 big rocks share one template and must stay identical across all four so the
+priorities read as one system:
 
 ```
-border-top:1px solid #dee1e6 → grid 158px / 1fr → `.cap` "Evidence behind this priority"
-→ 5 items, each `border-left:1px solid #dee1e6; padding:0 16px`, 13px/1.4 weight 300
+eyebrow "FY28 big rock 0N" → 42px title → lead → 5 cards, each
+border-top:2px #c3c6cd → .n number → 17px heading (min-height:42px) → 15px body
+→ 40px gap → the closing statement pattern, labelled per slide
 ```
 
-Every item is a signal traceable to the evidence act (slides 05–12). Uniform border-left
-on *all five* items, including the first — that is the segmented-row treatment, not a
-singled-out sibling.
+The `min-height:42px` on the card heading reserves two lines so a wrapping heading in one
+card does not make its row taller than the other three slides' rows. It looks like slack on
+a one-line heading; that is the reservation doing its job, not a defect.
 
-The five items are **parallel noun-led phrases**, each standing on its own. A strip once
-shipped as a run-on sentence cut across five columns ("Advertisers ask for… / And for… /
-But report… / And limited… / And insufficient…") — clauses, not peers. If an item opens
-with "And" or "But", it belongs to the item before it and the strip is broken.
+The closing label differs by slide on purpose — *Why it matters* / *Measurement contract* /
+*Platform test* / *Trust test* — because each rock is held to a different standard. The
+shape stays constant; only the label and the sentence change.
+
+The earlier *Evidence behind this priority* strip belonged to the Sep 12 priority slides
+(17–20) and is not in this build. It is preserved in the archive file if the traceability
+back to the research act is wanted again.
 
 ## Peer rows carry equal weight
 
@@ -239,7 +262,17 @@ alone will mislead you here.
 | A row of cards spanning the measure | **Re-flow to two columns.** Slide 48's four phases went 4-across → 2×2: 271px → 90px, and the wider columns set each body in two lines instead of four. |
 | A table | **Row height.** Rows at 13–15px went to 20px on slides 42, 43, 44, 52 and 54, roughly halving their dead space. 24px would fill more but leaves slides 42 and 54 at 0–1px of marker clearance, which is not survivable in a font we cannot verify. |
 | A lifecycle of six or seven stages | **Leave it.** Compressing a seven-stage row to fill height costs more than the space is worth. |
-| Genuinely under-written | **Leave it, or write more.** Slide 56's three horizons do not fill the height at any type size, and stacking them as full-width bands overflows by 174px. That is a content gap, not a layout one. |
+| Genuinely under-written | **Leave it, or write more.** Slide 45's three horizons do not fill the height at any type size, and stacking them as full-width bands overflows by 174px. That is a content gap, not a layout one. Same for slide 50, whose roles are still placeholders. |
+| A vertically centred statement slide | **Not slack.** Slides 09, 11 and 59 centre their content, so the measured gap below is the bottom half of a deliberate centring. `slackall.js` reports ~200px on each; leave them. |
+
+In the Sept 15 build the worst genuine case was slide 32 (four phase cards, 253px). The fix
+was **content, not layout**: the source deck's capability strip had been dropped in
+transcription. Restoring it took the slide to 100px and put back something the author wrote.
+Check the source before reaching for a layout lever.
+
+The FY28 big rocks (36–39) sit at 188–202px each. That is the template being honest about
+one-line card bodies, and it is identical across all four — consistency across the set is
+worth more here than filling each slide individually.
 
 **Two ways to fool yourself here.** Pinning a card's last line to the bottom with
 `margin-top:auto` takes slide 48 from 271px to 19px of measured slack while leaving the
@@ -277,23 +310,32 @@ not the value.
 
 ## Top margin is not one value, and the rail jumps
 
-| Tier | Top padding |
-|---|---|
-| Cover (01) | 68px |
-| Core (02–33, 35) | 64px |
-| Slide 34 | 60px |
-| Appendix (`data-appendix`) | **42px** |
-| Dense appendix (`data-dense`) | **26px** |
+| Tier | Top padding | Where |
+|---|---|---|
+| Cover (01) | 68px | 01, 61 |
+| Core | 64px | everything else in 01–61 |
+| Dense (`data-dense`) | **26px** | 14, 19, 20, 52 |
+| Appendix (`data-appendix`) | **42px** | 63–69 |
 
 `.s[data-appendix]` and `.s[data-dense]` set their own `padding` shorthand, which beats the
-base `.s` rule — so raising the base from 56px to 64px moved the core only. Paging from the
-core into the appendix drops the top rail 22px, and into a dense slide 38px.
+base `.s` rule. Paging from the core into the appendix drops the top rail 22px, and into a
+dense slide 38px.
 
-Whether that is a defect depends on whether the appendix is meant to read as a different
-document. It is at least **three values where the reasoning supports two**: the dense tier
-cannot take the appendix's own 42px (slides 40 and 67 reach the marker), so unifying them
-needs content work on those slides first. **Open decision — do not "fix" this by changing
-one number.**
+**`data-dense` is a density tier, not an appendix marker.** Four slides in the core
+narrative carry it — the five-theme grid (14), the two platform-audit findings (19, 20) and
+the engagement model (52) — because they are genuinely dense tables and grids that do not
+survive the core's 64/96px padding. They were measured into it: at core padding all four
+collide with the takeaway footer by 18–33px. Never set `data-appendix` on a core slide to
+buy that room: the deck's `showAppendix` prop attaches `data-deck-skip` to every
+`data-appendix` section, so a core slide wearing that attribute silently disappears when a
+presenter turns the appendix off.
+
+Those four sit at the dense tier's own 28px header gap, which `audit.js` reports as off the
+core rule. That is expected — do not "fix" it by bumping them to 36px without re-running
+`collide.js`.
+
+Whether the rail jump is a defect depends on whether the appendix is meant to read as a
+different document. **Open decision — do not "fix" this by changing one number.**
 
 ## Horizontal rules: seven treatments, each with one job
 
@@ -446,11 +488,16 @@ selectivity", slide 34 "Ask 04", slide 09's third stat block. Each was the *last
 set, which is the forbidden case — the emphasis treatment says "this is the pick", and the
 last step of a sequence is where the argument ends, not what it recommends.
 
-Slide 20's step 04 "Advertiser control" is the one legitimate single-out in the deck: it
-sits mid-sequence (4 of 7, so it cannot be misread as the conclusion) and the slide's own
-principle callout states the reason — "automate only when… the advertiser retains
-appropriate control." A single-out needs that kind of on-slide justification; without one
-it is decoration.
+Slide 30's *Recommended approach — foundation first* is the legitimate single-out in this
+build: it is one of exactly two rows, both are options, and its own label says which one is
+recommended. A single-out needs that kind of on-slide justification; without one it is
+decoration.
+
+Slide 17 looks like a violation to the eye and is not. Its *Future* row carries the accent
+border and light fill while the *Today* row does not — but those are two separate rows in a
+before/after, not five siblings within one row, and the fill marks a state rather than a
+pick. The rule bans filling **one card among peers**; it does not ban distinguishing
+*after* from *before*.
 
 ## Checkers lie in three specific ways — validate them
 
@@ -498,16 +545,38 @@ marker itself is not.
 
 ## Evidence guardrails
 
-Claims that must never re-enter the deck (see `PRODUCT.md` → Capabilities and
-Constraints): the "60–70% delivery head start" figure, the 3% onsite/offsite buyer
-overlap (sourced from another retailer), any "no new funding required" framing, and any
-statement that agencies are **deliberately** underserved. Thin agency coverage is a real
-read of the FY28 plan and worth surfacing — but presenting it as a settled trade-off
-claims an alignment leadership has not made. Put it as the open question it is.
+**Three figures the author reinstated on 15 Sept, against the earlier guardrail.** They are
+in the deck because they are in the authored source, not because a source was found:
+
+| Slide | Claim | Status |
+|---|---|---|
+| 31 | "~0% → 60–70%" delivery head start | Internal planning estimate. No external source. Labelled as such in the takeaway and the speaker notes. |
+| 08 | "1/3 of ad buyers manage 9+ CMNs, 4× vs two years ago" | Carried from the source deck. Source note on-slide says citations are still to be restored. |
+| 08 | "69% say retail media buying is too complex" | Same. Previously held back pending verification. |
+
+Do not quietly re-remove these — the author put them back deliberately. Do not quietly
+launder them either: the on-slide source notes and the speaker-note caveats are the whole
+reason they are shippable internally, and they must survive any edit to those slides. They
+are not fit for external use until the citations are restored.
+
+Claims that are still out (see `PRODUCT.md` → Capabilities and Constraints): the 3%
+onsite/offsite buyer overlap (sourced from another retailer), any "no new funding required"
+framing, and any statement that agencies are **deliberately** underserved. Thin agency
+coverage is a real read of the FY28 plan and worth surfacing — but presenting it as a
+settled trade-off claims an alignment leadership has not made. Put it as the open question
+it is.
+
+**The 13% / 42% maturity pair on slide 07 is sourced** — Koddi's Commerce Media Playbook,
+citing Forrester's maturity criteria. That one is fine.
 
 Two four-word vocabularies exist on purpose and must not be merged: the prioritization
-rubric scores *new* initiatives (Accelerate / Reshape / Sequence / Defer); the core deck's
-dispositions reconcile commitments *already made* (Continue / Reshape / Sequence /
-Reassess). Say which one a slide means.
-Buyer statistics without a restored original source stay out — the deck carries the
-verified Koddi/Forrester findings instead.
+rubric on slide 34 scores *new* initiatives (Accelerate / Reshape / Sequence / Defer); the
+transition plan on slide 43 reconciles commitments *already made* (Continue / Reshape /
+Sequence / Reassess). Say which one a slide means. The Sept 15 source writes the fourth
+disposition as **Reconsider**; the deck keeps **Reassess**, which is the word the rest of
+the deck and the speaker notes use. Worth a one-line confirmation with the author.
+
+Slide 33's decision framework has a third vocabulary again — Prioritize / Reshape / Defer —
+which is the rubric's outcomes minus *Sequence*. That is the source's wording; it is
+narrower than slide 34 on purpose, but if a reader pages 33 → 34 they meet three and four
+outcomes in consecutive slides. Flagged, not changed.
