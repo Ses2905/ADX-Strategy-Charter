@@ -631,6 +631,16 @@ silently — if slide 55's cards ever change height, the suppression stops match
 so instead of quietly covering the new number. Proven both ways: pushing one of slide 55's
 headings 24px out of line now yields **four** findings that the slide-wide version swallowed.
 
+**Three reviews in a row found the same shape on this one file: a suppression scoped wider
+than the thing it was written for.** First across *findings* on a slide, then across *decks*,
+then across *indices* — `used` recorded an index into the filtered array while staleness
+compared original `EXCEPTIONS` indices, so with a second exception ahead of this one a
+successfully matched suppression was **also** reported stale. It was latent, because one
+exception makes both index spaces 0. The fix is not a translation between them: `used` holds
+the exception **objects**. **Two parallel index spaces is the bug; identity has only one.**
+Each narrowing was re-verified not to have disabled the guard it narrowed — that check is the
+point, because a narrowed guard and a dead guard look identical from a clean run.
+
 **And an exception is bound to the DECK it was derived from.** `peercheck.js` takes an
 optional filename, and without that binding, running it against the Sep 12 archive — whose
 slide 55 is a different slide entirely — reported the slide-55 entry as **stale** and exited

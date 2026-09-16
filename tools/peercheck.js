@@ -177,18 +177,27 @@ const EXCEPTIONS = [
   }, TOL);
 
   // Only exceptions written for THIS deck apply, and only those can go stale.
-  const applicable = EXCEPTIONS.map((e, i) => [e, i]).filter(([e]) => e.deck === FILE);
+  //
+  // `used` holds the exception OBJECTS, not indices. The first version filtered
+  // EXCEPTIONS into [exception, originalIndex] pairs, then recorded the index that
+  // findIndex returned -- which is an index into the FILTERED array -- and compared it
+  // against original indices when computing staleness. With one exception both spaces
+  // are 0 and it works; add a second exception for another deck ahead of this one and a
+  // successfully matched suppression is ALSO reported stale, exiting 1. Reproduced
+  // before fixing: the run printed "1 suppressed" and a STALE line for the same entry.
+  // Two parallel index spaces is the bug; identity has only one.
+  const applicable = EXCEPTIONS.filter(e => e.deck === FILE);
   const used = new Set();
   const kept = findings.filter(f => {
-    const i = applicable.findIndex(([e]) => e.n === f.n && e.kind === f.kind && e.match.test(f.detail));
-    if (i < 0) return true;
-    used.add(i);
+    const e = applicable.find(e => e.n === f.n && e.kind === f.kind && e.match.test(f.detail));
+    if (!e) return true;
+    used.add(e);
     return false;
   });
   const dropped = findings.length - kept.length;
   // A suppression that no longer matches anything is stale: either the defect was fixed
   // (delete the entry) or its geometry moved (re-derive it). Either way, say so.
-  const stale = applicable.map(([, i]) => i).filter(i => !used.has(i));
+  const stale = applicable.filter(e => !used.has(e));
   const fail = kept.filter(f => !f.advisory);
   const advise = kept.filter(f => f.advisory);
   const show = f => console.log(`  slide ${f.n}  ${f.kind}\n      ${f.detail}   ${f.label}`);
@@ -212,7 +221,7 @@ const EXCEPTIONS = [
   }
   if (stale.length) {
     console.log(`\nSTALE suppression(s) — matched nothing on this run; re-derive or delete:`);
-    stale.forEach(i => console.log(`  slide ${EXCEPTIONS[i].n}  ${EXCEPTIONS[i].kind}  ${EXCEPTIONS[i].match}`));
+    stale.forEach(e => console.log(`  slide ${e.n}  ${e.kind}  ${e.match}`));
   }
   await b.close();
   process.exit(fail.length || stale.length ? 1 : 0);
