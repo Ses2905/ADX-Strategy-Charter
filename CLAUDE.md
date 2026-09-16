@@ -1134,6 +1134,50 @@ would overflow the viewBox**: the callout sits at `x=814` in a `0 0 1000 330` sp
 past the chart's own box, which is how a label silently escapes the content measure. Measure
 the label against the viewBox, not against the slide.
 
+**Mark weight is capped, and the cap is in RENDERED pixels, not user units.** A bar is
+**≤ 24px** and never fills its slot; a line is **2px**; a marker is **≥ 8px**. The charts
+carried 26px bars and a `stroke-width="3"` line — and the line was worse than it looked,
+because slide 05's SVG is `0 0 1000 330` rendered at 1136 wide, so **every user unit is
+1.136 rendered px** and that 3 was **3.41px** against a 1px axis. Its markers, by the same
+factor, were already at the 8px floor — the assumption that they were under it was wrong.
+**Convert before judging a mark: `rendered = unit × (renderedWidth / viewBoxWidth)`.**
+
+Slide 05's five markers ran **3.5 / 3.5 / 3.5 / 5 / 6** — three sizes for one series, with
+only one of them earning emphasis. Both ends were enlarged; only the 2030 point is annotated,
+so only it keeps the larger marker. A marker size that varies without encoding something is
+the single-out rule in another medium.
+
+**Chrome is chrome and data is data, and slide 15 had them crossed both ways.** Its y=0 rule
+was **navy at 1.5px** — ink doing an axis's job, which the navy-density rule above forbids
+outright — and its 19 month ticks were **gray-600 at 1.5px**, text ink doing the same. Both
+are `#c3c6cd` hairlines now. Meanwhile its two band edges (−6 best month, −44 worst month)
+are **data**, and were Everyday Blue: **2.12:1 on white**, under the 3:1 non-text floor, the
+same failure the seven glyph fixes already corrected elsewhere. True Blue at 6.30:1 now. A
+sweep that only reads text nodes will not find these — an SVG `<line>` has none.
+
+**Peer rows apply inside a chart.** Slide 13's five bar rows sat at pitches of
+**57.8 / 75.3 / 75.4 / 57.8px** because three of the five theme descriptions wrap to a second
+line. A 12.5px description at `--lh-normal` is 17.5px a line, so two lines is **35px**:
+`min-height:35px` on the description makes every row one height. Spread is **0.1px** now.
+
+**And a bar belongs to its category label, not to its row box.** Reserving that second line
+moved the row's centre off the theme name, so `align-items:center` floated each bar down
+beside its description. The row is `flex-start` now with the bar and its value nudged to the
+name's optical centre — measured at **0.5px** and **1px**, identical across all five.
+
+**The baseline is a hairline, and it is deliberately NOT a background track.** The bars shared
+an origin that nothing marked. A rule at the label track's right edge fixes that; it is on
+`.barplot`, a wrapper around the five rows, because a per-row `border-left` would be segmented
+by the 12px row gap and read as a **dashed** axis — and dashing is reserved for a genuine
+reference line. A shaded track behind each bar was considered and rejected: a track implies a
+total, and **this chart's own note says the counts are not mutually exclusive** — 125 findings
+where one finding can carry several themes. It would encode a part-of-whole the data does not
+support, which is the same class of error as the non-zero area fill this file already records.
+
+**Geometry stayed honest through all of it** — 9.455 to 9.456 px per finding across the five
+bars, agreeing within **0.01%**. Re-measure it after any change to the track: that is the
+check that caught four of five bars rendering 44% too long once already.
+
 **Hover isolates; it never reveals.** The review comment asked for "all graph hovers", and
 the deck has three charts — the market line (05), the five-theme bars (13) and the NPS range
 (15). **Only 13 earns one**, because a hover has to add something a still slide does not:
