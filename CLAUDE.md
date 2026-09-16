@@ -684,30 +684,48 @@ not the value.
 |---|---|---|
 | Cover (01) | 68px | 01, 61 |
 | Core | 64px | everything else in 01–61 |
-| Dense (`data-dense`) | **26px** | 14, 19, 20, 52, 70 |
+| Dense (`data-dense`) | **26px** | 19, 20, 52 |
 | Appendix (`data-appendix`) | **42px** | 63–69 |
 
 `.s[data-appendix]` and `.s[data-dense]` set their own `padding` shorthand, which beats the
 base `.s` rule. Paging from the core into the appendix drops the top rail 22px, and into a
 dense slide 38px.
 
-**Slide 70 carries both `data-appendix` and `data-dense`**, and is the only slide that
-does. The dense tier wins the `padding` shorthand, so 70 sits at the dense 26px top rather
-than the appendix 42px. That is the tier order working, not a conflict — but note it means
-70 is *not* on the appendix rail, so paging 69 → 70 moves the top edge 16px.
+**`data-dense` is a FIT tier, not a density tier, and the name misleads.** It is assigned by
+whether a slide overflows the marker at normal padding — not by how much content it carries.
+Measured: slide 14 runs **19.9% ink / 149 words** and slide 52 **18.1% / 103**, both *below*
+the deck medians of 24.8% and 119. Meanwhile slide 64, which is not in the tier, is the
+wordiest slide in the deck at **351 words / 34.4% ink**. A tall sparse layout overflows just
+as surely as a dense one, so read the attribute as *"does not fit at the normal rail."*
 
-**`data-dense` is a density tier, not an appendix marker.** Four slides in the core
-narrative carry it — the five-theme grid (14), the two platform-audit findings (19, 20) and
-the engagement model (52) — because they are genuinely dense tables and grids that do not
-survive the core's 64/96px padding. They were measured into it: at core padding all four
-collide with the takeaway footer by 18–33px. Never set `data-appendix` on a core slide to
-buy that room: the deck's `showAppendix` prop attaches `data-deck-skip` to every
-`data-appendix` section, so a core slide wearing that attribute silently disappears when a
-presenter turns the appendix off.
+**Three of the five did not need it any more, and the tier had gone stale.** This file said
+all four were "measured into it… collide by 18–33px", which was true when measured and is
+not now — slide 19 was rewritten from nine findings to five in the Sep 15 pass. Re-tested by
+stripping the attribute and running `collide.js`: only **20 (22px) and 52 (20px)** still
+collide. 14, 19 and 70 do not.
 
-Those four sit at the dense tier's own 28px header gap, which `audit.js` reports as off the
-core rule. That is expected — do not "fix" it by bumping them to 36px without re-running
-`collide.js`.
+**14 and 70 came off the tier; 19 stayed on, and the reason is worth keeping.** 14's
+neighbours are core slides, so rejoining the 64px rail makes it consistent. 70 is the only
+slide carrying both attributes, and with `data-dense` gone it drops to the appendix's 42px —
+retiring the documented 16px jump when paging 69 → 70.
+
+**19 is the interesting one.** It fits at core padding with room to spare, but 19 and 20 are
+a *pair* — same eyebrow, read back to back — and 20 genuinely needs the tier. Moving 19
+alone puts a 38px rail jump in the middle of a two-slide argument, which is far more visible
+than 19 being off the global rail. **Pairing beats the global rail.** The mechanical answer
+and the right answer differ here.
+
+**The cost is headroom.** 14 went from 149px of slack to 26px. That is comfortable by the
+"content may flow into the bottom padding, never over the marker" standard, but it is not
+generous: if 14's copy grows, the tier goes back on. Re-run `collide.js` after any copy
+change to it.
+
+Never set `data-appendix` on a core slide to buy that room: the deck's `showAppendix` prop
+attaches `data-deck-skip` to every `data-appendix` section, so a core slide wearing that
+attribute silently disappears when a presenter turns the appendix off.
+
+The tier's own 28px header gap reads as off the core rule in `audit.js`. That is expected —
+do not "fix" it by bumping to 36px without re-running `collide.js`.
 
 Whether the rail jump is a defect depends on whether the appendix is meant to read as a
 different document. **Open decision — do not "fix" this by changing one number.**
@@ -911,15 +929,31 @@ dashed baseline is `#dee1e6` (gray-200, L 0.75) — genuinely lighter, and a rea
 Check luminance rather than eyeballing a hex: two grays that look adjacent in a spec can
 sit on opposite sides of the axis weight.
 
-**Known open item:** the market chart's area fill is not zero-baselined — the fill bottom
-sits at roughly $59B, so the filled area overstates magnitude even though every point is
-labelled. Fine for a line, arguable for an area. Decide deliberately before this goes to
-leadership.
+**The area fill is gone, and that closes the open item.** It was not zero-baselined — the
+polygon floored at `y=300`, which on this scale is **$67.5B**, not the ~$59B this file said.
+Quantified, the distortion was worse than "overstates magnitude" suggests:
 
-The delta annotation helps this without resolving it: the dashed line now marks the 2026
-level explicitly, so a reader can see that the comparison starts at $83.7B rather than at
-the bottom of the shading. The fill still runs below that line to an unlabelled floor,
-which is the part still worth deciding.
+| | 2026 | 2030 | ratio |
+|---|---|---|---|
+| Value | $83.7B | $142.1B | **1.70×** |
+| Filled height | 50px | 230px | **4.60×** |
+
+**The area read as 2.7× more growth than the data contains.** An area encoding's whole job
+is to carry magnitude in the filled region, so a floor above zero is not a styling choice,
+it is a false claim — and one no amount of point-labelling repairs, because the reader takes
+magnitude from the shape before reading a single label.
+
+**The fix was to delete the fill, not to zero-baseline it.** Zero-baselining keeps the area
+honest but halves the visible slope (2026 moves from `y=250` to `y=165`), so the chart pays
+for accuracy with the very trend it exists to show. A **line** carries no area encoding, so
+a non-zero baseline on it is ordinary and correct — this file already said as much: *"fine
+for a line, arguable for an area."* Removing the `#eaf6fd` polygon keeps the slope, keeps
+every label, and drops the claim the chart could not support. It also reads better: the wash
+was competing with the point labels sitting on top of it.
+
+**The scale itself was already right** and worth recording so nobody re-derives it: across
+all five points the linear-scale deviation is at most **0.12B** (0.3244 $B per px). The
+points are not hand-placed.
 
 **Second open item on the same slide:** the source note reads *EMARKETER, 25 August 2026*
 while the Sept 15 deck cites *eMarketer Forecast, June 2026* for the same series. Two
@@ -1185,6 +1219,60 @@ Koddi's *All Commerce Media Playbook*, a study commissioned from Forrester Consu
 online survey of 788 global decision-makers, July 2025, published 19 November 2025. The
 slide carries the methodology and links the report. That one is fine.
 
+## Forward statements carry a confidence band — that is a house convention
+
+Audited slides 40–48 on 16 Sept against the commit / plan / aspire / strategic-intent
+ladder. **Every slide in the section that carries a date also carries a band, and the ones
+with no dates carry bands anyway.** Nothing needed changing. The convention is implicit in
+the copy rather than written down anywhere, so it is written down here — a future roadmap
+slide should match this voice, not invent a new one:
+
+| Slide | The band, in the deck's own words |
+|---|---|
+| 42 | *"Weeks are relative to pod kickoff — the calendar dates live in the pod plan, not in this deck."* |
+| 43 | *"Dispositions are proposals for portfolio review, not decisions taken in this room."* |
+| 44 | *"Keep timing explicitly provisional until maturity, dependencies and migration complexity are assessed."* |
+| 45 | Horizon 3 is dated **"To be validated"**, and the lead says *"a direction with a discovery gate in front of it, not a dated commitment."* |
+| 46 | *"A likely first extension candidate — not a committed first migration."* |
+
+**Two things this section gets right that are easy to lose.** Horizons 1 and 2 are given as
+**windows** (0–12, 12–24 months), never quarters — the false-precision trap. And slide 42,
+the only slide anywhere in the deck at week-level granularity, disarms it in its own
+takeaway rather than in a footnote.
+
+**Do not "fix" slide 42's week numbers.** An audit will flag *Weeks 3–5* and *Weeks 5–6* as
+overlapping at week 5. Phase 2's own body says the work runs *"in parallel"*, so the overlap
+is probably intentional; it is a question for the author, not a typo to correct. And the
+un-anchored look is answered by the takeaway — a reviewer who reads only the cards will
+propose adding a kickoff date that the slide has deliberately declined to carry.
+
+## The takeaway footer is content-sized, and that is deck-wide
+
+`.tk` is **13.5px on all 38 slides that carry one** — identical to `.bs` card body copy. So
+apparatus and content share a type register. That is systemic, not a slide defect, and it is
+not worth a blanket change: the *"never blanket-replace a token"* rule above exists because
+the last attempt enlarged source notes and pushed slide 62's content onto its page number.
+
+What it means in practice is that **a long takeaway reads as body copy**, so length is the
+only lever that controls its weight. Measure ink, not characters: slide 10's footnote ran
+**52,032px²** against a deck median of 12,525 and a next-heaviest of 25,492 on slide 22.
+It was double the worst other slide and 4× typical.
+
+**The fix was to separate audience-facing from author-facing.** The footnote carried both the
+caveat (*the 2025 report gives 57% and "nearly 60%", not 50%*) and an instruction to the
+presenter (*confirm against the gated PDF and restate before presenting*). The first belongs
+on the slide; the second is an edit note, and it was already in the speaker notes. Dropping
+it took the block to 28,777px² and three lines to two, with every caveat intact — which is
+what the evidence guardrail requires. Check the speaker notes before trimming a footnote;
+the material is often already there.
+
+**What no layout change fixes:** two of slide 10's four numerals carry footnote markers at
+26.7px — 0.46× the numeral, plainly visible — and one of those numbers is contradicted by
+its own footnote. **The disputed 50% carries exactly the same visual authority as the
+verified 93%**, and it should, because they are peers in a row and the single-out rule
+forbids marking one. That is an argument for resolving the figure or cutting the card, not
+for restyling it.
+
 ## Source links — the citation status vocabulary
 
 Slide 63 is the bibliography and every cited source appears on it with the slide it
@@ -1244,3 +1332,53 @@ Slide 33's decision framework has a third vocabulary again — Prioritize / Resh
 which is the rubric's outcomes minus *Sequence*. That is the source's wording; it is
 narrower than slide 34 on purpose, but if a reader pages 33 → 34 they meet three and four
 outcomes in consecutive slides. Flagged, not changed.
+
+**There was a fourth, and it was wrong.** Slide 34's takeaway pointed at the transition plan
+as *"Commit / Reassess / Sequence Next"* — three words, two of which slide 43 does not use.
+It now names 43's actual four and cites the slide number, which also surfaces the deck's
+no-list where the argument needs it. **Phrase it as a proposal, not a decision** — slide 43
+says plainly that its dispositions are *"proposals for portfolio review, not decisions taken
+in this room"*, so a summary reading "six of eight do not proceed as scoped" hardens a
+proposal into a settled outcome for anyone who meets the summary first. It reads *"proposes
+that only two of eight continue as scoped"* — same fact, same status.
+
+## The sequence has to agree with itself (slides 30, 32, 35)
+
+The Strategic Reset's whole claim is that **order** is the constraint — "Ambition is not the
+constraint. Sequence is." So two numbered four-item lists that disagree is not a cosmetic
+problem, it is the argument contradicting itself.
+
+Slide 30's stages (Stabilize foundations → Remove friction → Connect → Add decision support)
+and slide 32's phases (Establish → Simplify → Connect → Advance) agree: foundations first.
+Slide 35 then numbered *Build a Unified Ads Platform* — the foundation — **03**, behind
+Simplify (01) and Seller Demand (02), and the big-rock eyebrows carry that numbering.
+
+**I resolved this the wrong way first, and `deck/outline-v2.md` says so.** The guess was that
+phases and priorities are different axes — time versus theme — because priority 02 (sellers)
+maps to no single phase. So slide 35's title briefly read *"Four priorities run across the
+phases, not one after another."* That is the **opposite** of what the author wrote:
+
+> *"Four priorities on one spine. **Each depends on the one before it**, so they are not
+> independent bets."* — and the slide's own speaker notes say **"read left to right."**
+
+The priorities are a dependency chain, deliberately. The title is the outline's own assertion
+now — *"Simplify the core, connect the platform, and then differentiate"* — which argues
+rather than names and carries the author's sequencing instead of contradicting it. At 40px:
+it wraps at 42 and `refit2` clears it on one line at 40.
+
+**So the contradiction is real and it is still open — it is just not a title problem.** If
+the priorities run 01 Simplify → 02 Sellers → 03 Platform → 04 Intelligence, each depending
+on the last, then the platform foundation is *third* in the dependency chain while slides 30
+and 32 put foundations *first* in delivery. Both can be true — a phase says when work lands,
+a priority says what rests on what — but nothing in the deck reconciles them, and a reader
+paging 30 → 32 → 35 meets two orders without being told they are different questions. **That
+is a strategy question for the author, not something to fix in a title.**
+
+**The lesson is the one this file keeps relearning:** the outline is the content source of
+truth. A contradiction between two slides is not licence to pick a side — check what the
+author actually wrote before resolving it, and check the speaker notes too, which said
+"read left to right" the whole time.
+
+**Slide 35 sits at 51px of marker clearance**, up from the 4px it was at before this pass —
+the state slide 57 is on record about, and undocumented until now. Watch it: 35 carries four
+columns of five bullets and any copy growth spends that back.
