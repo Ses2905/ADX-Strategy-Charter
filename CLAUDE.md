@@ -115,9 +115,18 @@ at the base of slide 53, the *Accelerate* cell of the 2×2 matrix on slide 34 (t
 own fill ramp, which encodes rank, not emphasis), and **slide 51's band — which this rule
 did not name until an audit measured it.** This file said "two" and the file said three.
 
-**Slide 51 is undecided and must not be swept either way.** It is either a genuine dependency
-foundation, in which case it belongs in this list with its reason, or it is a summary, in
-which case it takes the statement pattern. **Author's call, open.** Note that a naive
+**Slide 51's band is settled, and it is a third category this rule did not name.** It is
+neither a dependency foundation nor a summary: it is a **spanning layer**. The band runs
+across four channel columns — *Sponsored · Display · Offsite + DSP · In-Store + more* — and
+its span **is** the slide's claim, that the advertiser experience "cannot belong to any one
+of them". The fill is what makes a horizontal band read as crossing the columns rather than
+as a fifth row beneath them. Slide 53's *shared platform foundation* is the same device one
+storey down. So the light-slide fills are: **53 (foundation), 34's Accelerate cell (rank
+ramp), and 51 (spanning layer)** — three, each for a different and stated reason.
+
+Settled by **looking at the render**, which is the only thing that could settle it: a markup
+audit had described 51 as *"a table of 9 hairline rows"*, counting the two-column
+*owns/owns* contrast at the foot of the slide and missing the band entirely. Note that a naive
 "navy background" grep also hits slides 17 and 41 — those are 9px progression dots and a 2px
 rule, marks rather than fills, and are correctly excluded. Count fills, not backgrounds. If a new block is a summary, a
 caveat or a conclusion, it takes the statement pattern, not a fill.
@@ -1886,6 +1895,44 @@ border and light fill while the *Today* row does not — but those are two separ
 before/after, not five siblings within one row, and the fill marks a state rather than a
 pick. The rule bans filling **one card among peers**; it does not ban distinguishing
 *after* from *before*.
+
+## The visual-evidence pack — read the PNGs, do not work from the ledger
+
+A pack of 1280×720 renders plus wireframes arrived on 16 Sept: `slide-NN.png` for the
+delivered slide, `target-NN.png` for a proposed form, a `GRAPHIC-LEDGER.md` covering all 70
+slides, and ten reusable graphic forms. **Its central finding is right and is the one this
+repo could not see for itself:** 70 slides carrying three charts, six icons and two logos,
+with zero diagrams — a deck that is *typographically disciplined and visually silent*, where
+claims that are inherently shapes are spelled out in prose. Slide 17 proved it in one pass.
+
+**The renders are the evidence. The generated ledger is not, and it is wrong in both
+directions:**
+
+| Slide | Ledger says | Actually |
+|---|---|---|
+| **17** | *none — correct* | The worst defect in the deck: it drew an unbroken line to argue the journey breaks |
+| **51**, **53** | *diagram or grouped cards* | Both already **are** diagrams — a navy band spanning the columns it crosses |
+| **70** | *none — correct* | The pack's own README makes it the third priority, at 913 words |
+| **18**, **35** | pre-rebuild forms | Rendered before those two slides were redrawn |
+
+The ledger classifies by **markup shape**, so it counted slide 51's closing two-column
+contrast as "a table of 9 hairline rows" and missed the band above it; it labelled slide 70,
+a two-column reference table, "divider / statement". **That is the *counting table rows as
+card rows* error again, in a generator** — and it misses a defect precisely when the markup
+looks ordinary, which is when a slide most needs looking at.
+
+**So: the PNGs and the README's per-slide prose are reliable, because someone looked at the
+render to write them. The ledger's `Needs` column is not.** Re-derive from the render, the
+slide's own copy and its speaker notes.
+
+**Two proposals in it should not be taken as written.** Slide 51's — *"nine hairline rows…
+an overlap claim is a picture, use two intersecting circles"* — describes a slide that does
+not exist; the pack's own `slide-51.png` disproves it. And the segment maps (64, 66, 67)
+are proposed as *"a matrix with a single-hue fill ramp, no prose in cells"*, but those cells
+hold sentences, not intensities: a fill ramp would **encode a magnitude the research never
+states**, which the evidence guardrail forbids outright. That one needs the author to supply
+intensities before it is a layout job at all.
+
 
 ## Slide 17 draws the break, because its own speaker notes always said it did
 
