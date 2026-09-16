@@ -56,6 +56,12 @@ const TOL = 1.0;   // sub-pixel layout noise; a real defect is many px
 //   59 — the 25/50/75/100% pills are progression marks, not data bars
 const EXCEPTIONS = [
   {
+    // An exception is derived from ONE deck's geometry, so it is bound to that deck.
+    // Without this, running the documented filename argument against another build --
+    // the Sep 12 archive, whose slide 55 is a different slide entirely -- reports this
+    // entry as STALE and exits 1 on a deck with no defect. Reproduced before fixing:
+    // archive exit code 1, "STALE suppression(s)", zero row findings.
+    deck: 'Advertiser Experience Strategy.dc.html',
     n: '55',
     kind: 'row heights differ',
     match: /^341\.8 \/ 299\.8 \/ 299\.8\b/,
@@ -170,9 +176,11 @@ const EXCEPTIONS = [
     return out;
   }, TOL);
 
+  // Only exceptions written for THIS deck apply, and only those can go stale.
+  const applicable = EXCEPTIONS.map((e, i) => [e, i]).filter(([e]) => e.deck === FILE);
   const used = new Set();
   const kept = findings.filter(f => {
-    const i = EXCEPTIONS.findIndex(e => e.n === f.n && e.kind === f.kind && e.match.test(f.detail));
+    const i = applicable.findIndex(([e]) => e.n === f.n && e.kind === f.kind && e.match.test(f.detail));
     if (i < 0) return true;
     used.add(i);
     return false;
@@ -180,7 +188,7 @@ const EXCEPTIONS = [
   const dropped = findings.length - kept.length;
   // A suppression that no longer matches anything is stale: either the defect was fixed
   // (delete the entry) or its geometry moved (re-derive it). Either way, say so.
-  const stale = EXCEPTIONS.map((e, i) => i).filter(i => !used.has(i));
+  const stale = applicable.map(([, i]) => i).filter(i => !used.has(i));
   const fail = kept.filter(f => !f.advisory);
   const advise = kept.filter(f => f.advisory);
   const show = f => console.log(`  slide ${f.n}  ${f.kind}\n      ${f.detail}   ${f.label}`);

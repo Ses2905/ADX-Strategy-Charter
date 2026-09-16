@@ -614,6 +614,14 @@ silently — if slide 55's cards ever change height, the suppression stops match
 so instead of quietly covering the new number. Proven both ways: pushing one of slide 55's
 headings 24px out of line now yields **four** findings that the slide-wide version swallowed.
 
+**And an exception is bound to the DECK it was derived from.** `peercheck.js` takes an
+optional filename, and without that binding, running it against the Sep 12 archive — whose
+slide 55 is a different slide entirely — reported the slide-55 entry as **stale** and exited
+**1 on a deck with no defect**. Reproduced before fixing. Only exceptions written for the
+file under test apply, and only those can go stale. Both paths verified after: the archive
+now exits 1 for its own six real row findings and prints no STALE line, and breaking the
+pattern on the default deck still fires it.
+
 **Three of the four exceptions were deleted rather than narrowed.** With suppression off,
 slides **17, 34 and 59 emit nothing at all** — so all three were suppressing findings that
 do not exist while standing ready to swallow ones that might. Their reasons are kept as a
