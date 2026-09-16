@@ -128,7 +128,7 @@
       <button type="button" class="cmrow" data-goto="53" aria-label="Go to Measuring Success"><span class="n" style="font-size:var(--text-h5,17px)">07.</span><span class="bs" style="font-weight:400">Measuring Success</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll know we&#8217;re winning</span></button>
       <button type="button" class="cmrow" data-goto="55" aria-label="Go to What Needs To Be True"><span class="n" style="font-size:var(--text-h5,17px)">08.</span><span class="bs" style="font-weight:400">What Needs To Be True</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What we&#8217;ll need to be successful</span></button>
       <button type="button" class="cmrow" data-goto="57" aria-label="Go to Closing"><span class="n" style="font-size:var(--text-h5,17px)">09.</span><span class="bs" style="font-weight:400">Closing</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Bringing it all together</span></button>
-      <button type="button" class="cmrow" data-goto="61" aria-label="Go to Appendix"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs" style="font-weight:400">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></button>
+      <button type="button" class="cmrow" data-appendix-row data-goto="61" aria-label="Go to Appendix"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs" style="font-weight:400">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></button>
   </div>
   <div class="pg">02</div>
 </section>
@@ -1571,6 +1571,15 @@
     document.querySelectorAll('section[data-appendix]').forEach((el) => {
       if (showAppendix) el.removeAttribute("data-deck-skip");
       else el.setAttribute("data-deck-skip", "");
+    });
+    // The content map's Appendix row points at slide 62, the appendix divider.
+    // 62 does NOT carry data-appendix (only 63-70 do), so it survives the
+    // toggle and the jump never lands on a hidden slide — but with the
+    // appendix off it lands on a divider announcing nine slides that are not
+    // there. An affordance for content the presenter just removed is worse
+    // than no affordance, so the row goes with it.
+    document.querySelectorAll('[data-appendix-row]').forEach((el) => {
+      el.style.display = showAppendix ? "" : "none";
     });
   }
 }</script>

@@ -268,6 +268,19 @@ target that drifts onto a content slide still renders, still hovers and still cl
 just goes to the wrong place, which is the same failure the dot rows have and was invisible
 outside `.secnav` until that check existed.
 
+**The appendix toggle hides 63–70, not 62, and its label says 62–70.** `showAppendix`
+attaches `data-deck-skip` to every `section[data-appendix]`, and slide 62 — the appendix
+divider — does not carry that attribute. So with the appendix off, the deck ends on a
+divider announcing nine slides that are not there. That is pre-existing and the label is the
+part that is wrong, but it became reachable in one click once the content map grew an
+*Appendix* row, so that row now carries `data-appendix-row` and the same handler hides it
+with the appendix.
+
+**Open, and not a one-line fix:** giving 62 `data-appendix` would make the toggle match its
+own label, but it also moves 62 onto the appendix padding tier (64px → 42px top) and would
+make the content-map jump land on a genuinely hidden slide — `_go()` clamps but does not
+skip `data-deck-skip` slides. Decide it deliberately; do not just add the attribute.
+
 **The navigator works — confirmed in Claude Design on 15 Sept, all nine dots.** This was the
 last unverified thing in the build and it is worth saying plainly, because the sandbox
 limitation that made it unverifiable has not gone away: `deck-stage` still does not boot
