@@ -1336,8 +1336,11 @@ outcomes in consecutive slides. Flagged, not changed.
 **There was a fourth, and it was wrong.** Slide 34's takeaway pointed at the transition plan
 as *"Commit / Reassess / Sequence Next"* — three words, two of which slide 43 does not use.
 It now names 43's actual four and cites the slide number, which also surfaces the deck's
-no-list where the argument needs it: **six of eight committed areas do not proceed as
-scoped.** That fact was four slides and one act away from the section that earns it.
+no-list where the argument needs it. **Phrase it as a proposal, not a decision** — slide 43
+says plainly that its dispositions are *"proposals for portfolio review, not decisions taken
+in this room"*, so a summary reading "six of eight do not proceed as scoped" hardens a
+proposal into a settled outcome for anyone who meets the summary first. It reads *"proposes
+that only two of eight continue as scoped"* — same fact, same status.
 
 ## The sequence has to agree with itself (slides 30, 32, 35)
 
@@ -1350,11 +1353,32 @@ and slide 32's phases (Establish → Simplify → Connect → Advance) agree: fo
 Slide 35 then numbered *Build a Unified Ads Platform* — the foundation — **03**, behind
 Simplify (01) and Seller Demand (02), and the big-rock eyebrows carry that numbering.
 
-They are genuinely different axes: **phases are time, priorities are theme**, and priority 02
-(sellers) maps to no single phase at all. Nothing said so. Slide 35's title now does —
-*"Four priorities run across the phases, not one after another"* — which also retires the
-one title in the section that named instead of arguing.
+**I resolved this the wrong way first, and `deck/outline-v2.md` says so.** The guess was that
+phases and priorities are different axes — time versus theme — because priority 02 (sellers)
+maps to no single phase. So slide 35's title briefly read *"Four priorities run across the
+phases, not one after another."* That is the **opposite** of what the author wrote:
 
-**That slide was also at 4px of marker clearance**, the state slide 57 is on record about,
-and undocumented. The shorter title bought 45px. Watch it: 35 carries four columns of five
-bullets and any copy growth spends that back.
+> *"Four priorities on one spine. **Each depends on the one before it**, so they are not
+> independent bets."* — and the slide's own speaker notes say **"read left to right."**
+
+The priorities are a dependency chain, deliberately. The title is the outline's own assertion
+now — *"Simplify the core, connect the platform, and then differentiate"* — which argues
+rather than names and carries the author's sequencing instead of contradicting it. At 40px:
+it wraps at 42 and `refit2` clears it on one line at 40.
+
+**So the contradiction is real and it is still open — it is just not a title problem.** If
+the priorities run 01 Simplify → 02 Sellers → 03 Platform → 04 Intelligence, each depending
+on the last, then the platform foundation is *third* in the dependency chain while slides 30
+and 32 put foundations *first* in delivery. Both can be true — a phase says when work lands,
+a priority says what rests on what — but nothing in the deck reconciles them, and a reader
+paging 30 → 32 → 35 meets two orders without being told they are different questions. **That
+is a strategy question for the author, not something to fix in a title.**
+
+**The lesson is the one this file keeps relearning:** the outline is the content source of
+truth. A contradiction between two slides is not licence to pick a side — check what the
+author actually wrote before resolving it, and check the speaker notes too, which said
+"read left to right" the whole time.
+
+**Slide 35 sits at 51px of marker clearance**, up from the 4px it was at before this pass —
+the state slide 57 is on record about, and undocumented until now. Watch it: 35 carries four
+columns of five bullets and any copy growth spends that back.
