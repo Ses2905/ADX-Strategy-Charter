@@ -86,6 +86,17 @@ def stray_goto_target(html):
     return html[:a] + sec.replace('data-goto="3"', 'data-goto="5"', 1) + html[b:]
 
 
+def swapped_goto_targets(html):
+    """Two content-map rows swapped: every target still a valid divider."""
+    a, b = secspan(html, 2)
+    sec = html[a:b]
+    assert 'data-goto="3"' in sec and 'data-goto="11"' in sec
+    sec = sec.replace('data-goto="3"', 'data-goto="@@"', 1)
+    sec = sec.replace('data-goto="11"', 'data-goto="3"', 1)
+    sec = sec.replace('data-goto="@@"', 'data-goto="11"', 1)
+    return html[:a] + sec + html[b:]
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -97,6 +108,8 @@ CASES = [
      'sit inside <x-import>'),
     ('content-map jump target moved off a divider', stray_goto_target,
      'not divider slides'),
+    ('two content-map rows swapped (both still dividers)', swapped_goto_targets,
+     'content map points at'),
 ]
 
 

@@ -1550,6 +1550,17 @@
     document.querySelectorAll('[data-goto]').forEach((el) => {
       if (el.__dcGoto) return;
       el.__dcGoto = true;
+      // Space has to be claimed before it reaches the window. deck-stage's
+      // _onKey treats ' '/'Spacebar' as next-slide and preventDefault()s it,
+      // and that branch is deliberately NOT gated on !e.defaultPrevented the
+      // way ArrowDown/ArrowUp are — so a focused jump button pressed with
+      // Space advances one slide and its native activation is cancelled.
+      // Enter is unaffected (_onKey has no Enter branch and leaves it to the
+      // focused button), so only Space is stopped. stopPropagation is the
+      // same escape the rail thumbs already use for ↑/↓.
+      el.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Spacebar') e.stopPropagation();
+      });
       el.addEventListener('click', (e) => {
         e.stopPropagation();
         const stage = document.querySelector('deck-stage');

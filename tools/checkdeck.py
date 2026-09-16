@@ -150,6 +150,26 @@ def check(path):
                          '(as slide numbers: %s) — every jump lands on a divider'
                          % (stray, [g + 1 for g in stray]))
 
+        # Membership is necessary and nowhere near sufficient. Swap the content
+        # map's first two rows and every target is still a divider, the set of
+        # targets deck-wide is unchanged, and the deck reports clean while
+        # "Market Shift" opens "Where We Are Today". The content map is an
+        # ORDERED list against a known sequence, so check it as one: its rows
+        # must be the divider indices, in document order, all of them, once
+        # each. Aggregating every data-goto in the deck cannot see this,
+        # because the progression rows already contain the same values.
+        want = [n - 1 for n in sorted(divider_ns)]
+        for sec in secs:
+            tag = sec[:sec.find('>') + 1]
+            m = re.search(r'data-screen-label="(\d+)"', tag)
+            if not m or 'class="cmrow' not in sec:
+                continue
+            got = [int(x) for x in re.findall(r'data-goto="(\d+)"', sec)]
+            if got != want:
+                fails.append('slide %s content map points at %s, expected %s '
+                             '(every divider, in order, once each)'
+                             % (m.group(1), got, want))
+
     # data-goto is an index into deck-stage's own slide list, and
     # _collectSlides() keeps EVERY slotted element except TEMPLATE/SCRIPT/STYLE
     # (deck-stage.js). So a stray <div> or <p> slotted beside the sections

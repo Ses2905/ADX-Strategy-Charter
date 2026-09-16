@@ -242,6 +242,20 @@ mount, so the rows needed no new script.
 They are **buttons, not clickable divs**, and that is not pedantry — a `<div role="button">`
 does not fire `click` on Enter or Space, and the handler only listens for `click`, so a div
 would be mouse-only. A real button also brings focus order and `:focus-visible` for free.
+
+**But Space is not free, and the button alone does not get it.** `deck-stage`'s window-level
+`_onKey` treats `' '` / `'Spacebar'` as next-slide and `preventDefault()`s it — and that
+branch is deliberately *not* gated on `!e.defaultPrevented` the way `ArrowDown`/`ArrowUp`
+are, so it fires even though the focused button has its own default action. A jump button
+pressed with Space therefore advanced one slide and had its activation cancelled. Every
+`[data-goto]` now stops Space on its own `keydown` before it reaches the window, which is
+the same escape the rail thumbs already use for ↑/↓. **Enter was never affected** — `_onKey`
+has no Enter branch and leaves it to the focused control — so only Space is stopped, and
+the arrow keys still page as normal.
+
+This applies to the progression-line dots too, since they are `[data-goto]` buttons on the
+same handler. Any future keyboard-activated control on a slide inherits the same problem:
+check what `_onKey` already claims before assuming a native default survives.
 The UA styles are reset back to the row's own grid, and `box-sizing:border-box` is set
 **explicitly**: the deck has no global box-sizing rule, so the UA's button default is the
 only thing supplying it, and relying on that is how the navigator dot's hit area was
