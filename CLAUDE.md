@@ -1219,6 +1219,33 @@ Koddi's *All Commerce Media Playbook*, a study commissioned from Forrester Consu
 online survey of 788 global decision-makers, July 2025, published 19 November 2025. The
 slide carries the methodology and links the report. That one is fine.
 
+## Forward statements carry a confidence band — that is a house convention
+
+Audited slides 40–48 on 16 Sept against the commit / plan / aspire / strategic-intent
+ladder. **Every slide in the section that carries a date also carries a band, and the ones
+with no dates carry bands anyway.** Nothing needed changing. The convention is implicit in
+the copy rather than written down anywhere, so it is written down here — a future roadmap
+slide should match this voice, not invent a new one:
+
+| Slide | The band, in the deck's own words |
+|---|---|
+| 42 | *"Weeks are relative to pod kickoff — the calendar dates live in the pod plan, not in this deck."* |
+| 43 | *"Dispositions are proposals for portfolio review, not decisions taken in this room."* |
+| 44 | *"Keep timing explicitly provisional until maturity, dependencies and migration complexity are assessed."* |
+| 45 | Horizon 3 is dated **"To be validated"**, and the lead says *"a direction with a discovery gate in front of it, not a dated commitment."* |
+| 46 | *"A likely first extension candidate — not a committed first migration."* |
+
+**Two things this section gets right that are easy to lose.** Horizons 1 and 2 are given as
+**windows** (0–12, 12–24 months), never quarters — the false-precision trap. And slide 42,
+the only slide anywhere in the deck at week-level granularity, disarms it in its own
+takeaway rather than in a footnote.
+
+**Do not "fix" slide 42's week numbers.** An audit will flag *Weeks 3–5* and *Weeks 5–6* as
+overlapping at week 5. Phase 2's own body says the work runs *"in parallel"*, so the overlap
+is probably intentional; it is a question for the author, not a typo to correct. And the
+un-anchored look is answered by the takeaway — a reviewer who reads only the cards will
+propose adding a kickoff date that the slide has deliberately declined to carry.
+
 ## The takeaway footer is content-sized, and that is deck-wide
 
 `.tk` is **13.5px on all 38 slides that carry one** — identical to `.bs` card body copy. So
