@@ -1156,18 +1156,69 @@ in Claude Design before it goes to leadership; if it reads busy, the lever is
 `--motion-step`, not deleting the tier.
 
 
-## `justify-content:center` on a `flex:1` column defeats the header gap
+## Content wells centre in the space the header leaves — this is the default
 
-A first-content container set to `display:flex; flex:1; justify-content:center` starts its
-*box* at the correct 32/24px below the header, then centers its *content* in all the
-remaining space — so the content drifts 85–121px down and the separation rule above does
-nothing. Five slides (14, 15, 18, 27, 31) shipped this way; the header and content read as
-unrelated, with a dead band between them. Use `flex-start` and let slack fall to the
-bottom, where a light slide is allowed to be light.
+**The author asked for it on 16 Sept, and it reverses what this file argued.** The rule here
+used to be *"use `flex-start` and let slack fall to the bottom."* Content wells now centre:
+the slide's remaining vertical space, after the eyebrow/title/lead, is split evenly above and
+below the content instead of pooling at the bottom.
 
-This is also a checker trap: measuring the container's `getBoundingClientRect().top`
-reports the gap as correct. `rhythm.js` measures the first *inked* descendant instead, and
-flags any ink gap over 80px.
+```css
+.s > [data-well="flex"]{justify-content:center}
+.s > [data-well="grid"]{align-content:center}
+```
+
+**`data-well` marks the first content element on each of the 54 content slides.** Dividers,
+the cover, the closer, the centred statement slides (09, 11, 59) and the bibliography (63)
+have no well and are untouched — they already centre or are too tight to move.
+
+**Grids take `align-content` only, and this matters.** `justify-content` on a grid centres
+the *columns*, and this deck uses fixed track widths — so setting it would pull 21 slides off
+the 72px left rail. Verified after the change: every well still spans 1136px, flush at 72px.
+
+**The slack was never between the header and the well — it was inside the well.** 54 of the
+55 wells are `flex:1`, so they already reach the content-box bottom. Auto margins on the well
+therefore do nothing; a first attempt at `margin-top:auto`/`margin-bottom:auto` measured
+**zero change on every slide**. The centring has to go inside the well, which is why the rule
+targets `justify-content`/`align-content` rather than margins.
+
+**Inline styles beat the rule, and that is how this silently did nothing.** Eleven wells
+carried inline `justify-content:flex-start` and ten carried `align-content:start` — residue
+of the older rule. The stylesheet rule lost to them, and slides 10 and 37 rendered
+**pixel-identical** before and after the change while every checker passed. The inline values
+were stripped rather than beaten with `!important`; a role that carries its own styling
+should not have to fight an override that predates it.
+
+**The experiment and the implementation were not the same mechanism, and only the render
+caught it.** The measurement pass set `el.style.justifyContent` — inline, so it worked and
+reported 30 slides moving by up to 97px. The implementation used a stylesheet rule, which did
+not. A measured effect does not prove the shipped mechanism produces it. **Render it.**
+
+**What it costs, measured.** 30 slides move. The header→content *ink* gap goes from the
+36px/28px tiers to 42–133px on those slides; the worst are 10 (36 → 133), 68 (30 → 126),
+37 (36 → 126), 67 (51 → 128) and 45 (36 → 113). Median top/bottom imbalance across all 54
+wells is **10px** — they are genuinely centred. Nothing overflows: smallest bottom clearance
+is **11px on slide 14**, and `collide.js` reports no contact with the marker.
+
+**`rhythm.js` will flag about fifteen slides for an ink gap over 80px. That is now expected**
+— it is the rule working, not a defect. Do not "fix" it by reverting individual wells; the
+whole point is that the set behaves the same way.
+
+**The header gap rule still holds, and is not what changed.** The well's `margin-top` (36px
+core, 28px appendix) still sets where the well's *box* starts. What moved is where the ink
+sits inside that box. Those are different measurements and `audit.js` reads the first, which
+is why it stays clean.
+
+**The old objection was real and is now a judgement, not a fact.** Five slides (14, 15, 18,
+27, 31) once shipped `display:flex; flex:1; justify-content:center` and were changed to
+`flex-start` because the content drifted 85–121px down and read as unrelated to its header.
+That drift still happens — it is arithmetic. What changed is the author's call on whether a
+balanced slide is worth it. Rendered and checked on the worst cases (10 and 37) before
+shipping: both read as deliberately airy rather than broken.
+
+**If the big gaps ever do become the problem**, the fix is a cap — centre, but stop the
+content moving once the header gap reaches some ceiling — not a per-slide revert. That keeps
+the set uniform, which is the property worth protecting.
 
 ## Only one sibling in a peer row may be singled out, and only with a reason
 
