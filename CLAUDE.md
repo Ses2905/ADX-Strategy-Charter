@@ -821,8 +821,8 @@ Slide 07 carried five SVG arrows on `viewBox="0 0 500 30"` with
 drawn **2.3× too wide for its height**, and all five sat at column *centres* while every
 other element on the slide aligned to column *left* edges. They were the only ink in the
 deck off the left rail. Removed: the band stack plus the words "the connective layer"
-carry the relationship, and words beat decorated geometry in a deck that takes no
-decorative motion elsewhere.
+carry the relationship, and words beat decorated geometry in a deck whose only motion is
+a header entrance.
 
 If a connector is ever genuinely needed, never use `preserveAspectRatio="none"` on it —
 that distorts the marks. Give the SVG the mark's own coordinate space, as the chart rule
@@ -1030,29 +1030,93 @@ reading experience. Three rules it now holds:
   `prefers-reduced-motion` for slide entrances; its nav did not, so the bar still slid
   and the progress fill still animated. Transitions are now disabled under the query.
 
-**This deck does not get decorative motion.** Entrance animation is deliberately
-confined to the cover and the **ten dividers** (`.anim-1`–`.anim-4`); content slides
-have none. A leadership strategy deck earns trust by being still and legible — no
-signature-moment flourishes on the evidence slides. (This said "the four act dividers"
-until 16 Sept, which was the 68-slide build's count.)
-
-**"Add the animations back in" is a feature request, not a restoration — they were never
-there.** A Sep 16 review export described content-slide entrance animation as "lost
-somewhere in the rebuild passes." It was not lost. Checked three ways: the current deck has
-49 `anim-*` uses, all on the cover and the ten dividers and **none on any content slide**;
-the Sep 12 archive has the same shape; and across every commit that touched the deck the
-count went `25 → 48 → 49` and **never once decreased**. Chart hovers are the same story —
-the deck has four `:hover` rules (links, source links, nav dots) against the archive's one,
-so hover states have only ever been added.
-
-Say this plainly when it comes up again, because "restore" and "add" are different
-conversations: one is a bug to fix, the other reverses a documented standard and needs a
-decision. The standard can be reversed — but on its merits, not on a false memory.
-
 **Testing limit:** `deck-stage` needs a runtime that does not boot in a sandbox without
 network egress, so nav *behaviour* (prev/next, seek, slide sync) cannot be exercised
 locally — only the shadow root's construction and any method not needing the stage.
 Treat logic changes here as unverified until clicked through in Claude Design.
+
+## Motion — two tiers, one keyframe, and the evidence does not move
+
+**The standard changed on 16 Sept, and it was a decision, not a restoration.** This file
+said *"this deck does not get decorative motion"* and confined entrance animation to the
+cover and the ten dividers. Content slides now animate their **header group** as well. The
+reasoning that produced the old rule still holds and still constrains the new one: a
+leadership strategy deck earns trust by being still and legible, so the thing that moves is
+the **frame** — eyebrow, title, lead — and never the evidence beneath it.
+
+**The tokens come from the design system; the deck adds two values and no more.**
+`_ds/…/tokens/spacing.css` ships a motion scale that the deck had never used:
+`--ease-standard`, `--ease-out`, `--dur-fast 120ms`, `--dur-base 200ms`, `--dur-slow 320ms`.
+The deck was running `.55s` on an invented `cubic-bezier(.2,.8,.2,1)` — off the scale in
+both axes. Everything is on the tokens now. The two values the system has no token for are
+declared on `.s`:
+
+| Token | Value | Job |
+|---|---|---|
+| `--motion-in` | `var(--dur-slow,320ms)` | the only entrance duration in the deck |
+| `--motion-ease` | `var(--ease-out,…)` | the only entrance easing |
+| `--motion-lead` | `50ms` | before the first element moves |
+| `--motion-step` | `60ms` | one stagger step, **content** tier |
+| `--motion-step-display` | `110ms` | one stagger step, **display** tier |
+
+**Two behaviour changes to the cover and dividers came with this, both one-token reverts.**
+Their duration went `550ms → 320ms` and their easing went invented → `--ease-out`. Their
+delays are unchanged (`--motion-lead` + n × `110ms` reproduces `.05/.16/.27/.38` exactly).
+The tiers are told apart by **stagger, not duration** — a 58px display line and a 20px lead
+take the same time to arrive, and the display tier simply spaces four of them further apart.
+
+**Content motion attaches to roles, not to hand-placed classes.** The header group is
+selected as `[data-deck-active]:not([data-divider]) > .k`, `> h2`, `> .d` — which is the
+rule this file already states for colour (*roles carry their own styling — don't rely on
+remembering an override*) applied to motion. It also means the pass added **zero** markup:
+179 elements animate and not one `class=` changed. The cover and the dividers keep
+`.anim-1`–`.anim-4` because the elements they mark — a logo, a progression line — carry no
+role class to hang the rule on.
+
+**The child combinator is load-bearing, and three slides prove it.** `> .d` rather than
+`.d` is what keeps **slide 69's bottom "Open item" callout** out of the header tier: it
+reuses `.d` for its 16px type while sitting at the foot of the slide, so a descendant
+selector would fade it in on the header's clock, in the wrong place, before the content
+around it. Same combinator excludes the two nested headers on **slide 01** and **slide 62**,
+which animate through their own display tier instead. Verified: `0` elements in the deck
+carry two animations. (Slide 69's `.d` is a role being borrowed for a type size. Flagged,
+not fixed — it is the author's content, and the selector already handles it.)
+
+**A peer row gets no stagger, ever.** Staggering siblings encodes an order the content does
+not have — the same failure as ramping bar colour across nominal categories, or filling one
+card among peers. If a future slide earns a staggered reveal it must be a genuine chain
+(phases, stages, before→after), and the delay has to *be* the content. Header order is a
+reading order, which is why it qualifies and a five-card row does not.
+
+**What is still true from the old standard**, and should be said plainly when it comes up:
+*"add the animations back in"* was a feature request, not a restoration. A Sep 16 review
+export described content-slide entrance animation as "lost somewhere in the rebuild passes."
+It was not lost. Checked three ways: the deck had 49 `anim-*` uses, all on the cover and the
+ten dividers and **none on any content slide**; the Sep 12 archive had the same shape; and
+across every commit that touched the deck the count went `25 → 48 → 49` and **never once
+decreased**. Chart hovers are the same story — four `:hover` rules against the archive's
+one, so hover states have only ever been added. The standard was reversible and it was
+reversed, but on its merits rather than on a false memory.
+
+**Reduced motion suppresses, it does not shorten** — the whole block sits inside
+`@media (prefers-reduced-motion:no-preference)`. Measured under `reduce`: **0** animating
+elements deck-wide, header tier and display tier alike.
+
+**Print is already handled and it is not luck.** `deck-stage` sets `data-deck-active` on
+*every* slide when printing (`deck-stage.js:721`), precisely so `both`-filled entrance
+animations resolve to their end state on paper. Its own header comment prescribes this exact
+pattern — gate on `[data-deck-active]` plus the motion query — so the content tier follows
+the component's documented contract rather than inventing one.
+
+**What cannot be verified here.** Exactly one slide carries `data-deck-active` at a time
+(`deck-stage.js:1509`), so the header re-animates on every visit to a slide, exactly as the
+dividers already do. Whether that reads as alive or as twitchy when paging fast is the one
+judgement this sandbox cannot make: `deck-stage` does not boot without network egress, so
+computed timings, delays, easing and the reduced-motion branch were all measured by setting
+the attribute by hand — but an actual **transition** has never run locally. Page through it
+in Claude Design before it goes to leadership; if it reads busy, the lever is
+`--motion-step`, not deleting the tier.
+
 
 ## `justify-content:center` on a `flex:1` column defeats the header gap
 
