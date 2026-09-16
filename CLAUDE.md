@@ -505,7 +505,8 @@ alone will mislead you here.
 
 | Shape | Treatment |
 |---|---|
-| A row of cards spanning the measure | **Re-flow to two columns.** Slide 48's four phases went 4-across → 2×2: 271px → 90px, and the wider columns set each body in two lines instead of four. |
+| A row of cards spanning the measure, **each body flowing prose** | **Re-flow to two columns.** Slide 48's four phases went 4-across → 2×2: 271px → 90px, and the wider columns set each body in two lines instead of four. |
+| The same row, but the bodies are **lists or a comparison** | **Leave it.** See the precondition below — reflow either overflows or breaks the argument. |
 | A table | **Row height.** Rows at 13–15px went to 20px on slides 42, 43, 44, 52 and 54, roughly halving their dead space. 24px would fill more but leaves slides 42 and 54 at 0–1px of marker clearance, which is not survivable in a font we cannot verify. |
 | A lifecycle of six or seven stages | **Leave it.** Compressing a seven-stage row to fill height costs more than the space is worth. |
 | Genuinely under-written | **Leave it, or write more.** Slide 45's three horizons do not fill the height at any type size, and stacking them as full-width bands overflows by 174px. That is a content gap, not a layout one. Same for slide 50, whose roles are still placeholders. |
@@ -515,6 +516,32 @@ In the Sept 15 build the worst genuine case was slide 32 (four phase cards, 253p
 was **content, not layout**: the source deck's capability strip had been dropped in
 transcription. Restoring it took the slide to 100px and put back something the author wrote.
 Check the source before reaching for a layout lever.
+
+**Re-flow has a precondition, and it is the body, not the card count.** The rule works on
+slide 48 because those four bodies are *prose*: double the column width and the text rewraps
+to half the lines, so two rows of short cards cost less height than one row of tall ones.
+Tested on the three other 4-across rows and it fails on every one, each differently:
+
+- **Slide 60** (125px) — the card bodies are `div.li` list items, four discrete blocks with
+  their own padding. They do not rewrap at any width, so 2×2 simply doubled the grid to
+  447px and the slide overflowed the marker by **110px**. Card heights did not move at all:
+  212px before, 212px after. That is the tell — *measure the card height after the change,
+  not just the slack*; if the cards did not get shorter, reflow bought nothing.
+- **Slide 10** (188px) — four stat cards. The reflow works mechanically (188 → **2px**) and
+  is wrong anyway, twice over: 2px is the no-headroom state slide 57 is on record about, and
+  four big numerals side by side *are* the argument. Stacking them 2×2 makes the reader
+  zigzag between figures that exist to be compared at a glance. A comparison row is not a
+  card row.
+- **Slide 06** (146px) — five cards. Five does not split into two columns, and 5-across is
+  the deck's own convention (the FY28 big rocks use it).
+- **Slide 17** (111px) — reads as a 5-across row and is *two* rows of five in a before/after.
+  Reflowing it would delete the comparison. Same slide the single-out rule already calls out
+  as a false positive; it is a false positive here too.
+
+So of the four slides that look like slide 48, **none of them are.** Their dead space is the
+honest price of the shape, and the only lever left on 10 is content — a synthesis line under
+the four stats saying what they add up to — not layout. Do not reach for the reflow again
+without checking that the bodies actually rewrap.
 
 **The four appendix segment maps (65–68) are a set, and their row rhythm had drifted.** They
 ran four different cell paddings — 8 / 8 / 10 / 12px — across four sibling reference slides
