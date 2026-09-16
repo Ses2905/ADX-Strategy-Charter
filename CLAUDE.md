@@ -240,9 +240,24 @@ without network egress, so markup, CSS, geometry and hover state can be measured
 *jump* cannot. Everything about `goTo()` and `data-goto` in this section was inference until
 someone clicked it.
 
-Which means the standing instruction is unchanged for the **next** change, not retired:
-touch `data-goto`, the dot markup or the `text/x-dc` handler and it goes back to unverified
-until it is clicked through again. A green local suite never covers this.
+Which means the standing instruction is unchanged for the **next** change, not retired —
+and the list of things that invalidate it is wider than it looks. **`data-goto` is a raw
+child index, so any slide inserted, deleted or reordered before a divider repoints every
+dot after it** without anyone editing a `data-goto`, the dot markup or the handler. Nothing
+in a browser catches that either: the dots still render, still hover, still click. They
+just land on the wrong slide.
+
+Two failure modes, two different gates, and neither covers the other:
+
+- **Wrong indices** — now checked. `tools/checkdeck.py` derives the expected list from the
+  slides that carry a navigator and compares every dot row against it. Self-tested against
+  a simulated slide insertion and a hand-edited `data-goto`; both fire.
+- **The jump not firing at all** — still only provable in Claude Design. Editing the
+  `text/x-dc` handler, the dot markup or `deck-stage` puts it back to unverified.
+
+Derive the expectation from slides carrying `.secnav`, **not** from `data-divider`: slide 62
+is a divider with no progression line, so a check keyed on `data-divider` expects ten dots
+and reports all nine navigators as broken. That is the first thing this check got wrong.
 
 The previous 68-slide build (31 core + 4 acts + 33 appendix) is preserved verbatim as
 `Advertiser Experience Strategy (Sep 12 archive).dc.html`. Content that lived only in that

@@ -50,6 +50,35 @@ def check(path):
             fails.append('%s appears before the last </section> — a slide is '
                          'stranded after the document tail' % tok)
 
+    # The navigator's data-goto values are RAW CHILD INDICES (slide number - 1),
+    # so inserting, deleting or reordering any slide silently repoints every dot
+    # after it without anyone editing a data-goto, the dot markup or the handler.
+    # Nothing in a browser catches this either: the dots still render, still
+    # hover, still click — they just land on the wrong slide.
+    #
+    # Expectations come from the slides that actually CARRY a navigator, not from
+    # every section with data-divider: the appendix divider (62) is a divider and
+    # deliberately has no progression line, which is why the line has nine dots
+    # and not ten. Deriving from data-divider reports all nine as broken.
+    secs = re.split(r'(?=<section\b)', html)[1:]
+    nav_slides, nav_gotos = [], []
+    for sec in secs:
+        m = re.search(r'data-screen-label="(\d+)"', sec[:sec.find('>') + 1])
+        if not m or 'class="secnav' not in sec:
+            continue
+        nav_slides.append(int(m.group(1)))
+        nav_gotos.append([int(x) for x in re.findall(r'data-goto="(\d+)"', sec)])
+    if nav_slides:
+        expected = [n - 1 for n in nav_slides]
+        for slide, got in zip(nav_slides, nav_gotos):
+            if got != expected:
+                fails.append('slide %d navigator points at %s, expected %s '
+                             '(data-goto is slide number - 1)' % (slide, got, expected))
+        for slide, got in zip(nav_slides, nav_gotos):
+            if len(got) != len(nav_slides):
+                fails.append('slide %d navigator has %d dots for %d sections'
+                             % (slide, len(got), len(nav_slides)))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:
