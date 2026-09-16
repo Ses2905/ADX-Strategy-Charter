@@ -193,6 +193,9 @@
     --motion-step:60ms;
     --motion-step-display:110ms}
   @keyframes deck-fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  /* Opacity only, for the reduced-motion branch below. Transform is what causes
+     vestibular discomfort; a fade does not. */
+  @keyframes deck-fade{from{opacity:0}to{opacity:1}}
   @media (prefers-reduced-motion:no-preference){
     /* Display tier — cover and dividers, on hand-placed classes because the
        elements they mark (a logo, the progression line) carry no role class. */
@@ -243,6 +246,29 @@
     [data-deck-active]:not([data-divider]) > [data-well]:has([data-sequence]) > *:not([data-sequence]){
       animation:deck-fade-up var(--motion-in) calc(var(--motion-lead) + 6*var(--motion-step)) var(--motion-ease) both}
   }
+  /* Reduced motion FADES; it no longer suppresses. Author's call, 16 Sept.
+     The rule was "suppress, do not shorten", which is right about the 10px rise and
+     wrong about the fade: measured under `reduce` the deck had 0 animating elements,
+     so a reduced-motion reader got no arrival signal at all and the dividers stopped
+     reading as pauses. This keeps the rhythm that says a section began, with none of
+     the motion that causes harm -- opacity only, one duration, NO stagger (a stagger
+     under `reduce` would just make the wait longer for the reader least served by it).
+
+     The selector list is a duplicate of the tier block above, and a duplicated list is
+     exactly what broke the hover/print pair three times. checkdeck asserts the two
+     lists match; do not edit one without the other. */
+  @media (prefers-reduced-motion:reduce){
+    [data-deck-active] .anim-1,
+    [data-deck-active] .anim-2,
+    [data-deck-active] .anim-3,
+    [data-deck-active] .anim-4,
+    [data-deck-active]:not([data-divider]) > .k,
+    [data-deck-active]:not([data-divider]) > h2,
+    [data-deck-active]:not([data-divider]) > .d,
+    [data-deck-active]:not([data-divider]) > [data-well]:not(:has([data-sequence])):not([data-sequence]),
+    [data-deck-active] [data-sequence] > *,
+    [data-deck-active]:not([data-divider]) > [data-well]:has([data-sequence]) > *:not([data-sequence]){animation:deck-fade var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1)) both}}
+
 </style>
 </helmet>
 <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1280" height="720" hint-size="100%,100%" data-uneditable="">

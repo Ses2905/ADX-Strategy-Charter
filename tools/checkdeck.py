@@ -475,6 +475,61 @@ def check(path):
                          'no cursor, and a hover that snaps is the same defect'
                          % (len(missing), label, ', '.join(missing)))
 
+    # Motion parity: the reduced-motion branch animates the SAME tier selectors as the
+    # no-preference block, and the two lists are a hand-maintained duplicate. That is the
+    # shape that broke the hover/print pair three times, so it is asserted rather than
+    # trusted: edit one list without the other and a tier silently stops arriving for the
+    # reader least able to tolerate the alternative.
+    def _sels(marker):
+        """Selectors carrying an `animation:` inside the FIRST matching @media block that
+        has any. The deck has three `prefers-reduced-motion:reduce` blocks -- the chart
+        bars' `transition:none`, the interaction vocabulary's, and the motion tiers' --
+        and taking `css.find`'s first hit landed on a block with no animation at all,
+        reporting all ten tiers missing. Scan every occurrence, keep the one that
+        animates."""
+        start = 0
+        while True:
+            i = css.find(marker, start)
+            if i < 0:
+                return None
+            d, j = 0, i + len(marker) - 1
+            end = None
+            for k in range(j, len(css)):
+                if css[k] == '{':
+                    d += 1
+                elif css[k] == '}':
+                    d -= 1
+                    if d == 0:
+                        end = k
+                        break
+            if end is None:
+                return None
+            out = []
+            for m in re.finditer(r'([^{}]+)\{[^{}]*animation:[^{}]*\}', css[j:end]):
+                for sel in m.group(1).split(','):
+                    sel = ' '.join(sel.split())
+                    if sel and sel not in out:
+                        out.append(sel)
+            if out:
+                return out
+            start = end
+
+    full = _sels('@media (prefers-reduced-motion:no-preference){')
+    red = _sels('@media (prefers-reduced-motion:reduce){')
+    if full is None or red is None:
+        fails.append('could not locate both motion branches — the reduced-motion fade '
+                     'and the tier block must both exist')
+    else:
+        missing = [x for x in full if x not in red]
+        extra = [x for x in red if x not in full]
+        if missing:
+            fails.append('%d tier selector(s) animate under no-preference but not under '
+                         'reduce: %s — a reduced-motion reader loses that arrival entirely'
+                         % (len(missing), '; '.join(missing[:3])))
+        if extra:
+            fails.append('%d selector(s) animate only under reduce: %s'
+                         % (len(extra), '; '.join(extra[:3])))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:
