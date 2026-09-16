@@ -185,20 +185,39 @@ structure:
 ```
 navy ground, justify-content:center, gap:32px
   .k  "Section one"…"Section nine"   — mono, 8px, uppercase, white
-  h2  58px display, max-width:1010px — the section's ARGUMENT, not its name
+  h2  58px display, max-width:1010px — the section's NAME, sentence case
   progression line: 9 dots (8px, border-radius:50%) joined by
     flex:1 hairlines of rgba(255,255,255,.3); the active dot is
     Everyday Blue #4dbdf5, the rest rgba(255,255,255,.4); max-width:620px
-  .cap  the section name — Sky Blue #a9ddf7
+  .cap  the section's ARGUMENT — white, max-width:1010px
   anim-1 / -2 / -3 / -4 on the four elements, in that order
 ```
 
-**The 58px line carries the argument, not the label.** A divider reading just "Roadmap" at
-58px wastes the component and breaks the rule that someone paging only the titles should
-get the strategy. The section *name* lives in the `.cap` beneath the line; the title says
-what the section argues ("Every increment improves a real advertiser job and leaves
-something reusable behind"). Those nine lines are authored — the Sept 15 source gives each
-section only a name and a description, so a divider rewrite has to write the argument.
+**The 58px line carries the name, and the argument sits beneath it. This reversed on
+16 Sept, and the reversal is the author's.** This file argued the other way for a long time,
+and the old reasoning is worth keeping because it is the cost: a divider reading just
+"Roadmap" at 58px means someone paging only the titles no longer gets the strategy. Those
+nine argument lines are authored and they are among the best writing in the deck —
+*"Ambition is not the constraint. Sequence is."* now sets at **12px** rather than 58px.
+
+The author was shown that trade explicitly, with the three strongest lines quoted, and chose
+the flip over an intermediate option that would have set the argument at 19–24px. **If it
+reads too quiet in the canvas, the lever is the `.cap` size on dividers, not reverting the
+swap.**
+
+**The names had to be re-cased, and that is a consequence worth not missing.** They were
+Title Case — correct for a small label, wrong the moment they became 58px titles, because
+*every title in the deck is sentence case*. Seven changed: *Market shift, Where we are today,
+Our vision, Strategic reset, Operating model, Measuring success, What needs to be true*.
+"Roadmap" and "Closing" were already single words. **A flip that moves content between roles
+moves it between the rules that govern those roles** — check the destination's conventions,
+not just the swap.
+
+**The `.cap` carries white now, not Sky Blue,** and it takes `max-width:1010px` so a long
+argument wraps on the title's measure rather than running the full width. White measures
+15.50:1 on navy and 6.30:1 on True Blue, so it is correct in both tones — which matters
+because the True Blue branch already forced divider `.cap` to white, and the source now
+agrees with it instead of being overridden.
 
 **The appendix divider (62) is deliberately a different object** and keeps its own
 treatment from the previous deck: an oversized `.n` letter "A" at `top:48px; left:72px` in
@@ -344,8 +363,14 @@ appendix tier already separates itself by type size, top padding and the `.h` ti
 
 What survives from that rule is the part that was doing the work: **every title asserts.**
 Someone reading only the titles should get the strategy. A title that names its slide
-("Roadmap", "Simplify the Advertiser Experience") wastes the deck's most-read line — the
-name belongs in the `.k` eyebrow, the argument in the title.
+("Simplify the Advertiser Experience") wastes the deck's most-read line — the name belongs
+in the `.k` eyebrow, the argument in the title.
+
+**The nine section dividers are now the documented exception**, by the author's decision on
+16 Sept: their 58px line carries the section *name* and the argument sits beneath it. See
+the divider section above for the trade. The rule still holds for all 48 content titles, and
+the big-rock titles (36–39) remain the case it was written for — do not read the divider
+exception as licence to name a content slide.
 
 Either tier, the title addresses the **audience, not the author**. "Add a future
 expansion horizon" and "Add ecosystem readiness as a guardrail" are edit notes that
@@ -560,7 +585,7 @@ alone will mislead you here.
 | A table | **Row height.** Rows at 13–15px went to 20px on slides 42, 43, 44, 52 and 54, roughly halving their dead space. 24px would fill more but leaves slides 42 and 54 at 0–1px of marker clearance, which is not survivable in a font we cannot verify. |
 | A lifecycle of six or seven stages | **Leave it.** Compressing a seven-stage row to fill height costs more than the space is worth. |
 | Genuinely under-written | **Leave it, or write more.** Slide 45's three horizons do not fill the height at any type size, and stacking them as full-width bands overflows by 174px. That is a content gap, not a layout one. Same for slide 50, whose roles are still placeholders. |
-| A vertically centred statement slide | **Not slack.** Slides 09, 11 and 59 centre their content, so the measured gap below is the bottom half of a deliberate centring. `slackall.js` reports ~200px on each; leave them. |
+| A vertically centred statement slide | **Not slack.** Slides 07, 09, 11 and 59 centre their content, so the measured gap below is the bottom half of a deliberate centring. `slackall.js` reports ~200px on each; leave them. |
 
 In the Sept 15 build the worst genuine case was slide 32 (four phase cards, 253px). The fix
 was **content, not layout**: the source deck's capability strip had been dropped in
@@ -955,6 +980,14 @@ was competing with the point labels sitting on top of it.
 all five points the linear-scale deviation is at most **0.12B** (0.3244 $B per px). The
 points are not hand-placed.
 
+**The delta callout names itself now.** It read `$142.1B` over `+70% vs 2026` with nothing
+saying what was being projected; it carries a two-line `.cap`-register label —
+*Projected commerce media spend growth* — above the figure. **It is two lines because one
+would overflow the viewBox**: the callout sits at `x=814` in a `0 0 1000 330` space, so a
+37-character label at 12px runs past 1000. `overflow:visible` would have rendered it anyway,
+past the chart's own box, which is how a label silently escapes the content measure. Measure
+the label against the viewBox, not against the slide.
+
 **Hover isolates; it never reveals.** The review comment asked for "all graph hovers", and
 the deck has three charts — the market line (05), the five-theme bars (13) and the NPS range
 (15). **Only 13 earns one**, because a hover has to add something a still slide does not:
@@ -1225,7 +1258,7 @@ below the content instead of pooling at the bottom.
 ```
 
 **`data-well` marks the first content element on each of the 54 content slides.** Dividers,
-the cover, the closer, the centred statement slides (09, 11, 59) and the bibliography (63)
+the cover, the closer, the centred statement slides (07, 09, 11, 59) and the bibliography (63)
 have no well and are untouched — they already centre or are too tight to move.
 
 **Grids take `align-content` only, and this matters.** `justify-content` on a grid centres
@@ -1427,6 +1460,17 @@ it is.
 Koddi's *All Commerce Media Playbook*, a study commissioned from Forrester Consulting:
 online survey of 788 global decision-makers, July 2025, published 19 November 2025. The
 slide carries the methodology and links the report. That one is fine.
+
+**Slide 07 became a centred statement on 16 Sept, and the evidence survived the move.** It
+was a two-column 42%/13% comparison with an *Implication* line; it now matches slide 09 —
+eyebrow, one 42px line, a navy rule at 1010px, the source. The risk in that conversion was
+real and named in advance: 09's layout has nowhere to put a methodology, and this is the one
+pair in the deck that is independently verified. **The author's line resolved it by putting
+both figures inside the statement** — *"Only 13% of networks meet advanced maturity criteria,
+despite 42% believing they do"* — which frees the source line to carry Forrester, Koddi, the
+788 decision-makers and the dates in full. The *Implication* line was dropped from the slide
+and already lived in the speaker notes. **Check the speaker notes before deciding a
+conversion loses something**; here it did not.
 
 ## Forward statements carry a confidence band — that is a house convention
 
