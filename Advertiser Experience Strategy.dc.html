@@ -67,6 +67,19 @@
      24px so the hit target clears the accessibility floor, with a negative
      margin so the row lays out exactly as the static line did. */
   .secnav{display:flex;align-items:center;gap:0;max-width:620px;margin-bottom:16px}
+  /* Content-map rows are navigation, so they are buttons, not clickable divs:
+     a button gets Enter/Space, focus order and :focus-visible from the UA, and
+     the x-dc component already wires every [data-goto] on mount. UA button
+     styles are reset back to the row's own layout; box-sizing is explicit
+     because the deck sets no global rule and the UA gives buttons border-box. */
+  .s .cmrow{display:grid;grid-template-columns:40px 300px 1fr;gap:24px;
+    align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3;
+    box-sizing:border-box;width:100%;margin:0;border-left:0;border-right:0;
+    border-bottom:0;background:none;font:inherit;color:inherit;text-align:left;
+    cursor:pointer}
+  .s .cmrow:hover{background:#f5f6f8}
+  .s .cmrow:focus-visible{outline:2px solid var(--wm-true-blue,#0053e2);
+    outline-offset:-2px}
   .secnav .rule{flex:1;height:1px;background:rgba(255,255,255,.3)}
   .secnav .dot{position:relative;width:8px;height:8px;padding:18px;margin:-18px;border:0;
     box-sizing:content-box;border-radius:50%;background:rgba(255,255,255,.4);background-clip:content-box;
@@ -106,16 +119,16 @@
   <span class="k">Content map</span>
   <h2 class="t" style="margin-top:8px">The narrative at a glance</h2>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;margin-top:44px">
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">01.</span><span class="bs" style="font-weight:400">Market Shift</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How commerce media is evolving</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">02.</span><span class="bs" style="font-weight:400">Where We Are Today</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What&#8217;s working and what&#8217;s holding us back</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">03.</span><span class="bs" style="font-weight:400">Our Vision</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Where we&#8217;re going next and why</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">04.</span><span class="bs" style="font-weight:400">Strategic Reset</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Why we&#8217;re changing our approach</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">05.</span><span class="bs" style="font-weight:400">Roadmap</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll get there, in the right order</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">06.</span><span class="bs" style="font-weight:400">Operating Model</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll work differently to deliver it</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">07.</span><span class="bs" style="font-weight:400">Measuring Success</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll know we&#8217;re winning</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">08.</span><span class="bs" style="font-weight:400">What Needs To Be True</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What we&#8217;ll need to be successful</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">09.</span><span class="bs" style="font-weight:400">Closing</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Bringing it all together</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs" style="font-weight:400">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></div>
+      <button type="button" class="cmrow" data-goto="3" aria-label="Go to Market Shift"><span class="n" style="font-size:var(--text-h5,17px)">01.</span><span class="bs" style="font-weight:400">Market Shift</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How commerce media is evolving</span></button>
+      <button type="button" class="cmrow" data-goto="11" aria-label="Go to Where We Are Today"><span class="n" style="font-size:var(--text-h5,17px)">02.</span><span class="bs" style="font-weight:400">Where We Are Today</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What&#8217;s working and what&#8217;s holding us back</span></button>
+      <button type="button" class="cmrow" data-goto="22" aria-label="Go to Our Vision"><span class="n" style="font-size:var(--text-h5,17px)">03.</span><span class="bs" style="font-weight:400">Our Vision</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Where we&#8217;re going next and why</span></button>
+      <button type="button" class="cmrow" data-goto="28" aria-label="Go to Strategic Reset"><span class="n" style="font-size:var(--text-h5,17px)">04.</span><span class="bs" style="font-weight:400">Strategic Reset</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Why we&#8217;re changing our approach</span></button>
+      <button type="button" class="cmrow" data-goto="39" aria-label="Go to Roadmap"><span class="n" style="font-size:var(--text-h5,17px)">05.</span><span class="bs" style="font-weight:400">Roadmap</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll get there, in the right order</span></button>
+      <button type="button" class="cmrow" data-goto="48" aria-label="Go to Operating Model"><span class="n" style="font-size:var(--text-h5,17px)">06.</span><span class="bs" style="font-weight:400">Operating Model</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll work differently to deliver it</span></button>
+      <button type="button" class="cmrow" data-goto="53" aria-label="Go to Measuring Success"><span class="n" style="font-size:var(--text-h5,17px)">07.</span><span class="bs" style="font-weight:400">Measuring Success</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll know we&#8217;re winning</span></button>
+      <button type="button" class="cmrow" data-goto="55" aria-label="Go to What Needs To Be True"><span class="n" style="font-size:var(--text-h5,17px)">08.</span><span class="bs" style="font-weight:400">What Needs To Be True</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What we&#8217;ll need to be successful</span></button>
+      <button type="button" class="cmrow" data-goto="57" aria-label="Go to Closing"><span class="n" style="font-size:var(--text-h5,17px)">09.</span><span class="bs" style="font-weight:400">Closing</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Bringing it all together</span></button>
+      <button type="button" class="cmrow" data-goto="61" aria-label="Go to Appendix"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs" style="font-weight:400">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></button>
   </div>
   <div class="pg">02</div>
 </section>
@@ -1514,7 +1527,18 @@
     let css = "";
     if (!showTakeaways) css += ".tk{display:none !important}";
     if (dividerTone === "True Blue") {
-      css += 'section[data-divider]{background:#0053e2 !important}';
+      // A True Blue ground is much lighter than navy (L .117 vs .018), so three
+      // marks fall below their floor if only the background moves: the Sky Blue
+      // .cap lands at 4.31:1 (needs 4.5), and the active navigator dot and its
+      // focus ring at 2.97:1 (need 3). White clears all three at 6.30:1.
+      // background-COLOR, not background: the shorthand resets background-clip
+      // and the dot's 8px painted mark would fill its 44px hit area.
+      css += 'section[data-divider]{background:#0053e2 !important}'
+           + 'section[data-divider] .cap{color:var(--wm-white,#fff) !important}'
+           + 'section[data-divider] .secnav .dot[aria-current="true"]'
+           + '{background-color:var(--wm-white,#fff) !important}'
+           + 'section[data-divider] .secnav .dot:focus-visible'
+           + '{outline-color:var(--wm-white,#fff) !important}';
     }
     let tag = document.getElementById("om-deck-tweaks");
     if (!tag) {

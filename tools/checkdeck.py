@@ -134,6 +134,22 @@ def check(path):
                 fails.append('slide %d navigator has %d dots for %d navigator '
                              'sections' % (slide, len(got), len(nav_slides)))
 
+    # data-goto is not confined to the progression line — the content map on
+    # slide 02 carries ten of them. Those are raw child indices with exactly the
+    # same fragility, and the row-vs-row check above cannot see them because it
+    # only reads slides carrying a .secnav. Assert the invariant that holds for
+    # every jump target in the deck, wherever it is authored: it must land on a
+    # divider. A target that drifts onto a content slide is a navigator that
+    # still renders, still hovers and still clicks, and goes to the wrong place.
+    if divider_ns:
+        stray = sorted({g for g in (int(x) for x in
+                                    re.findall(r'data-goto="(\d+)"', live))
+                        if g + 1 not in divider_ns})
+        if stray:
+            fails.append('data-goto targets that are not divider slides: %s '
+                         '(as slide numbers: %s) — every jump lands on a divider'
+                         % (stray, [g + 1 for g in stray]))
+
     # data-goto is an index into deck-stage's own slide list, and
     # _collectSlides() keeps EVERY slotted element except TEMPLATE/SCRIPT/STYLE
     # (deck-stage.js). So a stray <div> or <p> slotted beside the sections
