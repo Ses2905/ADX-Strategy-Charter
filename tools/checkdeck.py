@@ -551,6 +551,28 @@ def check(path):
                                  'invisible until a render omits the prop'
                                  % (name, val, m.group(1)))
 
+    # Every slide carries its marker -- a .pg page number or a .tk takeaway footer.
+    #
+    # This exists because a rebuild of slide 35 deleted its page number and every check
+    # passed. The splice took `body.rindex('</div>', 0, body.find('<div class="tk"'))`,
+    # and slide 35 is one of the slides with NO takeaway, so find() returned -1, rindex
+    # searched to the second-to-last character, and the tail went with it. Nothing else
+    # notices: the slide renders, clip and collide are clean because there is simply no
+    # marker left to collide with, and the number is gone from the deck.
+    # Scoped to CONTENT slides. Measured: all 12 dark grounds -- the ten dividers plus
+    # the cover and the closer -- carry no marker by design, and every one of the other
+    # 58 does. So the rule is not "every slide" and asserting that reports 12 false
+    # positives; it is "every slide that is not a dark ground".
+    for i, (a, b) in enumerate(spans, start=1):
+        body = html[a:b]
+        head = body[:body.find('>') + 1]
+        if 'data-divider' in head or 'data-dark' in head:
+            continue
+        if 'class="pg"' not in body and 'class="tk"' not in body:
+            fails.append('slide %d carries neither a .pg page number nor a .tk takeaway '
+                         '— a slide with no marker cannot collide with one, so the layout '
+                         'suite reports it clean' % i)
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:
