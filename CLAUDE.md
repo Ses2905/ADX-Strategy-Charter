@@ -684,30 +684,48 @@ not the value.
 |---|---|---|
 | Cover (01) | 68px | 01, 61 |
 | Core | 64px | everything else in 01–61 |
-| Dense (`data-dense`) | **26px** | 14, 19, 20, 52, 70 |
+| Dense (`data-dense`) | **26px** | 19, 20, 52 |
 | Appendix (`data-appendix`) | **42px** | 63–69 |
 
 `.s[data-appendix]` and `.s[data-dense]` set their own `padding` shorthand, which beats the
 base `.s` rule. Paging from the core into the appendix drops the top rail 22px, and into a
 dense slide 38px.
 
-**Slide 70 carries both `data-appendix` and `data-dense`**, and is the only slide that
-does. The dense tier wins the `padding` shorthand, so 70 sits at the dense 26px top rather
-than the appendix 42px. That is the tier order working, not a conflict — but note it means
-70 is *not* on the appendix rail, so paging 69 → 70 moves the top edge 16px.
+**`data-dense` is a FIT tier, not a density tier, and the name misleads.** It is assigned by
+whether a slide overflows the marker at normal padding — not by how much content it carries.
+Measured: slide 14 runs **19.9% ink / 149 words** and slide 52 **18.1% / 103**, both *below*
+the deck medians of 24.8% and 119. Meanwhile slide 64, which is not in the tier, is the
+wordiest slide in the deck at **351 words / 34.4% ink**. A tall sparse layout overflows just
+as surely as a dense one, so read the attribute as *"does not fit at the normal rail."*
 
-**`data-dense` is a density tier, not an appendix marker.** Four slides in the core
-narrative carry it — the five-theme grid (14), the two platform-audit findings (19, 20) and
-the engagement model (52) — because they are genuinely dense tables and grids that do not
-survive the core's 64/96px padding. They were measured into it: at core padding all four
-collide with the takeaway footer by 18–33px. Never set `data-appendix` on a core slide to
-buy that room: the deck's `showAppendix` prop attaches `data-deck-skip` to every
-`data-appendix` section, so a core slide wearing that attribute silently disappears when a
-presenter turns the appendix off.
+**Three of the five did not need it any more, and the tier had gone stale.** This file said
+all four were "measured into it… collide by 18–33px", which was true when measured and is
+not now — slide 19 was rewritten from nine findings to five in the Sep 15 pass. Re-tested by
+stripping the attribute and running `collide.js`: only **20 (22px) and 52 (20px)** still
+collide. 14, 19 and 70 do not.
 
-Those four sit at the dense tier's own 28px header gap, which `audit.js` reports as off the
-core rule. That is expected — do not "fix" it by bumping them to 36px without re-running
-`collide.js`.
+**14 and 70 came off the tier; 19 stayed on, and the reason is worth keeping.** 14's
+neighbours are core slides, so rejoining the 64px rail makes it consistent. 70 is the only
+slide carrying both attributes, and with `data-dense` gone it drops to the appendix's 42px —
+retiring the documented 16px jump when paging 69 → 70.
+
+**19 is the interesting one.** It fits at core padding with room to spare, but 19 and 20 are
+a *pair* — same eyebrow, read back to back — and 20 genuinely needs the tier. Moving 19
+alone puts a 38px rail jump in the middle of a two-slide argument, which is far more visible
+than 19 being off the global rail. **Pairing beats the global rail.** The mechanical answer
+and the right answer differ here.
+
+**The cost is headroom.** 14 went from 149px of slack to 26px. That is comfortable by the
+"content may flow into the bottom padding, never over the marker" standard, but it is not
+generous: if 14's copy grows, the tier goes back on. Re-run `collide.js` after any copy
+change to it.
+
+Never set `data-appendix` on a core slide to buy that room: the deck's `showAppendix` prop
+attaches `data-deck-skip` to every `data-appendix` section, so a core slide wearing that
+attribute silently disappears when a presenter turns the appendix off.
+
+The tier's own 28px header gap reads as off the core rule in `audit.js`. That is expected —
+do not "fix" it by bumping to 36px without re-running `collide.js`.
 
 Whether the rail jump is a defect depends on whether the appendix is meant to read as a
 different document. **Open decision — do not "fix" this by changing one number.**
