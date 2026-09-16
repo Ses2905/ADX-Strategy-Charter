@@ -181,8 +181,14 @@ depends on what the content *is*, and a slack metric alone will mislead you.
 
 ### E2. Genuinely open
 
-- **Slide 10's 50%** — §B2. The link is in place; the number needs the gated PDF. External
-  blocker.
+- ~~**Slide 10's 50%**~~ — **closed on 16 Sept, and it was never a gated-PDF problem.** The
+  author checked the source: Skai's 2025 page *does* show a 50%, but for *improved cross-team
+  collaboration between brand and performance teams* — a different finding entirely. The claim
+  the deck's line had drifted from is **"nearly 60% want to consolidate retail programs into a
+  single platform."** Card is now `~60%`, footnote 1 retired, slide 63 moved *Check figure →
+  Linked*. **The deck has no unresolved figure left.** Hold the distinction: a single
+  *platform* is not fewer *networks* — Skai argues the fewer-networks case separately, and
+  slide 60 carries that one, unattributed.
 - **Slide 50** — eight of nine remits read "Remit in confirmation," and headshots are not in
   the repo. Not resolved, whatever a `Role to confirm` grep says.
 - **Slide 42 dates** — weeks-from-kickoff is a placeholder; real pod dates to come.

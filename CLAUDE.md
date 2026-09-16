@@ -1475,12 +1475,14 @@ it took the block to 28,777px² and three lines to two, with every caveat intact
 what the evidence guardrail requires. Check the speaker notes before trimming a footnote;
 the material is often already there.
 
-**What no layout change fixes:** two of slide 10's four numerals carry footnote markers at
-26.7px — 0.46× the numeral, plainly visible — and one of those numbers is contradicted by
-its own footnote. **The disputed 50% carries exactly the same visual authority as the
-verified 93%**, and it should, because they are peers in a row and the single-out rule
-forbids marking one. That is an argument for resolving the figure or cutting the card, not
-for restyling it.
+**This section used to end on a styling problem that was really an evidence problem.** It
+said two of slide 10's four numerals carried footnote markers at 26.7px and that *"the
+disputed 50% carries exactly the same visual authority as the verified 93%"* — true, and the
+single-out rule rightly forbade marking one. The conclusion was that the answer was to
+resolve the figure, not restyle it. **That is what happened**: the 50% became `~60%` against
+a source that actually says it, footnote 1 retired, and slide 10 now carries a single
+footnote marker (Bain). The lesson stands for the next time — when a figure looks like it
+needs visual hedging, the problem is usually the figure.
 
 ## Source links — the citation status vocabulary
 
@@ -1494,18 +1496,35 @@ supports and one of three states:
 | **Needs link** | no URL available — either not supplied, or internal and only the author can provide it |
 
 **A link is an assertion that the source supports the claim** — so an inline link needs a
-footnote marker on the figure whenever the two do not agree. The rule used to be absolute
-(no inline link until the figure resolves) and the Sep 16 pass amended it: slide 10's Skai
-card now links the report beside the number *and* carries footnote 1 on the number itself,
-saying the 2025 report gives **57%** and *"nearly 60%"* on consolidation where the slide
-says **50%**, and that the **68%** figure is from the **2026** report. That is the amended
-form — link plus a marker on the figure, never a bare link — and it is the author's call,
-made deliberately. A disputed figure with no marker is still forbidden.
+footnote marker on the figure whenever the two do not agree. A disputed figure with a bare
+link and no marker is forbidden.
 
-**Slide 10's 50% is now contradicted by its own footnote, not merely unverified**, which is
-a harder state than the guardrail table below describes. It stays *Check figure* on slide
-63 and it is the one open blocker for external use. Resolving it means replacing the number
-with a sourced one or cutting the card — not adding more caveat.
+**Slide 10's 50% is resolved, and the resolution was the author's source work.** The figure
+had been *Check figure* — contradicted by its own footnote, and the deck's one open blocker
+for external use. It was replaced on 16 Sept, and what the check turned up is worth keeping:
+
+- Skai's 2025 landing page **does** show a 50%, but it is **a different finding entirely** —
+  *improved cross-team collaboration between brand and performance teams* as a value of
+  full-funnel retail media. Nothing to do with consolidation.
+- The figure the deck's claim had almost certainly drifted from is Skai's **"nearly 60% of
+  retail marketers want to consolidate retail programs into a single platform."**
+
+So the card is now `~60%` / *Buyers want one platform* / *"Want to consolidate retail media
+programs into a single platform…"*, footnote 1 retired (there is no longer a contradiction
+to flag), and slide 63's row moved **Check figure → Linked**.
+
+**Hold the distinction the correction turns on: a single PLATFORM is not fewer NETWORKS.**
+One platform can still buy many networks. Skai argues the fewer-networks case *separately*,
+on long-tail RMNs being resource-intensive to manage — so the two claims are both defensible
+and must not be merged. The slide 10 speaker notes carry this, and slide 63's subline says it
+too. **Slide 60's "Consolidation around fewer networks" is the other claim, not this one**,
+and is left as an unattributed market-forces line; it is not sourced to the Skai figure and
+should not be re-pointed at it.
+
+**The general lesson, and it is the one worth carrying:** a number can survive many passes
+with its source attached and still be wrong, because *the source is real and the figure is
+real — they just are not about the same thing*. Neither a link check nor a contradiction
+check catches that. Only reading the source does.
 
 Four links are live: the Koddi playbook (author-supplied in the source deck's speaker
 notes), the Koddi *State of Programmatic Retail Media* PDF behind slides 09 and 10, the
