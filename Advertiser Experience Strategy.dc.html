@@ -1671,7 +1671,7 @@
   _apply() {
     const showTakeaways = this.props.showTakeaways ?? true;
     const showAppendix = this.props.showAppendix ?? true;
-    const dividerTone = this.props.dividerTone ?? "Bentonville navy";
+    const dividerTone = this.props.dividerTone ?? "True Blue";  /* MUST match the data-props default. It read "Bentonville navy" while the declaration said "True Blue", so any render that does not pass the prop -- an export, a fresh mount -- silently took navy. That is the reversion the author hit five times, and it survived the pass that was supposed to end it: moving the default into data-props fixed the declaration and left the fallback disagreeing. SYNC-CONTRACT.md section 3: one value, one source. */
     let css = "";
     if (!showTakeaways) css += ".tk{display:none !important}";
     if (dividerTone === "True Blue") {

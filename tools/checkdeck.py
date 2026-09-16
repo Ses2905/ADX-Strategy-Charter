@@ -530,6 +530,27 @@ def check(path):
             fails.append('%d selector(s) animate only under reduce: %s'
                          % (len(extra), '; '.join(extra[:3])))
 
+    # One value, one source. A prop declared in data-props must not carry a runtime
+    # `?? fallback` that disagrees with its own default.
+    #
+    # dividerTone is why this exists. The author set it in the canvas FIVE times and it
+    # reverted five times; the fix moved the default into data-props -- and left
+    # `?? "Bentonville navy"` in the component while the declaration said "True Blue".
+    # So it kept reverting on any render that did not pass the prop, and the pass that
+    # was supposed to end it made the file self-contradictory instead. Nothing in the
+    # render says which one won; only a reader who happens to read both lines can tell.
+    props = re.search(r'data-props="([^"]*)"', html)
+    if props:
+        decl = dict(re.findall(r'"(\w+)":\{[^{}]*?"default":"([^"]*)"',
+                               props.group(1).replace('&quot;', '"')))
+        for name, val in decl.items():
+            for m in re.finditer(r'\b%s\s*=\s*[^;\n]*?\?\?\s*"([^"]*)"' % re.escape(name), html):
+                if m.group(1) != val:
+                    fails.append('prop %s declares default "%s" but its runtime fallback '
+                                 'reads "%s" — one value, one source; the disagreement is '
+                                 'invisible until a render omits the prop'
+                                 % (name, val, m.group(1)))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:
