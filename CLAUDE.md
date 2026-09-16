@@ -231,10 +231,18 @@ Two mechanics worth not rediscovering:
   `margin-bottom:16px` so the `.cap` clears it at 48px.
 
 The click handler is wired in the deck's own `text/x-dc` component on mount and update, not
-as an inline `onclick`, and it is idempotent (`el.__dcGoto`). **`goTo()` itself is unverified
-locally** — `deck-stage` does not boot in a sandbox without network egress, so the markup,
-CSS, geometry and hover state were measured but the actual jump was not. Click through the
-nine dots in Claude Design before presenting.
+as an inline `onclick`, and it is idempotent (`el.__dcGoto`).
+
+**The navigator works — confirmed in Claude Design on 15 Sept, all nine dots.** This was the
+last unverified thing in the build and it is worth saying plainly, because the sandbox
+limitation that made it unverifiable has not gone away: `deck-stage` still does not boot
+without network egress, so markup, CSS, geometry and hover state can be measured here but a
+*jump* cannot. Everything about `goTo()` and `data-goto` in this section was inference until
+someone clicked it.
+
+Which means the standing instruction is unchanged for the **next** change, not retired:
+touch `data-goto`, the dot markup or the `text/x-dc` handler and it goes back to unverified
+until it is clicked through again. A green local suite never covers this.
 
 The previous 68-slide build (31 core + 4 acts + 33 appendix) is preserved verbatim as
 `Advertiser Experience Strategy (Sep 12 archive).dc.html`. Content that lived only in that
