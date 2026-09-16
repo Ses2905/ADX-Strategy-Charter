@@ -5,14 +5,14 @@ thing the design side cannot get for itself -- it turns "what changed since" fro
 inference into a fact.
 
 ```
-commit:      e7860832b251933198c1bea817eb1239ed5bfa98
+commit:      01cbe360f9c998fdd6dbedf8d7a7153ee44f278a
 branch:      main
-commit-date: 2026-09-16T09:02:45-05:00
-generated:   2026-09-16T14:22:46Z
+commit-date: 2026-09-16T09:23:53-05:00
+generated:   2026-09-16T14:25:51Z
 bound:       LOWER -- this file is committed, so upstream head is `commit` or later
 ```
 
-Head commit: *Merge pull request #34 from Ses2905/updated-outline-(sep-11)*
+Head commit: *Merge pull request #35 from Ses2905/updated-outline-(sep-11)*
 
 ## Reading it
 

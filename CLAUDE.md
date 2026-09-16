@@ -1913,7 +1913,13 @@ directions:**
 | **17** | *none — correct* | The worst defect in the deck: it drew an unbroken line to argue the journey breaks |
 | **51**, **53** | *diagram or grouped cards* | Both already **are** diagrams — a navy band spanning the columns it crosses |
 | **70** | *none — correct* | The pack's own README makes it the third priority, at 913 words |
+| **31** | *diagram or grouped cards* | Already a two-part contrast: paired rows, gray `~0%` against True Blue `60–70%` |
 | **18**, **35** | pre-rebuild forms | Rendered before those two slides were redrawn |
+
+Slides **30** and **31** were re-checked against their settled renders and both are correct
+as they stand: 30 carries four stages, a *"each stage makes the next one cheaper"* rule, an
+*Instead of* contrast and an honest-read statement; 31 is the documented two-part contrast
+with its footnote marker intact on the estimate.
 
 The ledger classifies by **markup shape**, so it counted slide 51's closing two-column
 contrast as "a table of 9 hairline rows" and missed the band above it; it labelled slide 70,
@@ -2118,7 +2124,17 @@ Every one of these produced a confident, wrong answer in this deck:
    versions of that self-test were themselves wrong (one walked the marker's own children,
    one placed the bar where it was clipped) and "passed" a broken deck.
 
-4. **A clean layout suite is not a well-formed document.** The whole browser suite
+4. **A screenshot taken before the motion settles shows you a slide that does not
+   exist.** The entrance tiers run to **730ms** (`lead + 3×step` for the well, plus four
+   sequence beats), and `data-deck-active` **restarts** them every time it is set — which a
+   screenshot harness does on every shot. A 250ms wait caught slide 30 with **two of its
+   four cards drawn and one still translucent**, which reads exactly like a broken slide and
+   would have sent someone to fix a slide that is correct. Emulate
+   `prefers-reduced-motion: reduce` *and* wait past the settle; the `reduce` branch resolves
+   to the end state in 120ms. This is the render-and-look rule's own failure mode: looking is
+   only evidence if the thing has finished arriving.
+
+5. **A clean layout suite is not a well-formed document.** The whole browser suite
    measures *rendered* geometry, and browsers silently forgive malformed markup: a deck
    carrying **two** `</x-dc>`, `data-dc-script`, `</body>` and `</html>` blocks — with
    slide 70 stranded after the first `</html>` — rendered identically to a correct one and
