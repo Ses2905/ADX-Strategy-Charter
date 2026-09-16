@@ -1185,6 +1185,33 @@ Koddi's *All Commerce Media Playbook*, a study commissioned from Forrester Consu
 online survey of 788 global decision-makers, July 2025, published 19 November 2025. The
 slide carries the methodology and links the report. That one is fine.
 
+## The takeaway footer is content-sized, and that is deck-wide
+
+`.tk` is **13.5px on all 38 slides that carry one** — identical to `.bs` card body copy. So
+apparatus and content share a type register. That is systemic, not a slide defect, and it is
+not worth a blanket change: the *"never blanket-replace a token"* rule above exists because
+the last attempt enlarged source notes and pushed slide 62's content onto its page number.
+
+What it means in practice is that **a long takeaway reads as body copy**, so length is the
+only lever that controls its weight. Measure ink, not characters: slide 10's footnote ran
+**52,032px²** against a deck median of 12,525 and a next-heaviest of 25,492 on slide 22.
+It was double the worst other slide and 4× typical.
+
+**The fix was to separate audience-facing from author-facing.** The footnote carried both the
+caveat (*the 2025 report gives 57% and "nearly 60%", not 50%*) and an instruction to the
+presenter (*confirm against the gated PDF and restate before presenting*). The first belongs
+on the slide; the second is an edit note, and it was already in the speaker notes. Dropping
+it took the block to 28,777px² and three lines to two, with every caveat intact — which is
+what the evidence guardrail requires. Check the speaker notes before trimming a footnote;
+the material is often already there.
+
+**What no layout change fixes:** two of slide 10's four numerals carry footnote markers at
+26.7px — 0.46× the numeral, plainly visible — and one of those numbers is contradicted by
+its own footnote. **The disputed 50% carries exactly the same visual authority as the
+verified 93%**, and it should, because they are peers in a row and the single-out rule
+forbids marking one. That is an argument for resolving the figure or cutting the card, not
+for restyling it.
+
 ## Source links — the citation status vocabulary
 
 Slide 63 is the bibliography and every cited source appears on it with the slide it
