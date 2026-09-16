@@ -48,6 +48,15 @@
      precisely BECAUSE no information is revealed — nothing is lost by not
      reaching it, and five tab stops for an emphasis effect would cost more than
      it gives. If a hover ever reveals a value, it owes a focus state too. */
+  /* The bars share an origin that nothing marked, so they floated. One hairline
+     across the plot, one shade off the surface, stopping before the source note.
+     NOT a background track behind each bar: a track implies a total, and this
+     chart's own note says the counts are not mutually exclusive -- 125 findings
+     where one finding can carry several themes. A track would encode a
+     part-of-whole the data does not support. */
+  .s .barplot::before{content:"";position:absolute;top:0;bottom:0;width:1px;
+    left:calc(196px + 16px - 1px);   /* label track + row gap, less the rule itself */
+    background:var(--wm-gray-300,#c3c6cd)}
   .s .bars .bar{transition:opacity var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1))}
   /* :has() and not :hover on the container. The source note sits INSIDE .bars,
      and so do the 12px gaps between rows, so a bare .bars:hover dimmed all five
@@ -300,14 +309,14 @@
     <div data-om-raster="true" style="flex:1;position:relative;min-height:0">
       <svg viewBox="0 0 1000 330" role="img" aria-label="US commerce media ad spend grows about 70 percent, from 83.7 billion dollars in 2026 to 142.1 billion dollars in 2030." preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
         
-        <polyline points="60,250 242,200 424,152 606,110 788,70" fill="none" stroke="var(--wm-true-blue,#0053e2)" stroke-width="3"></polyline>
+        <polyline points="60,250 242,200 424,152 606,110 788,70" fill="none" stroke="var(--wm-true-blue,#0053e2)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></polyline>
         <line x1="74" y1="250" x2="788" y2="250" stroke="var(--wm-gray-200,#dee1e6)" stroke-width="1" stroke-dasharray="3 6"></line>
         <line x1="60" y1="300" x2="788" y2="300" stroke="var(--wm-gray-300,#c3c6cd)" stroke-width="1"></line>
         <circle cx="242" cy="200" r="3.5" fill="var(--wm-true-blue,#0053e2)"></circle>
         <circle cx="424" cy="152" r="3.5" fill="var(--wm-true-blue,#0053e2)"></circle>
         <circle cx="606" cy="110" r="3.5" fill="var(--wm-true-blue,#0053e2)"></circle>
-        <circle cx="60" cy="250" r="5" fill="var(--wm-true-blue,#0053e2)"></circle>
-        <circle cx="788" cy="70" r="6" fill="var(--wm-true-blue,#0053e2)"></circle>
+        <circle cx="60" cy="250" r="3.5" fill="var(--wm-true-blue,#0053e2)"></circle>
+        <circle cx="788" cy="70" r="5" fill="var(--wm-true-blue,#0053e2)"></circle>
         <text x="60" y="232" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">$83.7B</text>
         <text x="242" y="184" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">$99.8B</text>
         <text x="424" y="136" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">$115.6B</text>
@@ -430,11 +439,11 @@
   <p class="d">125 audit findings, research synthesis and advertiser feedback collapse into the same five themes — and most of them are severe.</p>
   <div data-well="grid" style="flex:1;display:grid;grid-template-columns:1fr 300px;gap:40px;margin-top:36px">
     <div class="bars" data-om-raster="true" style="display:flex;flex-direction:column;justify-content:center;gap:12px">
-      <div class="bar-row" style="display:flex;align-items:center;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Unclear</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px">Terminology and reporting meaning</span></span><div style="flex:1;min-width:0"><div class="bar" style="height:26px;width:100.0000%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right">57</span></div>
-      <div class="bar-row" style="display:flex;align-items:center;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Complex</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px">Campaign setup and configuration burden</span></span><div style="flex:1;min-width:0"><div class="bar" style="height:26px;width:56.1404%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right">32</span></div>
-      <div class="bar-row" style="display:flex;align-items:center;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Inconsistent</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px">Navigation, statuses and workflow behavior</span></span><div style="flex:1;min-width:0"><div class="bar" style="height:26px;width:54.3860%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right">31</span></div>
-      <div class="bar-row" style="display:flex;align-items:center;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Fragmented</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px">Cross-product handoffs</span></span><div style="flex:1;min-width:0"><div class="bar" style="height:26px;width:54.3860%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right">31</span></div>
-      <div class="bar-row" style="display:flex;align-items:center;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Time-consuming</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px">Repetitive or avoidable work</span></span><div style="flex:1;min-width:0"><div class="bar" style="height:26px;width:31.5789%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right">18</span></div>
+      <div class="barplot" style="display:flex;flex-direction:column;gap:12px;position:relative"><div class="bar-row" style="display:flex;align-items:flex-start;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Unclear</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px;min-height:35px">Terminology and reporting meaning</span></span><div style="flex:1;min-width:0;margin-top:2px"><div class="bar" style="height:20px;width:100.0000%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right;margin-top:1px">57</span></div>
+      <div class="bar-row" style="display:flex;align-items:flex-start;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Complex</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px;min-height:35px">Campaign setup and configuration burden</span></span><div style="flex:1;min-width:0;margin-top:2px"><div class="bar" style="height:20px;width:56.1404%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right;margin-top:1px">32</span></div>
+      <div class="bar-row" style="display:flex;align-items:flex-start;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Inconsistent</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px;min-height:35px">Navigation, statuses and workflow behavior</span></span><div style="flex:1;min-width:0;margin-top:2px"><div class="bar" style="height:20px;width:54.3860%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right;margin-top:1px">31</span></div>
+      <div class="bar-row" style="display:flex;align-items:flex-start;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Fragmented</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px;min-height:35px">Cross-product handoffs</span></span><div style="flex:1;min-width:0;margin-top:2px"><div class="bar" style="height:20px;width:54.3860%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right;margin-top:1px">31</span></div>
+      <div class="bar-row" style="display:flex;align-items:flex-start;gap:16px"><span style="width:196px;flex:none"><span style="font-size:var(--text-h5,17px);font-weight:400;display:block">Time-consuming</span><span style="font-size:var(--text-12-5,12.5px);line-height:var(--lh-normal,1.4);color:var(--wm-gray-600,#5e636e);display:block;margin-top:2px;min-height:35px">Repetitive or avoidable work</span></span><div style="flex:1;min-width:0;margin-top:2px"><div class="bar" style="height:20px;width:31.5789%;background:var(--wm-true-blue,#0053e2);border-radius:0 4px 4px 0"></div></div><span style="font-family:var(--font-mono);font-size:var(--text-16,16px);flex:none;width:28px;text-align:right;margin-top:1px">18</span></div></div>
       <p class="src" style="margin-top:6px">Corpus: 125 findings from the Advertiser Experience platform audit, 2026, across Sponsored, Display, Seller Center and reporting surfaces. Findings coded by theme; one finding can carry several themes, so the counts are not mutually exclusive — read the ranking, not the total.</p>
     </div>
     <div style="border-left:1px solid var(--wm-gray-200,#dee1e6);padding-left:32px;display:flex;flex-direction:column;justify-content:center;gap:24px">
@@ -473,14 +482,14 @@
         <svg viewBox="0 0 1000 500" role="img" aria-label="Nineteen consecutive months of measured advertiser satisfaction, none of them positive. Period average −27 NPS." preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
           <rect x="60" y="103" width="900" height="274" fill="var(--wm-sky-50,#eaf6fd)"></rect>
           <text x="70" y="146" text-anchor="start" font-family="var(--font-ui)" font-size="15" font-weight="400" fill="var(--wm-gray-600,#5e636e)">Measured monthly range, not a trend line</text>
-          <line x1="60" y1="60" x2="960" y2="60" stroke="var(--wm-bentonville-blue,#001e60)" stroke-width="1.5"></line>
+          <line x1="60" y1="60" x2="960" y2="60" stroke="var(--wm-gray-300,#c3c6cd)" stroke-width="1"></line>
           <text x="52" y="65" text-anchor="end" font-family="var(--font-mono)" font-size="16" fill="var(--wm-bentonville-blue,#001e60)">0</text>
           <text x="960" y="50" text-anchor="end" font-family="var(--font-ui)" font-size="16" font-weight="400" fill="var(--wm-bentonville-blue,#001e60)">No positive month recorded</text>
-          <line x1="60" y1="103" x2="960" y2="103" stroke="var(--wm-everyday-blue,#4dbdf5)" stroke-width="1.5"></line>
+          <line x1="60" y1="103" x2="960" y2="103" stroke="var(--wm-true-blue,#0053e2)" stroke-width="1.5"></line>
           <text x="70" y="123" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">−6 best month</text>
-          <line x1="60" y1="377" x2="960" y2="377" stroke="var(--wm-everyday-blue,#4dbdf5)" stroke-width="1.5"></line>
+          <line x1="60" y1="377" x2="960" y2="377" stroke="var(--wm-true-blue,#0053e2)" stroke-width="1.5"></line>
           <text x="70" y="368" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">−44 worst month</text>
-          <line x1="60" y1="254" x2="960" y2="254" stroke="var(--wm-true-blue,#0053e2)" stroke-width="2.5" stroke-dasharray="7 6"></line>
+          <line x1="60" y1="254" x2="960" y2="254" stroke="var(--wm-true-blue,#0053e2)" stroke-width="2" stroke-dasharray="7 6"></line>
           <text x="954" y="242" text-anchor="end" font-family="var(--font-mono)" font-size="38" fill="var(--wm-true-blue,#0053e2)">−27</text>
           <text x="954" y="272" text-anchor="end" font-family="var(--font-ui)" font-size="16" font-weight="400" fill="var(--wm-true-blue,#0053e2)">period average NPS</text>
           <line x1="60" y1="430" x2="960" y2="430" stroke="var(--wm-gray-300,#c3c6cd)" stroke-width="1"></line>
