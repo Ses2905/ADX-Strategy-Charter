@@ -30,8 +30,18 @@ at real size before deciding.**
 ## Leading: body copy is `--lh-normal`, leads and headings are not
 
 **Every body role leads at `var(--lh-normal,1.4)`.** That covers `.bs`, `.li`, `.src`,
-`.fnote`, `.tk span` and every inline declaration on an element at **15.5px or smaller** —
-466 uses in all.
+`.fnote`, `.tk span` and every inline declaration on an element at **15.5px or smaller**.
+**The count lives in `checkdeck.py`, not here** — this file said "466 uses in all" and an
+external audit measuring the *delivered file* found **20 counter-examples**: the four
+big-rock slides (36–39) share one template whose bodies carry `class="bs"` with **no inline
+`font-size`**, so the sweep missed them and they sat at 1.50 for a full pass. The deck had
+two body leadings again, which is the exact condition this rule exists to remove.
+
+**And `checkdeck` reported `structure: clean` throughout**, because its guard read the size
+band off an *inline* font-size. An element sized by its **role** was invisible to it. The
+guard now matches the whole tag and treats a body-role class as in-band on its own; the case
+is injected in `checkdeck_selftest.py`. **A number in prose describes a copy that has already
+moved — put it in a checker.**
 
 **What is deliberately excluded**, because 1.4 is too tight above the body band:
 
@@ -100,9 +110,16 @@ doing its job.
 
 **Navy fill is now reserved for genuine dependency foundations** — where the content is
 literally what everything else on the slide rests on, not merely the closing thought. In
-the Sept 15 build **two** survive on light slides: **the shared platform foundation** band
-at the base of slide 53, and the *Accelerate* cell of the 2×2 matrix on slide 34 (the
-matrix's own fill ramp, which encodes rank, not emphasis). If a new block is a summary, a
+the Sept 15 build **three** survive on light slides: **the shared platform foundation** band
+at the base of slide 53, the *Accelerate* cell of the 2×2 matrix on slide 34 (the matrix's
+own fill ramp, which encodes rank, not emphasis), and **slide 51's band — which this rule
+did not name until an audit measured it.** This file said "two" and the file said three.
+
+**Slide 51 is undecided and must not be swept either way.** It is either a genuine dependency
+foundation, in which case it belongs in this list with its reason, or it is a summary, in
+which case it takes the statement pattern. **Author's call, open.** Note that a naive
+"navy background" grep also hits slides 17 and 41 — those are 9px progression dots and a 2px
+rule, marks rather than fills, and are correctly excluded. Count fills, not backgrounds. If a new block is a summary, a
 caveat or a conclusion, it takes the statement pattern, not a fill.
 
 Slide 44's "Core message" arrived from the Sep 12 appendix as a 545×450 navy panel — 27% of
