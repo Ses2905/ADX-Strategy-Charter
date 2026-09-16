@@ -302,6 +302,25 @@ depends on what the content *is*, and a slack metric alone will mislead you.
   in the guard's own first draft — it counted `transition:none` in the reduced-motion branch
   as coverage. Closed.
 
+- **The deck's vertical rhythm had come apart, and no checker could see it.** Two stacked
+  faults: well `margin-top` running **nine** distinct values (20/24/26/28/30/32/34/36/44)
+  where the rule allows four, 25 of 53 off-rule and every one undershooting; and the
+  16 Sept centring, which replaced the header-gap constant with a computed value. Measured:
+  header→ink gap **25–130px across 42 distinct values**, 17 slides over 80px. Now
+  **29–79px, 12 values, median 36** — the rule — and **zero** over 80. `clip`, `collide`
+  and `consist2` were clean throughout; `checkdeck.py` asserts the tier, both alignment
+  rules and inline centring overrides, with three injected defects proving it. Closed.
+
+- **Five wells carried an inline `justify-content:center`** that beat the stylesheet rule,
+  so slides 17 and 50 still measured 106px after the CSS change landed. Same trap the
+  16 Sept pass hit from the other direction. Stripped, not beaten with `!important`. Closed.
+
+- **Seven slides now carry over 170px of bottom slack, and five are known content gaps** —
+  68's missing *What they care about* row, 10's absent synthesis line, 45 under-written,
+  67 under-rowed, 50's placeholder roles. Centring was spreading that emptiness so it read
+  as air rather than absence. **Open, and it is the author's:** these want content, not
+  layout.
+
 - **Press Tab on a divider slide** and confirm the focus ring renders. Three
   `focus-visible` rules are present, and `:focus-visible` matches only keyboard-initiated
   focus, so programmatic probing cannot settle it. Needs a human.
