@@ -218,6 +218,25 @@ def motion_tier_dropped_from_reduce(html):
     return html.replace(old, '')
 
 
+def prop_default_vs_fallback(html):
+    """Put dividerTone's runtime fallback back out of step with its declared default.
+    Nothing renders differently in the canvas, where the prop is always passed -- it only
+    shows up on an export or a fresh mount, as a setting that reverts. The author hit that
+    five times, and the pass that "fixed" it changed the declaration and left the fallback."""
+    old = 'dividerTone = this.props.dividerTone ?? "True Blue";'
+    assert old in html, 'dividerTone fallback not found'
+    return html.replace(old, 'dividerTone = this.props.dividerTone ?? "Bentonville navy";')
+
+
+def slide_marker_deleted(html):
+    """Delete a slide's page number, as a bad splice did to slide 35. Nothing else catches
+    it: the slide renders, and clip/collide report clean precisely BECAUSE there is no
+    marker left to collide with."""
+    old = '<div class="pg">35</div>'
+    assert old in html, 'slide 35 page number not found'
+    return html.replace(old, '', 1)
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -255,6 +274,10 @@ CASES = [
      'not on var(--lh-normal,1.4)'),
     ('a tier dropped from the reduced-motion branch', motion_tier_dropped_from_reduce,
      'not under reduce'),
+    ('a prop fallback out of step with its declared default', prop_default_vs_fallback,
+     'one value, one source'),
+    ('a slide stripped of its page marker', slide_marker_deleted,
+     'neither a .pg page number nor a .tk takeaway'),
 ]
 
 

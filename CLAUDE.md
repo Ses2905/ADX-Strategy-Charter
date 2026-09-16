@@ -510,6 +510,43 @@ Note the statement rule here is **navy**, not True Blue — `2px #001e60` is the
 `2px #0053e2` is the peer-row card top. An audit recommending "keep the 2px True Blue
 border-top" on this block had the two crossed.
 
+## Slide 35 is the coverage map, and it is the pattern for the rest
+
+**It was four columns of five bullets — 1,495 characters, zero drawn marks — and those
+bullets duplicated slides 36–39 at lower resolution.** Its actual job, per its own speaker
+notes, is *"four priorities on one spine, read left to right."* The detail belongs on 36–39;
+35 owes the reader the spine and what it rests on.
+
+It is now the **five research themes × the four priorities**, with each theme's finding count
+carried as a bar at the same proportions slide 13 uses, so a reader recognises them. Filled
+mark = directly addressed, outline = partial, hairline = not addressed.
+
+| | before | after |
+|---|---|---|
+| characters | 1,495 | **550** |
+| drawn marks | 0% | 1.6% |
+| row spread | — | **0px** |
+| marker clearance | — | 9px |
+
+**The mapping is derived from slide 35's own bullets, not from 36–39's card headings, and
+those two disagree.** 36's cards are *Modernize Sponsored / Display / Cross-channel / Shared
+creative / Extend self-service*; 35's bullets include *Terminology, content and object
+standards*. So terminology sits under **Simplify** in one and reads as **Platform** in the
+other. The bullets won because they are the more granular statement of the same plan. **If
+the rocks and the spine are ever reconciled, this map changes with them.**
+
+**The finding is the slide, and it is the author's to stand behind:** priorities 01–03 answer
+**107 of the 125 findings**; priority 04 answers **18**, the smallest theme. That is said
+plainly in the closing statement rather than left for the reader to total up. The author's
+brief was that the sequencing exists to show *"what we are doing vs. what we need to"* — the
+unsayable version of *we have not been listening to the research*. A coverage map says it
+structurally, which is stronger than asserting it.
+
+**What this slide is NOT.** It is not slide 34. Slide 34 is the scoring rubric — three
+criteria, two guardrails, one confidence flag — and slides 33 and 43 depend on its
+vocabulary. An early read of the author's brief pointed at 34; rebuilding it there would have
+deleted something load-bearing to add something that belongs next to the priorities anyway.
+
 ## The big-rock component (slides 36–39)
 
 The four FY28 big rocks share one template and must stay identical across all four so the
