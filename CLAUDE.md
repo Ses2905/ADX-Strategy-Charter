@@ -1244,3 +1244,29 @@ Slide 33's decision framework has a third vocabulary again — Prioritize / Resh
 which is the rubric's outcomes minus *Sequence*. That is the source's wording; it is
 narrower than slide 34 on purpose, but if a reader pages 33 → 34 they meet three and four
 outcomes in consecutive slides. Flagged, not changed.
+
+**There was a fourth, and it was wrong.** Slide 34's takeaway pointed at the transition plan
+as *"Commit / Reassess / Sequence Next"* — three words, two of which slide 43 does not use.
+It now names 43's actual four and cites the slide number, which also surfaces the deck's
+no-list where the argument needs it: **six of eight committed areas do not proceed as
+scoped.** That fact was four slides and one act away from the section that earns it.
+
+## The sequence has to agree with itself (slides 30, 32, 35)
+
+The Strategic Reset's whole claim is that **order** is the constraint — "Ambition is not the
+constraint. Sequence is." So two numbered four-item lists that disagree is not a cosmetic
+problem, it is the argument contradicting itself.
+
+Slide 30's stages (Stabilize foundations → Remove friction → Connect → Add decision support)
+and slide 32's phases (Establish → Simplify → Connect → Advance) agree: foundations first.
+Slide 35 then numbered *Build a Unified Ads Platform* — the foundation — **03**, behind
+Simplify (01) and Seller Demand (02), and the big-rock eyebrows carry that numbering.
+
+They are genuinely different axes: **phases are time, priorities are theme**, and priority 02
+(sellers) maps to no single phase at all. Nothing said so. Slide 35's title now does —
+*"Four priorities run across the phases, not one after another"* — which also retires the
+one title in the section that named instead of arguing.
+
+**That slide was also at 4px of marker clearance**, the state slide 57 is on record about,
+and undocumented. The shorter title bought 45px. Watch it: 35 carries four columns of five
+bullets and any copy growth spends that back.
