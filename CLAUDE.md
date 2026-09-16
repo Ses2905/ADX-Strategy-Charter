@@ -399,6 +399,30 @@ have broken the set — one rock at a different size reads as a different kind o
 The title was shortened instead. If a big-rock title will not fit at the size the other
 three use, cut the title, not the size.
 
+**The set had come apart, and this file was asserting the opposite.** It said the four sat
+at 188–202px each, "identical across all four". Measured on 16 Sept they were **47 / 228 /
+112 / 162**, and only 37 and 39 were on the template at all. Slide 38 was a four-column
+table, not cards. Slide 36 used `.cap` for its numerals instead of `.n`, 26px headings
+instead of 17px with the two-line reservation, and `margin:auto 0 0` on each card's footer.
+Both closed with a True Blue rule where the statement rule is navy.
+
+Restored: 38's table is five cards carrying the same content (the third column became the
+optional footer), 36 is on the role, the size and the reservation, and both statements are
+navy. **The four are now 167 / 228 / 155 / 162** — a 73px spread that reflects whether a
+rock has the optional footer row, not template drift.
+
+**Slide 36's 47px was the metric being gamed, and it read as the best of the four.** The
+`margin:auto 0 0` pin held each footer at the card bottom with **75–126px of void above it,
+inside every card** — the trap this file names by hand. Unpinning it packs the content and
+lets the slack fall to the bottom, which is why 36's honest number is 167 and not 47.
+Its grid also carried `flex:1;min-height:0`, so it stretched to fill while the other three
+size to content; that is gone too. **Rank this set by internal gap, never by bottom slack** —
+by slack alone, the worst slide in it looked like the best.
+
+**The optional footer.** Two of the four rocks have a per-card footer — *Pattern it leaves*
+on 36, *What it buys* on 38 — a `.cap` label in gray-600 over a 14.5px line. It is part of
+the template where the content has one, and it is `margin-top:16px`, never `auto`.
+
 The earlier *Evidence behind this priority* strip belonged to the Sep 12 priority slides
 (17–20) and is not in this build. It is preserved in the archive file if the traceability
 back to the research act is wanted again.
