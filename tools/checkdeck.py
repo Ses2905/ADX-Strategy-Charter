@@ -573,6 +573,45 @@ def check(path):
                          '— a slide with no marker cannot collide with one, so the layout '
                          'suite reports it clean' % i)
 
+    # Table semantics. A role="table" whose rows do not all carry the same
+    # number of cells is a table only in name -- assistive tech reads the
+    # column association off the row, so a ragged row silently mis-associates
+    # every cell after the gap. This needs no browser: the roles are in the
+    # text. Cells are counted as DIRECT children of a row, because a cell may
+    # legitimately contain nested markup carrying no role of its own.
+    for m in re.finditer(r'<div\b[^>]*role="table"[^>]*>', html):
+        start = m.start()
+        label = re.search(r'aria-label="([^"]*)"', m.group(0))
+        label = label.group(1) if label else '(unnamed)'
+        slide = html.count('<section class="s"', 0, start)
+        inner = _element_inner(html, start)
+        if inner is None:
+            fails.append('role="table" "%s" (slide %d) is not a balanced element'
+                         % (label, slide))
+            continue
+        rows = [r for r in _child_tags(inner) if 'role="row"' in r[:r.find('>') + 1]]
+        if len(rows) < 2:
+            fails.append('role="table" "%s" (slide %d) exposes %d rows — a table '
+                         'with no row children is invalid ARIA and reads worse '
+                         'than no role at all' % (label, slide, len(rows)))
+            continue
+        widths, headers = set(), 0
+        for row in rows:
+            ri = _element_inner(row, 0)
+            cells = [c for c in _child_tags(ri)
+                     if re.search(r'role="(cell|columnheader|rowheader)"', c[:c.find('>') + 1])]
+            widths.add(len(cells))
+            if 'role="columnheader"' in row:
+                headers += 1
+        if len(widths) != 1:
+            fails.append('role="table" "%s" (slide %d) has ragged rows — cell '
+                         'counts %s; every row must carry the same number'
+                         % (label, slide, sorted(widths)))
+        if headers != 1:
+            fails.append('role="table" "%s" (slide %d) has %d header rows — '
+                         'exactly one row may carry role="columnheader"'
+                         % (label, slide, headers))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:
@@ -585,6 +624,46 @@ def check(path):
     if not fails:
         print('  structure: clean')
     return 1 if fails else 0
+
+
+_TAG = re.compile(r'<(/?)([a-zA-Z][-a-zA-Z0-9]*)([^>]*?)(/?)>', re.S)
+_VOID = {'img', 'br', 'hr', 'input', 'meta', 'link', 'source', 'path',
+         'circle', 'line', 'rect', 'use', 'polyline', 'polygon', 'stop'}
+
+
+def _element_inner(text, start):
+    """The inner HTML of the element whose opening tag begins at `start`."""
+    m = _TAG.match(text, start)
+    if not m:
+        return None
+    depth, inner = 1, m.end()
+    for t in _TAG.finditer(text, inner):
+        if t.group(2).lower() in _VOID or t.group(4):
+            continue
+        depth += -1 if t.group(1) else 1
+        if depth == 0:
+            return text[inner:t.start()]
+    return None
+
+
+def _child_tags(inner):
+    """Top-level element children of an inner-HTML string."""
+    out, depth, open_at = [], 0, None
+    for m in _TAG.finditer(inner):
+        if m.group(2).lower() in _VOID or m.group(4):
+            if depth == 0:
+                out.append(m.group(0))
+            continue
+        if not m.group(1):
+            if depth == 0:
+                open_at = m.start()
+            depth += 1
+        else:
+            depth -= 1
+            if depth == 0 and open_at is not None:
+                out.append(inner[open_at:m.end()])
+                open_at = None
+    return out
 
 
 if __name__ == '__main__':

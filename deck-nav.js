@@ -27,6 +27,14 @@
     transition: background 140ms cubic-bezier(.2,0,0,1);
   }
   .track:hover { background: rgba(0,30,96,.42); }
+  /* The track floats over whatever slide is showing, so a single-hue ring
+     cannot clear 3:1 on both navy and white grounds. A white inner ring with
+     a navy outer ring is legible against either: the two marks contrast with
+     each other (15.50:1), not with the page. */
+  .track:focus-visible {
+    outline: 2px solid #fff; outline-offset: 0;
+    box-shadow: 0 0 0 4px ${NAVY}; background: rgba(0,30,96,.42);
+  }
   .fill { height: 100%; width: 0%; background: ${BLUE}; transition: width 180ms cubic-bezier(.2,0,0,1); }
   .bar {
     display: flex; align-items: center; gap: 14px;
@@ -89,7 +97,8 @@
   @media print { .wrap, .menu { display: none !important; } }
 </style>
 <div class="wrap">
-  <div class="track" part="track"><div class="fill"></div></div>
+  <div class="track" part="track" role="slider" tabindex="0"
+       aria-label="Slide position" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1"><div class="fill"></div></div>
   <div class="bar">
     <button data-act="prev" aria-label="Previous slide">&#8592;</button>
     <button data-act="next" aria-label="Next slide">&#8594;</button>
@@ -122,6 +131,35 @@
         if (!list.length) return;
         const p = Math.min(0.999, Math.max(0, (e.clientX - rect.left) / rect.width));
         this._stage.goTo(list[Math.floor(p * list.length)].i);
+      });
+      this._track.addEventListener('keydown', (e) => {
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        const list = this._visible();
+        if (!this._stage || !list.length) return;
+        const cur = this._cur || 0;
+        let n = null;
+        switch (e.key) {
+          // ArrowUp/ArrowDown are deliberately absent: deck-stage pages the
+          // deck with them (Keynote parity, down = forward), and the ARIA
+          // slider convention is the opposite (down = decrease). Claiming
+          // them here would make one key mean two things depending on focus.
+          // Unclaimed, they fall through to deck-stage and page as normal.
+          case 'ArrowRight': n = cur + 1; break;
+          case 'ArrowLeft':  n = cur - 1; break;
+          case 'PageDown':   n = Math.min(list.length - 1, cur + 5); break;
+          case 'PageUp':     n = Math.max(0, cur - 5); break;
+          case 'Home':       n = 0; break;
+          case 'End':        n = list.length - 1; break;
+          default: return;
+        }
+        // stopPropagation, not just preventDefault: deck-stage's window-level
+        // _onKey gates ArrowUp/ArrowDown on !defaultPrevented but NOT
+        // ArrowLeft/ArrowRight/PageUp/PageDown/Home/End, so those would
+        // advance a second time behind this handler.
+        e.stopPropagation();
+        e.preventDefault();
+        n = Math.min(list.length - 1, Math.max(0, n));
+        if (n !== cur) this._stage.goTo(list[n].i);
       });
       document.addEventListener('click', () => this._setMenu(false));
       document.addEventListener('keydown', (e) => {
@@ -209,6 +247,14 @@
       r.querySelector('[data-act="prev"]').disabled = n === 0;
       r.querySelector('[data-act="next"]').disabled = n === list.length - 1;
       this._cur = n;
+      const sect = this._sect.textContent;
+      this._track.setAttribute('aria-valuemin', '1');
+      this._track.setAttribute('aria-valuemax', String(list.length));
+      this._track.setAttribute('aria-valuenow', String(n + 1));
+      this._track.setAttribute(
+        'aria-valuetext',
+        'Slide ' + (n + 1) + ' of ' + list.length + (sect ? ', ' + sect : '')
+      );
       if (this._menu.getAttribute('data-open') === '1') this._buildMenu();
     }
 
