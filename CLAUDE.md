@@ -576,6 +576,56 @@ instead of hoping the copy fits: put a `min-height` on the wrapping element (a 1
 subtitle is 35px at two lines) so every card is sized for the longest one. The same goes
 for chip rows — a row where two of seven chips wrap is a row with two heights.
 
+## `tools/peercheck.js` — the peer check the suite never had
+
+This file asks for a peer-baseline check in three places and each was learned by shipping
+the defect. It exists now, it is **version-controlled** rather than living in a session
+scratchpad, and `node tools/peercheck.js` runs it against a served copy.
+
+**A peer is defined by shared TREATMENT, not shared markup, and three earlier drafts of
+this checker got that wrong.** Same child count alone reported slide 08's three
+differently-sized content blocks as a 73.6px violation. Same `className` did not help
+either, because `""` equals `""`. The definition that works is **same `border-top` width
+and same `padding`** — the deck's own rule that *"when a sibling row shares a rule, every
+sibling takes the same colour and width."* That one filter drops slide 08's footnote block
+and every table header row without naming a single slide, and took the run from 54 findings
+to 21.
+
+**Rows fail; stacks only advise — and that split is a finding about the checker itself.**
+The deck's rule is written about a **row** of siblings. Applied to a vertical stack it
+reports every ruled table whose cells wrap to different line counts: slides 19, 20, 47, 57,
+63 and 70, none of them defects. **That is the *"counting table rows as card rows"* error
+this file already names, reproduced inside the checker written to catch it.** A stack
+outlier still prints, because slide 13's and slide 15's stat rails were real; it just does
+not fail the run.
+
+**It checks every child index, not the first.** A mismatch below the first line is how
+slide 38 shipped with its footers 23px out, and the scratchpad `peers.js` it replaces read
+only `querySelector('*')` — the first descendant — on siblings carrying a border-top, so a
+row with no rule (13) and an offset below line one (38) were both invisible to it.
+
+**Self-tested.** Removing slide 13's `min-height:35px` reservation reproduces
+`45.8 / 63.3 / 63.3 / 45.8 / 45.8` and pitch `57.8 / 75.3 / 75.3 / 57.8` — the exact numbers
+from before that fix. A checker that reports nothing may simply be blind.
+
+**Two real catches on its first run, both the slide-38 shape:** slide 13's rail
+(75.8 / 96.8 / 75.8) and slide 15's (127.6 / 127.6 / 148.6), each because one block's body
+wrapped past its siblings'. Reserved at two and three lines respectively.
+
+**Seven row findings remain open**, on five slides, all the same shape — one card's copy
+wraps and pushes everything below it out of line:
+
+| slide | what wraps | reserve |
+|---|---|---|
+| 26 | the 13.5px description, 1/2/1/2 lines | 37.8px |
+| 30 | the 28px `.h` card heading, 1/1/1/2 | 59.4px |
+| 43 | a 15px block, 5/6/5/5 lines | 139.5px |
+| 45 | the 28px `.h` heading, 1/1/2, and a 14px body, 3/3/3 | 59.4px |
+| 55 | row heights 341.8 / 299.8 / 299.8 | — needs looking at |
+
+Reserving two lines on a 28px heading adds ~30px to every non-wrapping card, so **run
+`collide.js` after** — these are not free the way the 13.5px ones are.
+
 ## The grid
 
 Fixed 1280×720 artboards — not responsive, so there are no breakpoints. What makes the
