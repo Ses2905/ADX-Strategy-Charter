@@ -177,6 +177,28 @@ def hover_missing_transition(html):
     return html.replace(old, ",.secnav .dot,.secnav .dot::after{\n    transition:color", 1)
 
 
+def well_margin_off_tier(html):
+    """Hand-tighten one well's top margin to make something fit — the exact move
+    that put nine distinct values on a rule that allows four. No browser checker
+    sees it: the slide still renders, still clears the marker, still passes clip."""
+    i = html.index('data-well=', html.index('<section class="s"'))
+    j = html.index('margin-top:', i)
+    k = j + len('margin-top:')
+    end = k
+    while html[end].isdigit():
+        end += 1
+    return html[:k] + str(int(html[k:end]) - 6) + html[end:]
+
+
+def well_alignment_recentred(html):
+    """Put the wells back on centre. That is what replaced the header-gap constant
+    with a computed value ranging 25-130px, and it reads as content floating free
+    of the header it belongs to."""
+    old = '.s > [data-well="flex"]{justify-content:flex-start}'
+    assert old in html, 'well alignment rule not found'
+    return html.replace(old, '.s > [data-well="flex"]{justify-content:center}')
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -206,6 +228,10 @@ CASES = [
      'missing from a @media print reset'),
     ('a hover state dropped from the transition list', hover_missing_transition,
      'missing from the interaction transition list'),
+    ('a well margin hand-tightened off its tier', well_margin_off_tier,
+     'constant per tier'),
+    ('the wells put back on centre', well_alignment_recentred,
+     'wells top-align'),
 ]
 
 

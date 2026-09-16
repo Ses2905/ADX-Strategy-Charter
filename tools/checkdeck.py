@@ -48,6 +48,8 @@ def _direct_children(html, start):
 def check(path):
     html = open(path, encoding='utf-8').read()
     fails = []
+    spans = [(m.start(), html.index('</section>', m.start()))
+             for m in re.finditer(r'<section class="s"', html)]
 
     for tok in SINGLETONS:
         n = html.count(tok)
@@ -354,6 +356,54 @@ def check(path):
         fails.append('%d body leading(s) not on var(--lh-normal,1.4): %s%s'
                      % (len(bare_lh), ', '.join(bare_lh[:5]),
                         ', …' if len(bare_lh) > 5 else ''))
+
+    # The other half of the same rule: wells top-align. Centring them is what turned
+    # the constant into a computed value in the first place, and it is one line to
+    # undo, so it is one line to assert.
+    for sel, val in (('.s > [data-well="flex"]', 'justify-content:flex-start'),
+                     ('.s > [data-well="grid"]', 'align-content:start')):
+        if sel + '{' + val + '}' not in html:
+            fails.append('%s must be %s — wells top-align so the header gap stays a '
+                         'constant; see CLAUDE.md' % (sel, val))
+    inline_centre = len(re.findall(r'<div[^>]*\bdata-well="[a-z]+"[^>]*?'
+                                   r'(?:justify|align)-content:\s*center', html))
+    if inline_centre:
+        fails.append('%d well(s) carry an inline centring override — an inline value '
+                     'beats the rule silently, which is how this regressed both ways'
+                     % inline_centre)
+
+    # Vertical rhythm: the well's top margin is a CONSTANT PER TIER, not a
+    # per-slide judgement, and nothing measured it until this check existed.
+    #
+    # That is how it came apart twice. On 16 Sept the wells were measured at NINE
+    # distinct values (20/24/26/28/30/32/34/36/44) where the rule allows four --
+    # 25 of 53 wells off-rule, every one of them UNDERSHOOTING, which is the
+    # signature of slides hand-tightened one at a time to make something fit. The
+    # browser suite was clean throughout: clip, collide and consist2 all pass on a
+    # deck whose header gap runs 25-130px, because none of them compares a slide
+    # against the tier it belongs to.
+    #
+    # Read the tier from the header's LAST element, not from the slide: the gap
+    # scales to the type above it, so a header ending in a 20px lead takes a
+    # different constant from one ending in a 42px title.
+    for i, (a, b) in enumerate(spans, start=1):
+        body = html[a:b]
+        w = re.search(r'<div[^>]*\bdata-well="[a-z]+"[^>]*?margin-top:\s*(\d+)px', body)
+        if not w:
+            continue
+        head = body[:w.start()]
+        last_lead = head.rfind('class="d"')
+        last_title = max(head.rfind('<h2'), head.rfind('class="t"'), head.rfind('class="h"'))
+        ends_lead = last_lead > last_title
+        appendix = 'data-appendix' in body[:body.find('>')]
+        want = (28 if ends_lead else 36) if appendix else (36 if ends_lead else 44)
+        have = int(w.group(1))
+        if have != want:
+            fails.append('slide %d: well margin-top is %dpx, the %s tier ending in a '
+                         '%s wants %dpx — the header gap is a constant per tier, not a '
+                         'per-slide judgement'
+                         % (i, have, 'appendix' if appendix else 'core',
+                            'lead' if ends_lead else 'title', want))
 
     # Hover parity: every hover-styled target must appear in BOTH the interaction
     # transition list AND a @media print reset.

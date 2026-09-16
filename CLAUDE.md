@@ -1562,70 +1562,63 @@ in Claude Design before it goes to leadership; if it reads busy, the lever is
 `--motion-step`, not deleting the tier.
 
 
-## Content wells centre in the space the header leaves — this is the default
+## Content wells top-align, and the header gap is a constant
 
-**The author asked for it on 16 Sept, and it reverses what this file argued.** The rule here
-used to be *"use `flex-start` and let slack fall to the bottom."* Content wells now centre:
-the slide's remaining vertical space, after the eyebrow/title/lead, is split evenly above and
-below the content instead of pooling at the bottom.
+**This reverses the 16 Sept centring, and the reversal is the author's.** Wells were
+centred that day so the slack split evenly above and below the content. The rule here
+argued for it; it is wrong and it is replaced.
 
 ```css
-.s > [data-well="flex"]{justify-content:center}
-.s > [data-well="grid"]{align-content:center}
+.s > [data-well="flex"]{justify-content:flex-start}
+.s > [data-well="grid"]{align-content:start}
 ```
 
-**`data-well` marks the first content element on each of the 53 content slides.** Dividers,
-the cover, the closer, the centred statement slides (07, 09, 11, 59) and the bibliography (63)
-have no well and are untouched — they already centre or are too tight to move.
+**What centring actually cost, measured before reverting it.** It did not just move
+content down — it replaced the header-gap *constant* with a *computed* value:
 
-**Grids take `align-content` only, and this matters.** `justify-content` on a grid centres
-the *columns*, and this deck uses fixed track widths — so setting it would pull 21 slides off
-the 72px left rail. Verified after the change: every well still spans 1136px, flush at 72px.
+| | centred (16 Sept) | top-aligned |
+|---|---|---|
+| header → ink gap | **25–130px** | **29–79px** |
+| distinct values | **42** | **12** |
+| median | 59px | **36px** — the rule |
+| slides over 80px | **17** | **0** |
 
-**The slack was never between the header and the well — it was inside the well.** 54 of the
-55 wells are `flex:1`, so they already reach the content-box bottom. Auto margins on the well
-therefore do nothing; a first attempt at `margin-top:auto`/`margin-bottom:auto` measured
-**zero change on every slide**. The centring has to go inside the well, which is why the rule
-targets `justify-content`/`align-content` rather than margins.
+A gap that is a function of how much content a slide happens to have is not a rhythm.
+Ten slides sat over 100px and read as content floating free of the header it belongs
+to — which is exactly the objection this file recorded when centring was first tried
+in 2024 and then overrode: *"the content drifted 85–121px down and read as unrelated
+to its header."* The objection was right both times.
 
-**Inline styles beat the rule, and that is how this silently did nothing.** Eleven wells
-carried inline `justify-content:flex-start` and ten carried `align-content:start` — residue
-of the older rule. The stylesheet rule lost to them, and slides 10 and 37 rendered
-**pixel-identical** before and after the change while every checker passed. The inline values
-were stripped rather than beaten with `!important`; a role that carries its own styling
-should not have to fight an override that predates it.
+**Two faults were stacked, and only fixing both worked.**
 
-**The experiment and the implementation were not the same mechanism, and only the render
-caught it.** The measurement pass set `el.style.justifyContent` — inline, so it worked and
-reported 30 slides moving by up to 97px. The implementation used a stylesheet rule, which did
-not. A measured effect does not prove the shipped mechanism produces it. **Render it.**
+1. **The well's box started in nine places.** `margin-top` ran
+   20/24/26/28/30/32/34/36/44 across 53 wells — 25 of them off-rule, **every one
+   undershooting**, which is the signature of slides hand-tightened one at a time to
+   make something fit. Snapped to the tier: core **36** (header ends in a lead) /
+   **44** (ends in a title), appendix **28** / **36**. Three values now, zero off-rule.
+2. **Five wells carried an inline `justify-content:center`** that beat the stylesheet
+   rule silently. This is the same trap from the other direction: the 16 Sept pass
+   found eleven wells carrying inline `flex-start` and had to strip those. **An inline
+   value on a well beats whatever the rule says, so the rule looks applied and is
+   not** — slides 17 and 50 still measured 106px after the CSS change. Strip the
+   inline; never fight it with `!important`.
 
-**What it costs, measured.** 30 slides move. The header→content *ink* gap goes from the
-36px/28px tiers to 42–133px on those slides; the worst are 10 (36 → 133), 68 (30 → 126),
-37 (36 → 126), 67 (51 → 128) and 45 (36 → 113). Median top/bottom imbalance across all 54
-wells is **10px** — they are genuinely centred. Nothing overflows: smallest bottom clearance
-is **11px on slide 14**, and `collide.js` reports no contact with the marker.
+**`checkdeck.py` asserts all of it now**, because nothing did — and that is the whole
+lesson of this regression. `clip`, `collide` and `consist2` were clean on a deck whose
+header gap ran 25–130px, because none of them compares a slide against the tier it
+belongs to. The checker reads the tier from the header's **last element** (a 20px lead
+and a 42px title take different constants), asserts both alignment rules verbatim, and
+counts inline centring overrides. Three injected defects in `checkdeck_selftest.py`.
 
-**`rhythm.js` will flag about fifteen slides for an ink gap over 80px. That is now expected**
-— it is the rule working, not a defect. Do not "fix" it by reverting individual wells; the
-whole point is that the set behaves the same way.
-
-**The header gap rule still holds, and is not what changed.** The well's `margin-top` (36px
-core, 28px appendix) still sets where the well's *box* starts. What moved is where the ink
-sits inside that box. Those are different measurements and `audit.js` reads the first, which
-is why it stays clean.
-
-**The old objection was real and is now a judgement, not a fact.** Five slides (14, 15, 18,
-27, 31) once shipped `display:flex; flex:1; justify-content:center` and were changed to
-`flex-start` because the content drifted 85–121px down and read as unrelated to its header.
-That drift still happens — it is arithmetic. What changed is the author's call on whether a
-balanced slide is worth it. Rendered and checked on the worst cases (10 and 37) before
-shipping: both read as deliberately airy rather than broken.
-
-**If the big gaps ever do become the problem**, the fix is a cap — centre, but stop the
-content moving once the header gap reaches some ceiling — not a per-slide revert. That keeps
-the set uniform, which is the property worth protecting.
-
+**Top-aligning did not create the dead space — it stopped hiding it.** Seven slides now
+carry over 170px of bottom slack, and **five of them are content gaps this file already
+documents**: 68 is missing its *What they care about* row, 10 wants a synthesis line
+under its four stats, 45 is under-written at any type size, 67 is under-rowed, and 50's
+roles are still placeholders. Centring was spreading that emptiness around the slide so
+it read as air rather than absence. **On a light slide the slack belongs at the bottom,
+where it is honest.** If a slide is genuinely under-filled the lever is its content or
+its shape — see *Under-filled slides* — never re-centring one well, because the set
+behaving the same way is the property worth protecting.
 ## Only one sibling in a peer row may be singled out, and only with a reason
 
 Sweep with `uniform.js` / `uniform2.js`: any structurally parallel row (every sibling
