@@ -585,7 +585,7 @@ alone will mislead you here.
 | A table | **Row height.** Rows at 13–15px went to 20px on slides 42, 43, 44, 52 and 54, roughly halving their dead space. 24px would fill more but leaves slides 42 and 54 at 0–1px of marker clearance, which is not survivable in a font we cannot verify. |
 | A lifecycle of six or seven stages | **Leave it.** Compressing a seven-stage row to fill height costs more than the space is worth. |
 | Genuinely under-written | **Leave it, or write more.** Slide 45's three horizons do not fill the height at any type size, and stacking them as full-width bands overflows by 174px. That is a content gap, not a layout one. Same for slide 50, whose roles are still placeholders. |
-| A vertically centred statement slide | **Not slack.** Slides 09, 11 and 59 centre their content, so the measured gap below is the bottom half of a deliberate centring. `slackall.js` reports ~200px on each; leave them. |
+| A vertically centred statement slide | **Not slack.** Slides 07, 09, 11 and 59 centre their content, so the measured gap below is the bottom half of a deliberate centring. `slackall.js` reports ~200px on each; leave them. |
 
 In the Sept 15 build the worst genuine case was slide 32 (four phase cards, 253px). The fix
 was **content, not layout**: the source deck's capability strip had been dropped in
@@ -980,6 +980,14 @@ was competing with the point labels sitting on top of it.
 all five points the linear-scale deviation is at most **0.12B** (0.3244 $B per px). The
 points are not hand-placed.
 
+**The delta callout names itself now.** It read `$142.1B` over `+70% vs 2026` with nothing
+saying what was being projected; it carries a two-line `.cap`-register label —
+*Projected commerce media spend growth* — above the figure. **It is two lines because one
+would overflow the viewBox**: the callout sits at `x=814` in a `0 0 1000 330` space, so a
+37-character label at 12px runs past 1000. `overflow:visible` would have rendered it anyway,
+past the chart's own box, which is how a label silently escapes the content measure. Measure
+the label against the viewBox, not against the slide.
+
 **Hover isolates; it never reveals.** The review comment asked for "all graph hovers", and
 the deck has three charts — the market line (05), the five-theme bars (13) and the NPS range
 (15). **Only 13 earns one**, because a hover has to add something a still slide does not:
@@ -1250,7 +1258,7 @@ below the content instead of pooling at the bottom.
 ```
 
 **`data-well` marks the first content element on each of the 54 content slides.** Dividers,
-the cover, the closer, the centred statement slides (09, 11, 59) and the bibliography (63)
+the cover, the closer, the centred statement slides (07, 09, 11, 59) and the bibliography (63)
 have no well and are untouched — they already centre or are too tight to move.
 
 **Grids take `align-content` only, and this matters.** `justify-content` on a grid centres
@@ -1452,6 +1460,17 @@ it is.
 Koddi's *All Commerce Media Playbook*, a study commissioned from Forrester Consulting:
 online survey of 788 global decision-makers, July 2025, published 19 November 2025. The
 slide carries the methodology and links the report. That one is fine.
+
+**Slide 07 became a centred statement on 16 Sept, and the evidence survived the move.** It
+was a two-column 42%/13% comparison with an *Implication* line; it now matches slide 09 —
+eyebrow, one 42px line, a navy rule at 1010px, the source. The risk in that conversion was
+real and named in advance: 09's layout has nowhere to put a methodology, and this is the one
+pair in the deck that is independently verified. **The author's line resolved it by putting
+both figures inside the statement** — *"Only 13% of networks meet advanced maturity criteria,
+despite 42% believing they do"* — which frees the source line to carry Forrester, Koddi, the
+788 decision-makers and the dates in full. The *Implication* line was dropped from the slide
+and already lived in the speaker notes. **Check the speaker notes before deciding a
+conversion loses something**; here it did not.
 
 ## Forward statements carry a confidence band — that is a house convention
 
