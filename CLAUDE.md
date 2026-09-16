@@ -1328,9 +1328,29 @@ text-dense slide and 0.8% on a sparse one — the proportion tracks text density
 tell that it is rasterization and not layout. Verified separately: all 277 elements settle to
 opacity 1, an identity matrix and **zero** positional drift. It does not matter in the deck
 because `data-deck-active` is always set on the visible slide, so no audience ever sees the
-un-composited state. **Do not "fix" it by switching to `backwards`** — `both` is what makes
-entrance animations resolve on paper (`deck-stage.js:721`), and `backwards` would print every
-animated element at `opacity:0`.
+un-composited state.
+
+**What makes entrance animations resolve on paper is NOT the fill mode.** This file said it
+was, and that was wrong. `deck-stage` does two things at `beforeprint`: it sets
+`data-deck-active` on every slide (`:736`) *and* it injects
+`animation-delay:-99s !important; animation-duration:.001s !important` over everything
+(`_syncPrintPageRule`, `:1348`). Measured, in print media with every slide active:
+
+| | elements still at `opacity:0` |
+|---|---|
+| without the `-99s` rule | **277** |
+| with it | **0** |
+
+So `both` alone prints the whole deck blank — during its delay it holds the `from` state,
+which is `opacity:0`, exactly as `backwards` would. The `-99s` shift is what jumps every
+animation past its end, and under it **both fill modes print identically**. The claim that
+`backwards` would print everything invisible is false.
+
+**The practical consequence: `_syncPrintPageRule` is load-bearing and the fill mode is not.**
+If that rule is ever removed or narrowed, print breaks whatever the fill mode says, and
+anyone trusting the old line here would go looking in the wrong place. `backwards` is a
+legitimate option that would also drop the residual compositing layer — it is not taken
+because the antialiasing it would fix is invisible in practice, not because it is unsafe.
 
 **What is still true from the old standard**, and should be said plainly when it comes up:
 *"add the animations back in"* was a feature request, not a restoration. A Sep 16 review
