@@ -126,8 +126,8 @@
 <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1280" height="720" hint-size="100%,100%" data-uneditable="">
 
 
-<section class="s" data-label="Cover" data-screen-label="01" data-speaker-notes="Open with the thesis: the next era of commerce media is won on experience, not more ad products. This proposal defines the strategy, operating model and investment to make platform experience a durable advantage." style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);padding:68px 72px;justify-content:space-between">
-  <img class="anim-1" src="assets/logos/spark-everyday-blue.svg" alt="Walmart Spark" style="height:44px;width:auto;align-self:flex-start">
+<section class="s" data-dark data-label="Cover" data-screen-label="01" data-speaker-notes="Open with the thesis: the next era of commerce media is won on experience, not more ad products. This proposal defines the strategy, operating model and investment to make platform experience a durable advantage." style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);padding:68px 72px;justify-content:space-between">
+  <img class="anim-1 spark" data-spark-navy="assets/logos/spark-everyday-blue.svg" data-spark-blue="assets/logos/spark-white.svg" src="assets/logos/spark-everyday-blue.svg" alt="Walmart Spark" style="height:44px;width:auto;align-self:flex-start">
   <div>
     <span class="k anim-2" style="color:var(--wm-white,#fff)">Advertiser Experience Team</span>
     <h1 class="h anim-2" style="font-size:var(--text-72,72px);margin:28px 0 0;max-width:1040px">Building the next competitive advantage for Walmart Ads</h1>
@@ -1205,8 +1205,8 @@
   <div class="pg">60</div>
 </section>
 
-<section class="s" data-label="Thank you" data-screen-label="61" data-speaker-notes="Close and open the floor." style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);justify-content:space-between;padding:68px 72px">
-  <img src="assets/logos/spark-everyday-blue.svg" alt="Walmart Spark" style="height:44px;width:auto;align-self:flex-start">
+<section class="s" data-dark data-label="Thank you" data-screen-label="61" data-speaker-notes="Close and open the floor." style="background:var(--wm-bentonville-blue,#001e60);color:var(--wm-white,#fff);justify-content:space-between;padding:68px 72px">
+  <img class="spark" data-spark-navy="assets/logos/spark-everyday-blue.svg" data-spark-blue="assets/logos/spark-white.svg" src="assets/logos/spark-everyday-blue.svg" alt="Walmart Spark" style="height:44px;width:auto;align-self:flex-start">
   <h2 class="h" style="font-size:var(--text-72,72px);max-width:900px">Thank you</h2>
   <span class="cap" style="color:var(--wm-sky-blue,#a9ddf7)">Advertiser Experience &#183; Walmart Global Ads</span>
 </section>
@@ -1532,7 +1532,7 @@
 </x-import>
 <deck-nav></deck-nav>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:720},&quot;showTakeaways&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Takeaway footers&quot;},&quot;showAppendix&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Include appendix (slides 62–70)&quot;},&quot;dividerTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Bentonville navy&quot;,&quot;True Blue&quot;],&quot;default&quot;:&quot;Bentonville navy&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Section divider color&quot;}}">class Component extends DCLogic {
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:720},&quot;showTakeaways&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Takeaway footers&quot;},&quot;showAppendix&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Include appendix (slides 62–70)&quot;},&quot;dividerTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Bentonville navy&quot;,&quot;True Blue&quot;],&quot;default&quot;:&quot;True Blue&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Deck&quot;,&quot;label&quot;:&quot;Section divider color&quot;}}">class Component extends DCLogic {
   componentDidMount() { this._apply(); }
   componentDidUpdate() { this._apply(); }
   _apply() {
@@ -1548,13 +1548,33 @@
       // focus ring at 2.97:1 (need 3). White clears all three at 6.30:1.
       // background-COLOR, not background: the shorthand resets background-clip
       // and the dot's 8px painted mark would fill its 44px hit area.
-      css += 'section[data-divider]{background:#0053e2 !important}'
-           + 'section[data-divider] .cap{color:var(--wm-white,#fff) !important}'
+      // [data-dark] carries the two navy grounds that are NOT dividers — the
+      // cover (01) and the closer (61). Without them the prop produces navy
+      // bookends around True Blue dividers, which is two dark grounds in one
+      // deck; the prop cannot see those slides on its own.
+      css += 'section[data-divider],section[data-dark]{background:#0053e2 !important}'
+           + 'section[data-divider] .cap,section[data-dark] .cap'
+           + '{color:var(--wm-white,#fff) !important}'
            + 'section[data-divider] .secnav .dot[aria-current="true"]'
            + '{background-color:var(--wm-white,#fff) !important}'
            + 'section[data-divider] .secnav .dot:focus-visible'
-           + '{outline-color:var(--wm-white,#fff) !important}';
+           + '{outline-color:var(--wm-white,#fff) !important}'
+           // Slide 62's decorative "A" is a watermark, so it is exempt from the
+           // contrast floor — but a lighter ground still washes it out: .30
+           // white reads 2.54:1 on navy and only 1.78:1 on True Blue. .48 puts
+           // it back to 2.55:1, the same apparent weight against its own ground.
+           // Not a third entry in the two-weight white scale; a compensation.
+           + 'section[data-divider] .n{color:rgba(255,255,255,.48) !important}';
     }
+    // The spark is a file, not a colour, so CSS cannot reach it: Everyday Blue
+    // measures 2.98:1 on True Blue, under the 3:1 non-text floor. A logotype is
+    // exempt from that floor under WCAG 1.4.11, but it still reads washed out,
+    // so the src is swapped rather than left to squeak through an exemption.
+    document.querySelectorAll('img.spark').forEach((el) => {
+      const want = el.getAttribute(
+        dividerTone === "True Blue" ? 'data-spark-blue' : 'data-spark-navy');
+      if (want && el.getAttribute('src') !== want) el.setAttribute('src', want);
+    });
     let tag = document.getElementById("om-deck-tweaks");
     if (!tag) {
       tag = document.createElement("style");
