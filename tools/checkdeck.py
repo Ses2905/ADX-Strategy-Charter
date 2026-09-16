@@ -355,6 +355,61 @@ def check(path):
                      % (len(bare_lh), ', '.join(bare_lh[:5]),
                         ', …' if len(bare_lh) > 5 else ''))
 
+    # Hover parity: every hover-styled target must appear in BOTH the interaction
+    # transition list AND a @media print reset.
+    #
+    # This is the bug that has now shipped three times, counting the incomplete fix
+    # for it. Paper has no cursor, but Chromium keeps :hover in the print rendering,
+    # so a presenter printing mid-hover bakes the hovered state onto the page. The
+    # first print block covered the navigator tooltip, the dot and the content-map
+    # row and MISSED THE LINKS; the fix's own comment claimed every hover state now
+    # reset. Enumerating them by hand is the thing that keeps failing, so it is
+    # enumerated here instead — and the transition side is checked too, because a
+    # hover that snaps is the same defect wearing the other hat.
+    css = html[html.find('<style>'):html.find('</style>')]
+    css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+
+    def _targets(sel):
+        """The element a hover rule actually STYLES, with the hover machinery removed.
+
+        Reduced to the LAST compound selector, because the ancestors in a hover
+        selector are scaffolding rather than identity: `.s .bars .bar-row:hover .bar`
+        and `.s .bars .bar` style the same element and must match. Keep the pseudo-
+        element — `.dot` and `.dot::after` are two different marks with two
+        different print resets.
+        """
+        sel = re.sub(r':has\([^)]*\)', '', sel)          # .bars:has(.bar-row:hover) .bar
+        sel = re.sub(r':(hover|focus-visible)', '', sel)  # .dot:hover::after -> .dot::after
+        return ' '.join(sel.split()).split(' ')[-1].strip('>+~ ') or sel.strip()
+
+    hover_targets, transitioned, printed = set(), set(), set()
+    for m in re.finditer(r'([^{}]+)\{([^{}]*)\}', css):
+        sel_list, body = m.group(1), m.group(2)
+        in_print = css.rfind('@media print{', 0, m.start()) > css.rfind('}}', 0, m.start())
+        for sel in sel_list.split(','):
+            sel = sel.strip()
+            if not sel or sel.startswith('@') or sel.startswith('%'):
+                continue
+            if ':hover' in sel:
+                hover_targets.add(_targets(sel))
+            norm = _targets(sel)
+            # `transition:none` is the reduced-motion branch, not a transition.
+            # Counting it made the guard blind: dropping a target from the real
+            # declaration list still passed, because the reduce branch names the
+            # same selectors and its body also matches 'transition:'.
+            if re.search(r'transition:\s*(?!none)\S', body):
+                transitioned.add(norm)
+            if in_print:
+                printed.add(norm)
+
+    for label, have in (('the interaction transition list', transitioned),
+                        ('a @media print reset', printed)):
+        missing = sorted(t for t in hover_targets if t not in have)
+        if missing:
+            fails.append('%d hover-styled target(s) missing from %s: %s — paper has '
+                         'no cursor, and a hover that snaps is the same defect'
+                         % (len(missing), label, ', '.join(missing)))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:

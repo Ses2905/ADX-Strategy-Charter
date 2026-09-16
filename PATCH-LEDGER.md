@@ -286,6 +286,22 @@ depends on what the content *is*, and a slack metric alone will mislead you.
   the tooltip onto the divider page at full opacity and printed the hovered dot white, losing
   its `aria-current` mark. All hover states now carry a `@media print` reset. Closed.
 
+- **The content-map rows had a hover state that read as inert**, and the fix had to cost zero
+  layout. `#f5f6f8` on white is nearly imperceptible, so the row gave no feedback. The title
+  now takes weight **400 → 500** and **navy → True Blue** on hover and on `:focus-visible`.
+  Measured before shipping: 161px of slack in the 300px track at the longest title, title ink
+  delta **0px**, row 1136 × 44 unchanged, True Blue on gray-50 at **5.82:1**, and a rasterised
+  400/500 comparison confirming a real loaded 500 face (**+36% ink**) rather than synthetic
+  bolding. Print and `reduce` both reset. Closed.
+
+- **The hover/print list is asserted now, not enumerated by hand.** That bug shipped three
+  times counting its own incomplete fix, and every time the cause was a human list.
+  `checkdeck.py` derives the hover targets from the stylesheet and requires each in both the
+  transition declaration and a `@media print` block; two injected defects in
+  `checkdeck_selftest.py` prove it is not blind. The second of those found a real blind spot
+  in the guard's own first draft — it counted `transition:none` in the reduced-motion branch
+  as coverage. Closed.
+
 - **Press Tab on a divider slide** and confirm the focus ring renders. Three
   `focus-visible` rules are present, and `:focus-visible` matches only keyboard-initiated
   focus, so programmatic probing cannot settle it. Needs a human.
