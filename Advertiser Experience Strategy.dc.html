@@ -28,10 +28,10 @@
 <script src="./image-slot.js"></script>
 <script src="./deck-nav.js"></script>
 <style>
-  body{margin:0;background:#20242b}
-  a{color:#0053e2}a:hover{color:#0045bd}
+  body{margin:0;background:var(--wm-gray-900,#20242b)}
+  a{color:var(--wm-true-blue,#0053e2)}a:hover{color:var(--wm-true-blue-hover,#0045bd)}
   .s h1,.s h2,.s h3,.s h4,.s p,.s span,.s blockquote,.s div{color:inherit}
-  .s{width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:#fff;color:#001e60;font-family:var(--font-ui);font-weight:400;padding:64px 72px 96px;display:flex;flex-direction:column}
+  .s{width:1280px;height:720px;box-sizing:border-box;position:relative;overflow:hidden;background:var(--wm-white,#fff);color:var(--wm-bentonville-blue,#001e60);font-family:var(--font-ui);font-weight:400;padding:64px 72px 96px;display:flex;flex-direction:column}
   .s{--r:12px}
   .s[data-appendix]{padding:42px 72px 74px}
   .s[data-dense]{padding:26px 72px 46px}
@@ -78,16 +78,16 @@
   .s .bs{font-size:var(--text-body,15px);line-height:1.5;font-weight:300;margin:0}
   .s .cap{font-family:var(--font-ui);font-size:var(--text-xs,12px);font-weight:500;letter-spacing:.01em;text-transform:none;color:var(--text-content-header,#0053e2);display:block}
   .s .n{font-family:var(--font-display);font-weight:300;letter-spacing:-.03em;line-height:.9;color:var(--wm-true-blue,#0053e2)}
-  .s .src{font-size:var(--text-11,11px);line-height:1.45;color:#74767c;margin:0}
+  .s .src{font-size:var(--text-11,11px);line-height:1.45;color:var(--wm-gray-500,#74767c);margin:0}
   .s .fn{font-family:var(--font-mono);font-size:.46em;line-height:1;letter-spacing:0;vertical-align:super;color:var(--wm-true-blue,#0053e2);margin-left:.14em;font-weight:400}
   .s .fnl{font-family:var(--font-mono);font-size:var(--text-11,11px);color:var(--wm-true-blue,#0053e2);margin-right:5px}
-  .s .fnote{font-size:var(--text-11,11px);line-height:1.5;color:#74767c;margin:0}
+  .s .fnote{font-size:var(--text-11,11px);line-height:1.5;color:var(--wm-gray-500,#74767c);margin:0}
   .s .src a,.s .srclink{display:inline-block;padding:14px 0;margin:-14px 0;
     color:var(--wm-true-blue,#0053e2);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
-  .s .src a:hover,.s .srclink:hover{color:#0045bd}
-  .s .li{font-size:var(--text-body,15px);line-height:1.5;font-weight:300;padding:9px 0;border-top:1px solid #eef0f3}
+  .s .src a:hover,.s .srclink:hover{color:var(--wm-true-blue-hover,#0045bd)}
+  .s .li{font-size:var(--text-body,15px);line-height:1.5;font-weight:300;padding:9px 0;border-top:1px solid var(--wm-gray-100,#eef0f3)}
   .s .tk{position:absolute;left:72px;right:72px;bottom:30px;border-top:1px solid var(--border-subtle,#dee1e6);padding-top:12px;display:flex;gap:32px;align-items:flex-start;justify-content:space-between}
-  .s .tk span{font-size:var(--text-13-5,13.5px);line-height:1.45;color:#46474a;max-width:1010px}
+  .s .tk span{font-size:var(--text-13-5,13.5px);line-height:1.45;color:var(--wm-gray-700,#46474a);max-width:1010px}
   .s .tk b{font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e);font-weight:400;letter-spacing:.06em;flex:none}
   .s .pg{position:absolute;right:72px;bottom:30px;font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e);letter-spacing:.06em}
   /* Section navigator on the dividers. The dot is the 8px mark; the button is
@@ -100,11 +100,11 @@
      styles are reset back to the row's own layout; box-sizing is explicit
      because the deck sets no global rule and the UA gives buttons border-box. */
   .s .cmrow{display:grid;grid-template-columns:40px 300px 1fr;gap:24px;
-    align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3;
+    align-items:baseline;padding:11px 0;border-top:1px solid var(--wm-gray-100,#eef0f3);
     box-sizing:border-box;width:100%;margin:0;border-left:0;border-right:0;
     border-bottom:0;background:none;font:inherit;color:inherit;text-align:left;
     cursor:pointer}
-  .s .cmrow:hover{background:#f5f6f8}
+  .s .cmrow:hover{background:var(--wm-gray-50,#f5f6f8)}
   .s .cmrow:focus-visible{outline:2px solid var(--wm-true-blue,#0053e2);
     outline-offset:-2px}
   .secnav .rule{flex:1;height:1px;background:rgba(255,255,255,.3)}
@@ -139,7 +139,7 @@
      section you are in. Reproduced under emulateMedia('print') before fixing.
      The chart bars have carried this reset since the hover shipped; these
      three never did — and the first version of this block still missed the
-     links, so a citation hovered on slides 09, 10 or 63 printed #0045bd.
+     links, so a citation hovered on slides 09, 10 or 63 printed var(--wm-true-blue-hover,#0045bd).
      Enumerating hover states by hand is what went wrong twice; if a seventh
      appears, it belongs in BOTH the transition list above and here. */
   @media print{
@@ -179,7 +179,7 @@
        order among PEERS, not animating the group they live in. This is what
        stops the header floating in over content that never moves. A well
        holding a genuine chain is excluded and handled by the tier below. */
-    [data-deck-active]:not([data-divider]) > [data-well]:not(:has([data-sequence])){
+    [data-deck-active]:not([data-divider]) > [data-well]:not(:has([data-sequence])):not([data-sequence]){
       animation:deck-fade-up var(--motion-in) calc(var(--motion-lead) + 3*var(--motion-step)) var(--motion-ease) both}
     /* Sequence tier — the exception this file already allowed and had never
        built. Only where the content really is ordered and the delay IS the
@@ -276,29 +276,29 @@
     <div data-om-raster="true" style="flex:1;position:relative;min-height:0">
       <svg viewBox="0 0 1000 330" role="img" aria-label="US commerce media ad spend grows about 70 percent, from 83.7 billion dollars in 2026 to 142.1 billion dollars in 2030." preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
         
-        <polyline points="60,250 242,200 424,152 606,110 788,70" fill="none" stroke="#0053e2" stroke-width="3"></polyline>
-        <line x1="74" y1="250" x2="788" y2="250" stroke="#dee1e6" stroke-width="1" stroke-dasharray="3 6"></line>
-        <line x1="60" y1="300" x2="788" y2="300" stroke="#c3c6cd" stroke-width="1"></line>
-        <circle cx="242" cy="200" r="3.5" fill="#0053e2"></circle>
-        <circle cx="424" cy="152" r="3.5" fill="#0053e2"></circle>
-        <circle cx="606" cy="110" r="3.5" fill="#0053e2"></circle>
-        <circle cx="60" cy="250" r="5" fill="#0053e2"></circle>
-        <circle cx="788" cy="70" r="6" fill="#0053e2"></circle>
-        <text x="60" y="232" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="#5e636e">$83.7B</text>
-        <text x="242" y="184" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="#5e636e">$99.8B</text>
-        <text x="424" y="136" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="#5e636e">$115.6B</text>
-        <text x="606" y="94" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="#5e636e">$129.1B</text>
-        <line x1="788" y1="70" x2="788" y2="250" stroke="#0053e2" stroke-width="1.5"></line>
-        <line x1="780" y1="250" x2="796" y2="250" stroke="#0053e2" stroke-width="1.5"></line>
-        <text x="814" y="44" text-anchor="start" font-family="var(--font-ui)" font-size="12" font-weight="500" letter-spacing=".01em" fill="#0053e2">Projected commerce media</text>
-        <text x="814" y="60" text-anchor="start" font-family="var(--font-ui)" font-size="12" font-weight="500" letter-spacing=".01em" fill="#0053e2">spend growth</text>
-        <text x="814" y="96" text-anchor="start" font-family="var(--font-mono)" font-size="34" fill="#001e60">$142.1B</text>
-        <text x="814" y="128" text-anchor="start" font-family="var(--font-mono)" font-size="20" fill="#0053e2">+70% vs 2026</text>
-        <text x="60" y="322" text-anchor="start" font-family="var(--font-mono)" font-size="14" fill="#5e636e">2026</text>
-        <text x="242" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="#5e636e">2027</text>
-        <text x="424" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="#5e636e">2028</text>
-        <text x="606" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="#5e636e">2029</text>
-        <text x="788" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="#001e60">2030</text>
+        <polyline points="60,250 242,200 424,152 606,110 788,70" fill="none" stroke="var(--wm-true-blue,#0053e2)" stroke-width="3"></polyline>
+        <line x1="74" y1="250" x2="788" y2="250" stroke="var(--wm-gray-200,#dee1e6)" stroke-width="1" stroke-dasharray="3 6"></line>
+        <line x1="60" y1="300" x2="788" y2="300" stroke="var(--wm-gray-300,#c3c6cd)" stroke-width="1"></line>
+        <circle cx="242" cy="200" r="3.5" fill="var(--wm-true-blue,#0053e2)"></circle>
+        <circle cx="424" cy="152" r="3.5" fill="var(--wm-true-blue,#0053e2)"></circle>
+        <circle cx="606" cy="110" r="3.5" fill="var(--wm-true-blue,#0053e2)"></circle>
+        <circle cx="60" cy="250" r="5" fill="var(--wm-true-blue,#0053e2)"></circle>
+        <circle cx="788" cy="70" r="6" fill="var(--wm-true-blue,#0053e2)"></circle>
+        <text x="60" y="232" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">$83.7B</text>
+        <text x="242" y="184" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">$99.8B</text>
+        <text x="424" y="136" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">$115.6B</text>
+        <text x="606" y="94" text-anchor="middle" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">$129.1B</text>
+        <line x1="788" y1="70" x2="788" y2="250" stroke="var(--wm-true-blue,#0053e2)" stroke-width="1.5"></line>
+        <line x1="780" y1="250" x2="796" y2="250" stroke="var(--wm-true-blue,#0053e2)" stroke-width="1.5"></line>
+        <text x="814" y="44" text-anchor="start" font-family="var(--font-ui)" font-size="12" font-weight="500" letter-spacing=".01em" fill="var(--wm-true-blue,#0053e2)">Projected commerce media</text>
+        <text x="814" y="60" text-anchor="start" font-family="var(--font-ui)" font-size="12" font-weight="500" letter-spacing=".01em" fill="var(--wm-true-blue,#0053e2)">spend growth</text>
+        <text x="814" y="96" text-anchor="start" font-family="var(--font-mono)" font-size="34" fill="var(--wm-bentonville-blue,#001e60)">$142.1B</text>
+        <text x="814" y="128" text-anchor="start" font-family="var(--font-mono)" font-size="20" fill="var(--wm-true-blue,#0053e2)">+70% vs 2026</text>
+        <text x="60" y="322" text-anchor="start" font-family="var(--font-mono)" font-size="14" fill="var(--wm-gray-600,#5e636e)">2026</text>
+        <text x="242" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--wm-gray-600,#5e636e)">2027</text>
+        <text x="424" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--wm-gray-600,#5e636e)">2028</text>
+        <text x="606" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--wm-gray-600,#5e636e)">2029</text>
+        <text x="788" y="322" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--wm-bentonville-blue,#001e60)">2030</text>
       </svg>
     </div>
     <p class="src" style="margin-top:16px">Source: EMARKETER, US commerce media ad spending forecast, 25 August 2026. Forecast period 2026–2030.</p>
@@ -320,7 +320,7 @@
     </div>
     <div style="display:flex;align-items:center;gap:12px;margin-top:28px">
       <span class="cap" style="flex:none">Market maturity</span>
-      <span style="flex:1;height:1px;background:#dee1e6"></span>
+      <span style="flex:1;height:1px;background:var(--wm-gray-200,#dee1e6)"></span>
       <span style="width:8px;height:8px;background:var(--wm-true-blue,#0053e2);border-radius:50%;flex:none"></span>
     </div>
   </div>
@@ -342,7 +342,7 @@
   <div data-well="grid" style="flex:1;display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;margin-top:36px">
     <div>
       <span class="cap">One business goal &#183; many decisions &#183; no connected journey</span>
-      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px"><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Where to start</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Objective</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Campaign type</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Approval status</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Pacing</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Which report</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Which product</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Budgets</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Audience</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Creative review</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Bid strategy</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Which metric</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Account access</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Channel mix</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Item selection</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Tracking</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Recommendations</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Attribution model</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Eligibility rules</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Forecasting</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Creative</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Billing</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Inventory</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:11px 16px">Incrementality</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px"><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Where to start</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Objective</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Campaign type</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Approval status</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Pacing</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Which report</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Which product</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Budgets</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Audience</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Creative review</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Bid strategy</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Which metric</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Account access</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Channel mix</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Item selection</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Tracking</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Recommendations</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Attribution model</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Eligibility rules</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Forecasting</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Creative</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Billing</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Inventory</span><span style="font-size:var(--text-body,15px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:11px 16px">Incrementality</span></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:24px">
       <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:16px 0 0">
@@ -447,25 +447,25 @@
     <div style="display:flex;flex-direction:column;min-height:0">
       <div data-om-raster="true" style="flex:1;position:relative;min-height:0">
         <svg viewBox="0 0 1000 500" role="img" aria-label="Nineteen consecutive months of measured advertiser satisfaction, none of them positive. Period average −27 NPS." preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible">
-          <rect x="60" y="103" width="900" height="274" fill="#eaf6fd"></rect>
-          <text x="70" y="146" text-anchor="start" font-family="var(--font-ui)" font-size="15" font-weight="400" fill="#5e636e">Measured monthly range, not a trend line</text>
-          <line x1="60" y1="60" x2="960" y2="60" stroke="#001e60" stroke-width="1.5"></line>
-          <text x="52" y="65" text-anchor="end" font-family="var(--font-mono)" font-size="16" fill="#001e60">0</text>
-          <text x="960" y="50" text-anchor="end" font-family="var(--font-ui)" font-size="16" font-weight="400" fill="#001e60">No positive month recorded</text>
-          <line x1="60" y1="103" x2="960" y2="103" stroke="#4dbdf5" stroke-width="1.5"></line>
-          <text x="70" y="123" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="#5e636e">−6 best month</text>
-          <line x1="60" y1="377" x2="960" y2="377" stroke="#4dbdf5" stroke-width="1.5"></line>
-          <text x="70" y="368" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="#5e636e">−44 worst month</text>
-          <line x1="60" y1="254" x2="960" y2="254" stroke="#0053e2" stroke-width="2.5" stroke-dasharray="7 6"></line>
-          <text x="954" y="242" text-anchor="end" font-family="var(--font-mono)" font-size="38" fill="#0053e2">−27</text>
-          <text x="954" y="272" text-anchor="end" font-family="var(--font-ui)" font-size="16" font-weight="400" fill="#0053e2">period average NPS</text>
-          <line x1="60" y1="430" x2="960" y2="430" stroke="#c3c6cd" stroke-width="1"></line>
-          <g stroke="#5e636e" stroke-width="1.5">
+          <rect x="60" y="103" width="900" height="274" fill="var(--wm-sky-50,#eaf6fd)"></rect>
+          <text x="70" y="146" text-anchor="start" font-family="var(--font-ui)" font-size="15" font-weight="400" fill="var(--wm-gray-600,#5e636e)">Measured monthly range, not a trend line</text>
+          <line x1="60" y1="60" x2="960" y2="60" stroke="var(--wm-bentonville-blue,#001e60)" stroke-width="1.5"></line>
+          <text x="52" y="65" text-anchor="end" font-family="var(--font-mono)" font-size="16" fill="var(--wm-bentonville-blue,#001e60)">0</text>
+          <text x="960" y="50" text-anchor="end" font-family="var(--font-ui)" font-size="16" font-weight="400" fill="var(--wm-bentonville-blue,#001e60)">No positive month recorded</text>
+          <line x1="60" y1="103" x2="960" y2="103" stroke="var(--wm-everyday-blue,#4dbdf5)" stroke-width="1.5"></line>
+          <text x="70" y="123" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">−6 best month</text>
+          <line x1="60" y1="377" x2="960" y2="377" stroke="var(--wm-everyday-blue,#4dbdf5)" stroke-width="1.5"></line>
+          <text x="70" y="368" text-anchor="start" font-family="var(--font-mono)" font-size="15" fill="var(--wm-gray-600,#5e636e)">−44 worst month</text>
+          <line x1="60" y1="254" x2="960" y2="254" stroke="var(--wm-true-blue,#0053e2)" stroke-width="2.5" stroke-dasharray="7 6"></line>
+          <text x="954" y="242" text-anchor="end" font-family="var(--font-mono)" font-size="38" fill="var(--wm-true-blue,#0053e2)">−27</text>
+          <text x="954" y="272" text-anchor="end" font-family="var(--font-ui)" font-size="16" font-weight="400" fill="var(--wm-true-blue,#0053e2)">period average NPS</text>
+          <line x1="60" y1="430" x2="960" y2="430" stroke="var(--wm-gray-300,#c3c6cd)" stroke-width="1"></line>
+          <g stroke="var(--wm-gray-600,#5e636e)" stroke-width="1.5">
             <line x1="84" y1="430" x2="84" y2="442"></line><line x1="131" y1="430" x2="131" y2="442"></line><line x1="178" y1="430" x2="178" y2="442"></line><line x1="226" y1="430" x2="226" y2="442"></line><line x1="273" y1="430" x2="273" y2="442"></line><line x1="321" y1="430" x2="321" y2="442"></line><line x1="368" y1="430" x2="368" y2="442"></line><line x1="415" y1="430" x2="415" y2="442"></line><line x1="463" y1="430" x2="463" y2="442"></line><line x1="510" y1="430" x2="510" y2="442"></line><line x1="557" y1="430" x2="557" y2="442"></line><line x1="605" y1="430" x2="605" y2="442"></line><line x1="652" y1="430" x2="652" y2="442"></line><line x1="700" y1="430" x2="700" y2="442"></line><line x1="747" y1="430" x2="747" y2="442"></line><line x1="794" y1="430" x2="794" y2="442"></line><line x1="842" y1="430" x2="842" y2="442"></line><line x1="889" y1="430" x2="889" y2="442"></line><line x1="936" y1="430" x2="936" y2="442"></line>
           </g>
-          <text x="60" y="470" text-anchor="start" font-family="var(--font-ui)" font-size="15" fill="#5e636e">Feb 2025</text>
-          <text x="960" y="470" text-anchor="end" font-family="var(--font-ui)" font-size="15" fill="#5e636e">Aug 2026</text>
-          <text x="510" y="470" text-anchor="middle" font-family="var(--font-ui)" font-size="15" fill="#5e636e">19 measured months</text>
+          <text x="60" y="470" text-anchor="start" font-family="var(--font-ui)" font-size="15" fill="var(--wm-gray-600,#5e636e)">Feb 2025</text>
+          <text x="960" y="470" text-anchor="end" font-family="var(--font-ui)" font-size="15" fill="var(--wm-gray-600,#5e636e)">Aug 2026</text>
+          <text x="510" y="470" text-anchor="middle" font-family="var(--font-ui)" font-size="15" fill="var(--wm-gray-600,#5e636e)">19 measured months</text>
         </svg>
       </div>
       <p class="src" style="margin-top:10px">Shaded band is the measured monthly range across 19 months; the dashed line is the period average. Monthly values are not plotted individually. Source: Pendo feedback and poll exports, February 2025 – August 2026; 1,350 scored NPS responses. Historical measurement of a predominantly Sponsored Search population — directional, not a current platform-wide baseline.</p>
@@ -573,9 +573,9 @@
   <div data-well="flex" style="flex:1;display:flex;flex-direction:column;margin-top:32px">
     <div style="display:grid;grid-template-columns:1fr 28px 1fr 28px 1.15fr;gap:20px;align-items:center">
       <div><span class="cap">What we are adding</span><p class="h" style="font-size:var(--text-h3-lg,28px);line-height:1.15;margin:10px 0 0">More capabilities</p></div>
-      <span style="font-family:var(--font-mono);font-size:26px;color:var(--wm-true-blue,#0053e2);text-align:center">+</span>
+      <span style="font-family:var(--font-mono);font-size:var(--text-h3,26px);color:var(--wm-true-blue,#0053e2);text-align:center">+</span>
       <div><span class="cap">What remains unresolved</span><p class="h" style="font-size:var(--text-h3-lg,28px);line-height:1.15;margin:10px 0 0">Unresolved fragmentation</p></div>
-      <span style="font-family:var(--font-mono);font-size:26px;color:var(--wm-true-blue,#0053e2);text-align:center">=</span>
+      <span style="font-family:var(--font-mono);font-size:var(--text-h3,26px);color:var(--wm-true-blue,#0053e2);text-align:center">=</span>
       <div><span class="cap">Risk created</span><p class="h" style="font-size:var(--text-h3-lg,28px);line-height:1.15;margin:10px 0 0;color:var(--wm-true-blue,#0053e2)">Lower adoption, higher support cost</p></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 28px 1fr 28px 1.15fr;gap:20px;align-items:start;border-top:1px solid var(--wm-gray-200,#dee1e6);margin-top:26px;padding-top:18px">
@@ -748,7 +748,7 @@
       <div style="margin-top:14px"><div style="border-top:1px solid var(--wm-gray-200,#dee1e6);padding:9px 0;font-size:var(--text-13-5,13.5px);font-weight:300;color:var(--wm-gray-700,#46474a)">New workflow definition</div><div style="border-top:1px solid var(--wm-gray-100,#eef0f3);padding:9px 0;font-size:var(--text-13-5,13.5px);font-weight:300;color:var(--wm-gray-700,#46474a)">New components</div><div style="border-top:1px solid var(--wm-gray-100,#eef0f3);padding:9px 0;font-size:var(--text-13-5,13.5px);font-weight:300;color:var(--wm-gray-700,#46474a)">New dependency discovery</div><div style="border-top:1px solid var(--wm-gray-100,#eef0f3);padding:9px 0;font-size:var(--text-13-5,13.5px);font-weight:300;color:var(--wm-gray-700,#46474a)">New terminology decisions</div><div style="border-top:1px solid var(--wm-gray-100,#eef0f3);padding:9px 0;font-size:var(--text-13-5,13.5px);font-weight:300;color:var(--wm-gray-700,#46474a)">New channel reconciliation</div><div style="border-top:1px solid var(--wm-gray-100,#eef0f3);padding:9px 0;font-size:var(--text-13-5,13.5px);font-weight:300;color:var(--wm-gray-700,#46474a)">New API trade-offs</div></div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:center;padding-top:34px;gap:12px">
-      <span style="font-family:var(--font-mono);font-size:30px;color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span>
+      <span style="font-family:var(--font-mono);font-size:var(--text-30,30px);color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span>
       <p style="font-size:var(--text-12-5,12.5px);line-height:1.45;font-weight:300;margin:0;text-align:center;color:var(--wm-gray-600,#5e636e)">The same six decisions, resolved once for the platform instead of once per initiative.</p>
     </div>
     <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0">
@@ -772,9 +772,9 @@
       <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h3,26px)">3</span><h3 class="h" style="font-size:var(--text-h3,26px)">Connect</h3></div><p class="bs" style="margin-top:12px;font-size:var(--text-13-5,13.5px);line-height:1.45;flex:1">Connect planning, activation and reporting, expand shared components, reusable channel configuration, improve API parity, consolidate entry points.</p><span class="cap" style="margin-top:12px">Leverage &#183; One connected platform</span></div>
       <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h3,26px)">4</span><h3 class="h" style="font-size:var(--text-h3,26px)">Advance</h3></div><p class="bs" style="margin-top:12px;font-size:var(--text-13-5,13.5px);line-height:1.45;flex:1">Adaptive workflows, intelligent defaults, recommendations, automation, Marty across the journey and agentic experiences.</p><span class="cap" style="margin-top:12px">Leverage &#183; Compounding intelligence</span></div>
     </div>
-    <div style="border-top:1px solid #dee1e6;margin-top:40px;padding-top:20px">
+    <div style="border-top:1px solid var(--wm-gray-200,#dee1e6);margin-top:40px;padding-top:20px">
       <span class="cap">What lands across the phases</span>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px"><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Information architecture</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Navigation</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Terminology</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Living Design alignment</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Shared components</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Core workflows</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Creative and reporting foundations</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Platform and API mapping</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Contextual guidance</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Personalization</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Recommendations</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Automation</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Omnichannel planning</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Conversational experiences</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid #dee1e6;border-radius:8px;padding:7px 12px">Agentic workflows</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px"><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Information architecture</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Navigation</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Terminology</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Living Design alignment</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Shared components</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Core workflows</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Creative and reporting foundations</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Platform and API mapping</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Contextual guidance</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Personalization</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Recommendations</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Automation</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Omnichannel planning</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Conversational experiences</span><span style="font-size:var(--text-13-5,13.5px);line-height:1.4;font-weight:300;color:var(--wm-gray-700,#46474a);border:1px solid var(--wm-gray-200,#dee1e6);border-radius:8px;padding:7px 12px">Agentic workflows</span></div>
     </div>
   </div>
   <div class="pg">32</div>
@@ -947,7 +947,7 @@
   <span class="k">Marketplace express pod</span>
   <h2 class="t" style="margin-top:8px">Recommendations create learning; native launch removes the barrier</h2>
   <p class="d">The approved milestones stay intact. The product strategy makes each phase’s role explicit — and keeps native creation from waiting behind a growing recommendation backlog.</p>
-  <div data-well="grid" style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:32px 64px;margin-top:36px">
+  <div data-well="grid" data-sequence style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:32px 64px;margin-top:36px">
     <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h2,34px)">1</span><h3 class="h" style="font-size:var(--text-h3,26px)">Learn</h3></div><span style="font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e);margin:10px 0 12px">Pod weeks 1–2</span><p style="font-size:var(--text-sm,14px);line-height:1.55;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Launch budget, then eligible tROAS one-click recommendations in Seller Center.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · immediate value + evidence</span></div>
     <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h2,34px)">2</span><h3 class="h" style="font-size:var(--text-h3,26px)">Measure + de-risk</h3></div><span style="font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e);margin:10px 0 12px">Weeks 3–5</span><p style="font-size:var(--text-sm,14px);line-height:1.55;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Instrument Activate, Expand and Retain while Quick Start discovery advances in parallel.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · attributable outcomes</span></div>
     <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h2,34px)">3</span><h3 class="h" style="font-size:var(--text-h3,26px)">Convert natively</h3></div><span style="font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e);margin:10px 0 12px">Weeks 5–6</span><p style="font-size:var(--text-sm,14px);line-height:1.55;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Add forecasting, then launch lightweight Sponsored Search inside Seller Center.</p><span class="cap" style="margin-top:auto;padding-top:16px">Leverage · confidence + conversion</span></div>
@@ -1016,7 +1016,7 @@
   <span class="k">Roadmap update</span>
   <h2 class="t" style="margin-top:8px">A third horizon extends the platform beyond Walmart US</h2>
   <p class="d">Horizons 1 and 2 are scoped and underway. The third is a direction with a discovery gate in front of it, not a dated commitment.</p>
-  <div data-well="grid" style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:36px">
+  <div data-well="grid" data-sequence style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:36px">
     <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="cap">Horizon 1</span><span style="font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e)">0–12 months</span></div><h3 class="h" style="font-size:var(--text-h3-lg,28px);margin:12px 0 14px">Simplify the core experience</h3><p style="font-size:var(--text-sm,14px);line-height:1.55;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">IA, navigation and terminology, core workflows, Living Design alignment, Creative Hub, reporting and notifications, platform and API mapping.</p><p style="font-size:var(--text-sm,14px);line-height:1.5;font-weight:400;margin:auto 0 0;padding-top:18px;border-top:1px solid var(--wm-gray-200,#dee1e6);margin-top:18px">Outcome: a simpler, more consistent Walmart Ads.</p></div>
     <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="cap">Horizon 2</span><span style="font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e)">12–24 months</span></div><h3 class="h" style="font-size:var(--text-h3-lg,28px);margin:12px 0 14px">Unify the platform</h3><p style="font-size:var(--text-sm,14px);line-height:1.55;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Shared workflow frameworks and components, unified identity and access, common creative, reporting and campaign foundations, UI and API parity, configurable experiences.</p><p style="font-size:var(--text-sm,14px);line-height:1.5;font-weight:400;margin:auto 0 0;padding-top:18px;border-top:1px solid var(--wm-gray-200,#dee1e6);margin-top:18px">Outcome: a connected platform that accelerates delivery.</p></div>
     <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;display:flex;flex-direction:column;height:100%"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="cap">Horizon 3</span><span style="font-family:var(--font-mono);font-size:var(--text-xs,12px);color:var(--wm-gray-600,#5e636e)">To be validated</span></div><h3 class="h" style="font-size:var(--text-h3-lg,28px);margin:12px 0 14px">Extend across the ecosystem</h3><p style="font-size:var(--text-sm,14px);line-height:1.55;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Inventory platforms and data, identify reusable foundations, separate shared-core from market-specific needs, build a sequenced migration roadmap.</p><p style="font-size:var(--text-sm,14px);line-height:1.5;font-weight:400;margin:auto 0 0;padding-top:18px;border-top:1px solid var(--wm-gray-200,#dee1e6);margin-top:18px">Outcome: a scalable model for Walmart Ads, Sam’s Club and international.</p></div>
@@ -1052,9 +1052,9 @@
   <div class="tk"><span>Structurally simpler than a full international rollout — but the scope still requires validation.</span><b>46</b></div>
 </section>
 
-<section class="s" data-label="International" data-speaker-notes="Extend Walmart International market by market. Five dimensions decide what can be common and what has to stay local &#8212; and each one carries its own discovery question. Avoid a single global migration: platform maturity, products, data, regulations and operating models vary substantially. Globally extensible, locally configurable." data-screen-label="47">
+<section class="s" data-label="International" data-speaker-notes="Walmart International extends the platform, market by market. Five dimensions decide what can be common and what has to stay local &#8212; and each one carries its own discovery question. Avoid a single global migration: platform maturity, products, data, regulations and operating models vary substantially. Globally extensible, locally configurable." data-screen-label="47">
   <span class="k">Business segment unification</span>
-  <h2 class="t" style="margin-top:8px">Extend Walmart International market by market</h2>
+  <h2 class="t" style="margin-top:8px;font-size:var(--text-40,40px)">Walmart International extends the platform, market by market</h2>
   <p class="d">A single global migration assumes a uniformity that does not exist. Five dimensions decide what can be shared, and each one has to be answered per market before a wave is scoped.</p>
   <div data-well="flex" style="flex:1;display:flex;flex-direction:column;margin-top:30px;min-height:0">
     <div style="display:grid;grid-template-columns:232px 1fr 1fr;gap:24px;padding-bottom:9px"><span class="cap">Dimension</span><span class="cap">Why reuse cannot be assumed</span><span class="cap" style="color:var(--wm-true-blue,#0053e2)">What discovery must answer</span></div>
@@ -1249,13 +1249,13 @@
   <span class="k">The opportunity</span>
   <h2 class="h" style="font-size:var(--text-58,58px);max-width:1010px">Build less from scratch. Create more value from everything we build.</h2>
   <div data-sequence="pairs" style="display:grid;grid-template-columns:auto 1fr;gap:0 24px;align-items:center;max-width:1010px">
-    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:34px;color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:44px;line-height:1">Simplify</span></div>
+    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:var(--text-h2,34px);color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:var(--text-h1,44px);line-height:1">Simplify</span></div>
     <div style="padding:14px 0"><div style="height:10px;border-radius:999px;background:var(--wm-true-blue,#0053e2);width:25%"></div></div>
-    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:34px;color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:44px;line-height:1">Unify</span></div>
+    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:var(--text-h2,34px);color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:var(--text-h1,44px);line-height:1">Unify</span></div>
     <div style="padding:14px 0"><div style="height:10px;border-radius:999px;background:var(--wm-true-blue,#0053e2);width:50%"></div></div>
-    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:34px;color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:44px;line-height:1">Connect</span></div>
+    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:var(--text-h2,34px);color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:var(--text-h1,44px);line-height:1">Connect</span></div>
     <div style="padding:14px 0"><div style="height:10px;border-radius:999px;background:var(--wm-true-blue,#0053e2);width:75%"></div></div>
-    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:34px;color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:44px;line-height:1">Advance</span></div>
+    <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:var(--text-h2,34px);color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:var(--text-h1,44px);line-height:1">Advance</span></div>
     <div style="padding:14px 0"><div style="height:10px;border-radius:999px;background:var(--wm-true-blue,#0053e2);width:100%"></div></div>
   </div>
   <div class="pg">59</div>
@@ -1626,7 +1626,7 @@
       // cover (01) and the closer (61). Without them the prop produces navy
       // bookends around True Blue dividers, which is two dark grounds in one
       // deck; the prop cannot see those slides on its own.
-      css += 'section[data-divider],section[data-dark]{background:#0053e2 !important}'
+      css += 'section[data-divider],section[data-dark]{background:var(--wm-true-blue,#0053e2) !important}'
            + 'section[data-divider] .cap,section[data-dark] .cap'
            + '{color:var(--wm-white,#fff) !important}'
            + 'section[data-divider] .secnav .dot[aria-current="true"]'

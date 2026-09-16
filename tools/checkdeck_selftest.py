@@ -135,6 +135,21 @@ def sequence_attr_not_first(html):
     return html[:s] + sec[:m.end()] + card + sec[m.end():] + html[e:]
 
 
+def bare_token_colour(html):
+    """A tokened colour rewritten as a bare literal. Renders identically today;
+    silently stops following _ds on the next re-sync."""
+    old = 'var(--wm-gray-200,#dee1e6)'
+    assert old in html, 'gray-200 is no longer written as a token anywhere'
+    return html.replace(old, '#dee1e6', 1)
+
+
+def bare_token_size(html):
+    """A font-size that has a token, written as a raw px value."""
+    old = 'font-size:var(--text-h1,44px)'
+    assert old in html, 'no --text-h1 use to un-tokenise'
+    return html.replace(old, 'font-size:44px', 1)
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -152,6 +167,10 @@ CASES = [
      'an odd count'),
     ('data-sequence authored as a later attribute, with a 5th child',
      sequence_attr_not_first, 'the tier enumerates 4'),
+    ('a tokened colour rewritten as a bare literal', bare_token_colour,
+     'will not follow a _ds re-sync'),
+    ('a tokened font-size rewritten as a raw px value', bare_token_size,
+     'bare font-size value'),
     ('two content-map rows swapped (both still dividers)', swapped_goto_targets,
      'content map points at'),
 ]

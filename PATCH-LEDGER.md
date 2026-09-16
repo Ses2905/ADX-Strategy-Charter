@@ -253,6 +253,31 @@ depends on what the content *is*, and a slack metric alone will mislead you.
   stagger value everywhere. Not taken, because the 110ms was preserved deliberately so the
   dividers' feel would not change. That is a feel decision, not an audit finding.
 
+- **Token drift: 95 bare colours, 11 bare font-sizes, every one with a token.** Closed 16
+  Sept. `_ds/**` is replaced wholesale on re-sync, so a bare value silently stops following
+  the design system — `#dee1e6` ran 93 tokened against 42 bare, so one re-sync would have
+  split gray-200 into two greys. Nothing rendered differently, which is why it survived.
+  Rewritten to `var(--token,#literal)` and verified **pixel-identical across 15 slides**.
+  The palette itself was already clean: 15 colours, all real tokens, zero off-palette — this
+  was a reference problem, not a brand one. Guard added to `tools/checkdeck.py`, **not**
+  `consist2.js` as first proposed: the JS checkers live in a session scratchpad and do not
+  survive the container, while `tools/*.py` is version-controlled, and bare hex needs no
+  browser to detect.
+
+- **The sequence tier had the wrong membership.** Closed 16 Sept. It shipped on 30, 32 and 59
+  — a list carried from this ledger rather than derived from the rule `CLAUDE.md` states.
+  Slides **42** (four phases marked *Weeks 1–2, 3–5, 5–6*) and **45** (three horizons) meet
+  that rule outright, and 42 is a *timeline* that was arriving as one undifferentiated block.
+  Both added. The other numbered slides stay out correctly: numbering is enumeration, not
+  order. **Re-derive membership from the rule; do not carry a list forward.**
+
+- **Slide 47's title was the *before* shape of `CLAUDE.md`'s own worked example.** Closed
+  16 Sept: *"Extend Walmart International market by market"* → *"Walmart International extends
+  the platform, market by market"*, stepped 42 → 40px per the ladder. **Slide 44 is the same
+  shape and is deliberately untouched** — whether the imperative is a sanctioned second title
+  register is an open call for the author, and fixing one of a pair on an undecided rule just
+  moves the inconsistency.
+
 - **Hover states were three timings for one job, and three of them printed.** Six interactive
   states existed and only the chart bars were on a design-system token — the navigator
   tooltip ran a literal `.12s ease` and four others snapped. Unified on
