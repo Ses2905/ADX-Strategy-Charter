@@ -1548,10 +1548,45 @@ reading experience. Three rules it now holds:
   trigger's `aria-expanded` together. The trigger previously advertised
   `aria-haspopup` but never said whether it was open, so assistive tech could not tell.
   Never set `data-open` directly — the two will drift.
-- **The seek track shows it is interactive.** It is a 4px strip whose only affordance
-  was `cursor:pointer`; it now has a hover state. Its click mapping is segment-based
-  (68 equal segments), which is internally consistent — clicking at the fill's right
-  edge landing on the next slide is correct segment behaviour, not an off-by-one.
+- **The seek track is a real slider, not a strip with a click handler.** It is a 4px
+  strip whose only affordance was `cursor:pointer`, so scrubbing worked for a pointer
+  and nobody else. It now carries `role="slider"`, `tabindex="0"`, an `aria-label` and
+  the value triple, which `_sync()` rewrites on every slide change alongside the fill
+  width — **one writer, same as the menu's open state.** Its click mapping is
+  segment-based (one segment per visible slide), which is internally consistent —
+  clicking at the fill's right edge landing on the next slide is correct segment
+  behaviour, not an off-by-one.
+
+  **Three things about its keyboard path are not obvious, and two of them are traps.**
+
+  - **`stopPropagation`, not `preventDefault`.** `deck-stage`'s window-level `_onKey`
+    gates `ArrowDown`/`ArrowUp` on `!e.defaultPrevented` and **does not gate**
+    `ArrowLeft`, `ArrowRight`, `PageUp`, `PageDown`, `Home` or `End`. So a slider that
+    only calls `preventDefault()` moves the deck **twice** — once itself and once
+    behind its own back. The escape is to stop the event before it reaches the window,
+    the same one the rail thumbs and the slides' `[data-goto]` buttons already use.
+    This is the Space trap from the content-map rows, on a different set of keys:
+    **check what `_onKey` already claims before assuming a native default survives.**
+  - **↑/↓ are deliberately not claimed.** `deck-stage` pages *down = forward* for
+    Keynote parity; the ARIA slider convention is *down = decrease*. Claiming them
+    would make one key mean two opposite things depending on where focus is, so they
+    are left unhandled and fall through to the deck. `←/→` move one slide, `PageUp`/
+    `PageDown` five (the coarse step a scrubber is for), `Home`/`End` the first and
+    last **visible** slide — which is better than `_onKey`'s own `Home`/`End`, since
+    those index raw children and can land on a `data-deck-skip` slide.
+  - **The focus ring is two rings, and that is not decoration.** The track floats over
+    whatever slide is showing, so its ground is navy on one slide and white on the
+    next. No single hue clears 3:1 against both — Everyday Blue is 2.12:1 on white and
+    True Blue is low on navy. A white 2px outline inside a navy 4px `box-shadow`
+    contrasts with *itself* (15.50:1) rather than with the page, so it reads on either
+    ground. **Where a control's ground is unpredictable, contrast the ring against the
+    ring.**
+
+  **All of this was verified against a stub stage**, since `deck-stage` does not boot
+  here: ARIA triple at rest and after navigation, first Tab landing on the track,
+  `:focus-visible` matching with the ring computed, each key moving the deck exactly
+  once with the window handler recording nothing, ↑/↓ still reaching the window, the
+  click mapping unchanged, and the chrome still `display:none` in print.
 - **Reduced motion applies to the chrome too.** The deck honours
   `prefers-reduced-motion` for slide entrances; its nav did not, so the bar still slid
   and the progress fill still animated. Transitions are now disabled under the query.
@@ -1852,6 +1887,79 @@ before/after, not five siblings within one row, and the fill marks a state rathe
 pick. The rule bans filling **one card among peers**; it does not ban distinguishing
 *after* from *before*.
 
+## Tabular data carries table semantics — on the twelve slides that are actually tables
+
+The deck has **zero `<table>` elements**; every table is a CSS grid, so assistive tech got
+a flat run of text with no row or column association. Twelve slides now carry
+`role="table"` / `row` / `columnheader` / `rowheader` / `cell`: **19, 20, 35, 47, 52, 57,
+63, 64** (a row per `<div>`) and **65, 66, 67, 68** (one flat grid, cells as direct
+children).
+
+**The audit's list of eight was wrong on two, and the re-derivation is the point.** It
+named 63, 64, 65, 66, 70, 44, 52 and 54. **Slide 44 is not a table** — its `132px 1fr`
+grid is the *statement pattern's* label rail, which this file documents. **Slide 54 is a
+section divider**: three text nodes, no grid at all. Meanwhile the list missed **19, 20,
+35, 47, 57, 67 and 68**, all genuine row × column data. **Re-derive membership from the
+rule; do not carry a list forward** — the same lesson the sequence tier already records.
+
+**Slide 70 looks like the thirteenth and is not.** Its `1fr 1fr` grid holds **two
+columns**, each a stack of findings — a two-column *layout*, not a cell grid. The tell was
+the transform reporting *one row*: a table with one row is a layout. It was reverted, and
+the revert had to come from `git show HEAD:` rather than by undoing the edit by hand,
+which left an orphan `</div>` on the first attempt.
+
+**A card row is not a table, and the distinction is cross-reference.** Roughly thirty
+slides lay out grid data; most are card rows where reading order carries the meaning, and
+`role="row"` on those would announce a grid over prose. The test is whether the reader has
+to cross a row against a column to get the fact. A dimension × segment matrix does; five
+cards in a row do not.
+
+**Attributes only — never inject an element into a laid-out container.** The first attempt
+wrapped each row run in a new `<div role="table">` and **broke slides 20 and 35**, one of
+them losing nine opening tags. The version that shipped inserts nothing on the row-per-div
+tables: `role="table"` goes on the rows' existing common parent, and any non-row child of
+that parent takes `role="presentation"` (five slides have one). Div balance before and
+after: **847 / 847, unchanged.**
+
+**The flat grids are the exception, and they need `display:contents`.** A flat grid has no
+row elements, and `role="row"` cannot be conjured from an attribute — so 65–68 do get
+injected wrappers, `<div role="row" style="display:contents">`. `display:contents` removes
+the box from layout entirely while keeping the element in the accessibility tree, so the
+cells still participate in the parent grid exactly as before. Balance checked per slide:
+**+26 open, +26 close.**
+
+**`role="table"` with no rows inside is worse than no role.** A table's required children
+are rows; without them the browser may drop the whole thing or announce a table that turns
+out to be empty. An intermediate version of this pass put the table role on the flat grids
+with `headers`/`id` associations and no rows — valid-looking, and invalid. If a container
+cannot get real rows, it does not get the role.
+
+**The geometry check was blind on its first run, and it passed.** `<x-dc>` is
+`display:none` until `deck-stage` boots, which it does not do here — so every element
+measured **0×0**, and 441 leaves compared "identical" because zero equals zero. Force the
+deck visible (`x-dc{display:block}`, `section.s{display:flex}`) and assert the boxes are
+real before believing a clean geometry run: slide 63 measures **1280×720** with cells at
+**868 / 88 / 132px**, matching its `1fr 88px 132px` track. Re-measured that way: **441 text
+leaves across the twelve slides, zero movement.**
+
+**The accessibility tree is the check that matters, not the markup.** All twelve tables
+expose rows and cells, and every one's `cells + headers` equals `rows × columns` exactly —
+including the four `display:contents` grids, where 65 reports **9 rows / 63 cells**. A
+structural pass over the DOM would have reported the same twelve tables while the browser
+exposed none, which is precisely what happened before the visibility override.
+
+`checkdeck.py` asserts it: every `role="table"` has at least two rows, every row the same
+cell count, and exactly one header row. Cells are counted as **direct** children of a row,
+because a cell may legitimately contain nested markup carrying no role. Three injected
+defects in `checkdeck_selftest.py` — a dropped cell role, a second header row, and the row
+roles stripped — take it to **23 cases**.
+
+**Still open:** the author's worksheet records *"All 32 slides"* for this item while the
+action list that came with it says *"only the eight that are genuinely data tables."* The
+twelve above are the slides that meet the cross-reference test. If the intent really was
+every grid, the remaining ~18 are card rows and the roles would make them read worse.
+
+
 ## Accessibility: what is measured, and how to measure it
 
 | | |
@@ -2112,6 +2220,17 @@ in the design project while slide 63 stayed byte-identical, so for one pass the 
 three sources the bibliography still listed as *Needs link* and the lead line still said
 "Two are linked". Same failure mode as slides 19 and 70: one argument split across two
 places, and only one of them edited.
+
+**And it happened again, in the other direction.** When the eMarketer row resolved
+*Needs link → Linked*, the slide's lead and takeaway were updated and its
+`data-speaker-notes` were not — so for a pass the table read **5 Linked / 4 Needs link**
+while the presenter's cue still said *"Four are linked … Five still need links"*, and
+carried the author-facing *"only you can supply them"* that the visible copy had already
+dropped. **Slide 63 states its own counts in four places and only one of them is true:
+the rows.** `checkdeck.py` derives the counts from the rows and requires the notes, the
+lead and the takeaway to agree, with the real drift injected in
+`checkdeck_selftest.py`. A citation change edits the row and forgets the prose — so the
+prose is no longer where the number lives.
 
 Citation links are `<a target="_blank" rel="noopener">` and inherit `.src a` / `.srclink`:
 True Blue, underlined at 1px with a 2px offset. Do not restyle them per slide.

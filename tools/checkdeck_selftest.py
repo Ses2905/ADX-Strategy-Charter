@@ -237,6 +237,51 @@ def slide_marker_deleted(html):
     return html.replace(old, '', 1)
 
 
+
+def table_ragged_row(html):
+    """Drop one cell's role so its row carries one fewer column than its peers.
+
+    The cell still renders; only the association is lost, which is exactly the
+    failure that is invisible in a screenshot.
+    """
+    i = html.index('role="table"')
+    j = html.index('role="cell"', i)
+    return html[:j] + 'data-was-cell="1"' + html[j + len('role="cell"'):]
+
+
+def table_second_header_row(html):
+    """Promote a body row's cells to column headers, giving the table two
+    header rows. A reader then cannot tell which row names the columns."""
+    i = html.index('role="table"')
+    j = html.index('role="rowheader"', i)
+    k = html.index('role="cell"', j)
+    return html[:k] + 'role="columnheader"' + html[k + len('role="cell"'):]
+
+
+def table_without_rows(html):
+    """Strip the row roles from one table, leaving cells directly inside it.
+    Invalid ARIA: a table's required children are rows."""
+    i = html.index('role="table"')
+    end = html.index('</section>', i)
+    body = html[i:end].replace('role="row"', 'data-was-row="1"')
+    return html[:i] + body + html[end:]
+
+
+
+def bibliography_count_drift(html):
+    """Put the bibliography's speaker notes back to the counts they carried
+    before the eMarketer row resolved, while the table stays at 5 / 4.
+
+    This is the real drift, reproduced: the row moved Needs link -> Linked and
+    the prose describing it did not.
+    """
+    return html.replace(
+        'Five are linked and every figure now matches its published source. '
+        'Four still need a URL',
+        'Four are linked and every figure now matches its published source. '
+        'Five still need a URL', 1)
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -278,6 +323,14 @@ CASES = [
      'one value, one source'),
     ('a slide stripped of its page marker', slide_marker_deleted,
      'neither a .pg page number nor a .tk takeaway'),
+    ('a cell role dropped, leaving a table row one column short', table_ragged_row,
+     'ragged rows'),
+    ('a body row promoted to a second header row', table_second_header_row,
+     'header rows'),
+    ('the row roles stripped from a table', table_without_rows,
+     'invalid ARIA'),
+    ('the bibliography prose left behind by a resolved citation',
+     bibliography_count_drift, 'forgets the prose'),
 ]
 
 
