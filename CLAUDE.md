@@ -1887,6 +1887,51 @@ before/after, not five siblings within one row, and the fill marks a state rathe
 pick. The rule bans filling **one card among peers**; it does not ban distinguishing
 *after* from *before*.
 
+## Slide 17 draws the break, because its own speaker notes always said it did
+
+**The slide argued that the journey breaks and drew it unbroken.** *Today · separate
+products* was a **continuous 1px navy rule** with five dots on it, structurally identical
+to the *Future · one connected experience* rule below. The only difference between the
+broken state and the whole state was that one was blue. The segmentation that did exist
+— five 2px gray-300 bars — sat in the *questions* row above, where it read as five
+underlines rather than as a broken spine.
+
+**This was not a redesign, and that is the point.** Slide 17's `data-speaker-notes` read,
+and had always read: *"Above the spine, today: the advertiser crosses **broken segments**."*
+The author had described the diagram correctly; the markup had never drawn it. **Check the
+speaker notes before proposing a new form — the intended one is often already written
+down.** No claim was added, no word changed: the five stages, five questions and five
+outcomes are the deck's own.
+
+It is one SVG now, matching slide 18's idiom so the deck's two journey diagrams read as one
+object: five segments with **20px gaps**, a navy wall through each of the four boundaries,
+a navy stage mark and a mono 11px uppercase stage name. Measured after: segments
+`217.2 / 207.2 / 207.2 / 207.2 / 217.2`, all four gaps exactly **20px**, and every wall
+dead-centre in its gap at an offset of **0.00**.
+
+**The muted half is gray-600, not gray-300, and the difference is the 3:1 floor.** This
+file documents `2px #c3c6cd` as *"the muted half of a two-part contrast"* on slides 31 and
+51 — but there the gray marks a **state**, alongside a gray `.cap` and a gray `.n`, and the
+reader is not asked to see it. Here the broken line **is** the argument. gray-300 measures
+**1.71:1** on white, well under the 3:1 non-text floor; gray-600 measures **6.02:1**. Every
+mark was measured: walls and stage marks navy at 15.50:1, the future rule True Blue at
+6.30:1. **A muted treatment that makes the argument invisible is the defect this slide
+already had.**
+
+**The walls are navy, and navy is correct here.** The navy-density rule forbids navy for
+*plain structural dividers*; a wall on this slide is not chrome, it is the interruption the
+slide exists to show, and navy-as-ink is what that rule explicitly sanctions.
+
+**Slide 18 shipped with `width="100%%"`** — a doubled percent from a Python format string,
+fixed in the same pass. It rendered at the right size anyway, because an invalid `width`
+is dropped and the SVG falls back to filling its block parent, which happens to be exactly
+the 1136px measure. **It worked by accident**: the same SVG in a container that sizes to
+content would have collapsed. Nothing in the suite looks at attribute validity.
+
+Slide 17 keeps **160px** of bottom slack, and that is correct — it is a before/after
+comparison, the one shape the *Under-filled slides* rule says never to reflow.
+
+
 ## Tabular data carries table semantics — on the twelve slides that are actually tables
 
 The deck has **zero `<table>` elements**; every table is a CSS grid, so assistive tech got
