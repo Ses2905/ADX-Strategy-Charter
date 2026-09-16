@@ -516,6 +516,26 @@ was **content, not layout**: the source deck's capability strip had been dropped
 transcription. Restoring it took the slide to 100px and put back something the author wrote.
 Check the source before reaching for a layout lever.
 
+**The four appendix segment maps (65–68) are a set, and their row rhythm had drifted.** They
+ran four different cell paddings — 8 / 8 / 10 / 12px — across four sibling reference slides
+that are read one after another. Unified at **12px**: on the 4px scale, already slide 68's
+value, and the fullest of the four (65, eight rows) keeps 61px of clearance. 65 went
+121 → 61px and 66 181 → 145px.
+
+**It does not fix 67 and 68, and no padding value would.** They are 5 and 4 body rows to
+65's 8, so the same treatment buys them 18px and nothing. They are not under-padded, they
+are under-rowed — and padding them to fill would make two tables visibly airier than their
+siblings to serve a metric, which is the trap the whole section is about.
+
+**Slide 68 is a content gap, and a parallelism one.** The three functional investment maps
+are meant to run the same dimensions against different populations. 66 (brand) and 67
+(agency) both carry five — *What they care about · Budget influence · Where they invest ·
+Retail media wishlist · Critical pain points*. **68 (3P seller) carries four: it has no
+"What they care about" row.** That missing row is most of its 225px, and writing it is the
+author's — it is segment research, not layout. Restoring it fixes the dead space and the
+parallelism in one move, which is the slide-32 lesson again: check the content before
+reaching for a layout lever.
+
 Slide 70 came down from the canvas at 188px — a two-column table with room to spare, which
 is the one shape the table rule fits. Rows went `padding-top:8px` → `20px` and the column
 `gap` 6 → 16, taking it to **78px** without touching a word. Note that its sibling slide 19
