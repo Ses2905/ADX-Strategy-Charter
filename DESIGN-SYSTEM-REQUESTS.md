@@ -65,6 +65,38 @@ it; `.04em` is visibly tighter at the sizes it is used on.
 The jump from `wide` 0.04em to `eyebrow` 0.25em is a 6× gap with nothing in it. **A step at
 0.06em** would cover the deck's use and sit sensibly in that range.
 
+**A second value sits in the same gap: `.14em`, 4 uses.** Either give it a step too, or tell
+us it should round to `0.06em` and we will. It is in the ask so it is not invented locally.
+
+**What is NOT being asked for, and is worth recording:** a tighter negative step. The deck
+ran three bespoke negative values — `-.022em` ×6, `-.012em` ×1 and `-.03em` on the `.n`
+numeral role — and all eight are on `--ls-tight` / `--ls-snug` now. The `.n` one was the
+interesting case: it is a *role default* setting the tracking of all **58** numerals in the
+deck, and `-.03em` against `--ls-tight`'s `-0.02em` is a 0.01em delta, five times the other
+two. Measured before snapping it: **median 0.52px, max 4.06px** across all 58. Imperceptible,
+so it takes the token — the same call the `.26em` → `--ls-eyebrow` eyebrow decision made on
+the same evidence. **Display type does not need a tighter step on our account.**
+
+## Request 3 — a lighter font payload, or guidance on trimming one
+
+`typography.css` declares **24 `@font-face` rules**. This deck references three family tokens
+— `--font-display`, `--font-ui`, `--font-mono` — at three weights (300, 400, 500) plus one
+italic run in citations. **Eight faces in use, 24 shipped.** The base `Everyday Sans` family,
+all ten faces, is never set in — it appears only as the second entry in each token's fallback
+stack. Every 700 and 900 weight is unused, as is every italic except UI Regular.
+
+The offline export is **1.8MB** and the bundler inlines every face the stylesheet asks for,
+used or not. This is the single largest size win available and it changes nothing on screen.
+
+**Why this is a request and not a deck fix.** The faces live in `_ds/**`, which is replaced
+wholesale on re-sync — that boundary is the whole point of the vendoring. Trimming them
+locally is undone by the next sync, so it has to happen system-side or not at all.
+
+**The caveat to resolve before anyone deletes files:** the base family is the *fallback*
+inside every token stack, so removing it entirely changes what renders if a Headline or UI
+weight ever goes missing. A subsetted or weight-trimmed build that keeps base 300/400/500 as
+a live fallback would get most of the win with none of that risk.
+
 ---
 
 ## Not a request — recorded so it is not re-raised
