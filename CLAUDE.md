@@ -929,15 +929,31 @@ dashed baseline is `#dee1e6` (gray-200, L 0.75) — genuinely lighter, and a rea
 Check luminance rather than eyeballing a hex: two grays that look adjacent in a spec can
 sit on opposite sides of the axis weight.
 
-**Known open item:** the market chart's area fill is not zero-baselined — the fill bottom
-sits at roughly $59B, so the filled area overstates magnitude even though every point is
-labelled. Fine for a line, arguable for an area. Decide deliberately before this goes to
-leadership.
+**The area fill is gone, and that closes the open item.** It was not zero-baselined — the
+polygon floored at `y=300`, which on this scale is **$67.5B**, not the ~$59B this file said.
+Quantified, the distortion was worse than "overstates magnitude" suggests:
 
-The delta annotation helps this without resolving it: the dashed line now marks the 2026
-level explicitly, so a reader can see that the comparison starts at $83.7B rather than at
-the bottom of the shading. The fill still runs below that line to an unlabelled floor,
-which is the part still worth deciding.
+| | 2026 | 2030 | ratio |
+|---|---|---|---|
+| Value | $83.7B | $142.1B | **1.70×** |
+| Filled height | 50px | 230px | **4.60×** |
+
+**The area read as 2.7× more growth than the data contains.** An area encoding's whole job
+is to carry magnitude in the filled region, so a floor above zero is not a styling choice,
+it is a false claim — and one no amount of point-labelling repairs, because the reader takes
+magnitude from the shape before reading a single label.
+
+**The fix was to delete the fill, not to zero-baseline it.** Zero-baselining keeps the area
+honest but halves the visible slope (2026 moves from `y=250` to `y=165`), so the chart pays
+for accuracy with the very trend it exists to show. A **line** carries no area encoding, so
+a non-zero baseline on it is ordinary and correct — this file already said as much: *"fine
+for a line, arguable for an area."* Removing the `#eaf6fd` polygon keeps the slope, keeps
+every label, and drops the claim the chart could not support. It also reads better: the wash
+was competing with the point labels sitting on top of it.
+
+**The scale itself was already right** and worth recording so nobody re-derives it: across
+all five points the linear-scale deviation is at most **0.12B** (0.3244 $B per px). The
+points are not hand-placed.
 
 **Second open item on the same slide:** the source note reads *EMARKETER, 25 August 2026*
 while the Sept 15 deck cites *eMarketer Forecast, June 2026* for the same series. Two
