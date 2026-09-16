@@ -972,9 +972,27 @@ single trend line or a range band.
 
 ```css
 .s .bars .bar{transition:opacity var(--dur-fast,120ms) var(--ease-standard,…)}
-.s .bars:hover .bar{opacity:.3}
+.s .bars:has(.bar-row:hover) .bar{opacity:.3}
 .s .bars .bar-row:hover .bar{opacity:1}
+@media print{.s .bars .bar{opacity:1 !important}}
 ```
+
+**It must be `:has()`, not `:hover` on the container, and that is not a nicety.** The source
+note sits *inside* `.bars`, and so do the 12px gaps between rows — so a bare `.bars:hover`
+dimmed **all five bars with none isolated** whenever the pointer crossed a gap or the
+caption. Measured: `.3 .3 .3 .3 .3`, a state that means nothing. `:has()` scopes the dim to
+when a row is genuinely hovered. Where `:has()` is unsupported the rule simply drops and the
+chart never dims — the resting state, not a broken one.
+
+**Print needs its own override because Chromium keeps `:hover` in the print rendering.** A
+presenter printing with the pointer over a row captured `.3 .3 1 .3 .3` into the PDF.
+`deck-stage`'s before-print hook only zeroes `transition-duration`, so it does not help here;
+`image-slot.js:398–402` handles the same class of problem for its own hover-gated UI. **Paper
+has no cursor** — any future hover state owes a `@media print` reset in the same commit.
+
+Both were caught in review, not by the suite, and both reproduce in three lines of
+Playwright. A hover state has at least four cases worth testing: the mark, the container's
+dead space, the resting state, and print.
 
 **Only the bars dim. Text never does** — gray-600 at `.3` on white fails contrast, and a row
 has to stay readable while its neighbour is hovered. Verified: bar opacities go

@@ -49,8 +49,16 @@
      reaching it, and five tab stops for an emphasis effect would cost more than
      it gives. If a hover ever reveals a value, it owes a focus state too. */
   .s .bars .bar{transition:opacity var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1))}
-  .s .bars:hover .bar{opacity:.3}
+  /* :has() and not :hover on the container. The source note sits INSIDE .bars,
+     and so do the 12px gaps between rows, so a bare .bars:hover dimmed all five
+     bars with none isolated whenever the pointer crossed a gap or the caption —
+     a state that means nothing. Where :has() is unsupported the rule drops and
+     the chart simply never dims, which is the resting state, not a broken one. */
+  .s .bars:has(.bar-row:hover) .bar{opacity:.3}
   .s .bars .bar-row:hover .bar{opacity:1}
+  /* Print can fire mid-hover and Chromium keeps :hover in the print rendering,
+     so a PDF could capture four bars at .3. Paper does not have a cursor. */
+  @media print{.s .bars .bar{opacity:1 !important}}
   @media (prefers-reduced-motion:reduce){.s .bars .bar{transition:none}}
   .s > [data-well="flex"]{justify-content:center}
   .s > [data-well="grid"]{align-content:center}
