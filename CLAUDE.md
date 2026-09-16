@@ -713,6 +713,26 @@ let slack fall to the bottom.
 Row padding is **not** uniform deck-wide on purpose — the 9–12px rows on slides 21, 26, 29
 and 30 are load-bearing for footer clearance. Only slides with surplus space were changed.
 
+**A matrix cell is a REGION, not a card, and slide 34 will keep getting flagged for it.**
+Its four outcome cells are 179px tall carrying 83px of content — **78px of internal void
+each**, which is exactly the shape the big-rock rule says to rank a set by. A composition
+audit on 16 Sept flagged it as the only instance of internal void in the deck and proposed
+sizing the rows to content. **Built it, rendered it, and it is worse.** Removing the
+`flex:1` and switching `grid-template-rows:1fr 1fr` → `auto auto` takes the cells to 103px
+with the void gone, and the matrix collapses into a small cluster in the top-right with
+~135px of empty slide beneath it while the rubric column runs on to 617. The two columns
+stop reading as a pair.
+
+The voids are what make the matrix read as a **quadrant diagram** — its own footers say
+*Guardrails → pass* and *Score → high*, so position carries meaning and the cell is an area,
+not a box of text. A quadrant is allowed to be mostly empty; that is what a quadrant is.
+Every other convention of this kind (BCG, Eisenhower) works the same way.
+
+This is the *"counting table rows as card rows"* error wearing a different hat: a **card**
+heuristic applied to a **matrix**. Check what the content *is* before choosing the
+treatment — and note that the stretch is also what lands both columns flush at 617.
+`consist2`, `clip` and `collide` are all clean either way, so only the render decides.
+
 ## Roles carry their own styling — don't rely on remembering an override
 
 **Numbers (`.n`) are True Blue by class.** They were uncoloured, so they inherited navy and
