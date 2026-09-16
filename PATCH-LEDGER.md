@@ -240,9 +240,26 @@ depends on what the content *is*, and a slack metric alone will mislead you.
      is ordered and the delay *is* the content. This is the exception the motion section
      already names as allowed; it has never been built.
 
-  Not started. Re-run the budget after any change, and note the display tier cannot come
-  down to a 30–50ms stagger without changing a feel the author has not asked to change —
-  put that to them rather than assuming.
+  **Done on 17 Sept, both moves.** The well tier (51 slides, one block at 230ms) and the
+  sequence tier (30, 32, 59 — four beats at 60ms, `pairs` on 59 so each label lands with its
+  own bar). A third rule fell out of the render: slide 30's well holds the chain *and* three
+  commentary rows, and excluding the whole well left them dead-static under a moving chain;
+  they now arrive on the chain's last beat. Sequence span is exactly 500ms, settling 730ms.
+  277 elements animate, each matching exactly one tier, all settling to identity with zero
+  drift; `reduce` gives 0 animating and 0 transitioning. See `CLAUDE.md` → Motion.
+
+  **Still open, and still the author's:** the display tier is 650ms of span, 30% over budget,
+  and `--motion-step-display` 110 → 60ms is a one-token fix that would give the deck a single
+  stagger value everywhere. Not taken, because the 110ms was preserved deliberately so the
+  dividers' feel would not change. That is a feel decision, not an audit finding.
+
+- **Hover states were three timings for one job, and three of them printed.** Six interactive
+  states existed and only the chart bars were on a design-system token — the navigator
+  tooltip ran a literal `.12s ease` and four others snapped. Unified on
+  `--dur-fast`/`--ease-standard` with a `reduce` branch. Separately: reproduced under
+  `emulateMedia('print')` that a presenter printing with the pointer on a navigator dot baked
+  the tooltip onto the divider page at full opacity and printed the hovered dot white, losing
+  its `aria-current` mark. All hover states now carry a `@media print` reset. Closed.
 
 - **Press Tab on a divider slide** and confirm the focus ring renders. Three
   `focus-visible` rules are present, and `:focus-visible` matches only keyboard-initiated

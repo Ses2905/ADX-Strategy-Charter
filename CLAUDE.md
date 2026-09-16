@@ -1039,6 +1039,30 @@ owes a focus state in the same commit.**
 
 Reduced motion suppresses the transition and keeps the state, matching the rest of the deck.
 
+**Interaction feedback and entrance motion are different jobs and use different tokens.**
+Hover/focus is `--dur-fast` + `--ease-standard`; an entrance is `--motion-in` +
+`--motion-ease`. Do not collapse them into one another — a 320ms hover feels broken and a
+120ms entrance is not choreography.
+
+**The deck had three timings for one kind of feedback.** Six interactive states existed and
+only the chart bars were on a token: the navigator tooltip ran a literal `.12s ease`, and the
+links, source links, content-map rows and navigator dots all **snapped** with no transition
+at all. They are one vocabulary now, declared once over
+`a, .src a, .srclink, .cmrow, .dot, .dot::after`, with a matching `reduce` branch. Measured
+under `prefers-reduced-motion:reduce`: **0 animating, 0 transitioning** deck-wide.
+
+**Paper has no cursor, and three hover states were printing.** The bar chart has carried a
+`@media print` reset since its hover shipped; nothing else did. Reproduced under
+`emulateMedia('print')` with the pointer on a navigator dot: the tooltip printed at **full
+opacity** — a floating `07 · Measuring Success` baked onto the divider page — and the hovered
+dot printed white, losing the `aria-current` mark that says which section you are in. All
+hover states now reset in print. Confirmed after: tooltip `opacity:0`, dot back to
+`rgba(255,255,255,.4)`, screen behaviour unchanged.
+
+**This is the second time this exact bug shipped**, which makes it a class rather than an
+incident. The rule is unchanged and now has teeth: **any hover state owes a `@media print`
+reset in the same commit** — and a hover that ever surfaces a value owes a focus state too.
+
 **Slide 59 is not a chart and must not get this.** Its four bars are 25/50/75/100% pills
 illustrating that each stage keeps what the one before it built — a progression mark with no
 data behind it. A bar-width sweep will flag it; it is a false positive, the same family as
@@ -1162,7 +1186,7 @@ network egress, so nav *behaviour* (prev/next, seek, slide sync) cannot be exerc
 locally — only the shadow root's construction and any method not needing the stage.
 Treat logic changes here as unverified until clicked through in Claude Design.
 
-## Motion — two tiers, one keyframe, and the evidence does not move
+## Motion — four tiers, one keyframe, and the evidence still does not perform
 
 **The standard changed on 16 Sept, and it was a decision, not a restoration.** This file
 said *"this deck does not get decorative motion"* and confined entrance animation to the
@@ -1183,8 +1207,12 @@ declared on `.s`:
 | `--motion-in` | `var(--dur-slow,320ms)` | the only entrance duration in the deck |
 | `--motion-ease` | `var(--ease-out,…)` | the only entrance easing |
 | `--motion-lead` | `50ms` | before the first element moves |
-| `--motion-step` | `60ms` | one stagger step, **content** tier |
+| `--motion-step` | `60ms` | one stagger step — **content** tier *and* the sequence tier |
 | `--motion-step-display` | `110ms` | one stagger step, **display** tier |
+
+**The sequence tier deliberately has no token of its own.** It reuses `--motion-step`, because
+the deck has one stagger vocabulary and a third value would only invite a fourth. A new token
+here is the thing to argue against, not the thing to reach for.
 
 **Two behaviour changes to the cover and dividers came with this, both one-token reverts.**
 Their duration went `550ms → 320ms` and their easing went invented → `--ease-out`. Their
@@ -1214,6 +1242,82 @@ not have — the same failure as ramping bar colour across nominal categories, o
 card among peers. If a future slide earns a staggered reveal it must be a genuine chain
 (phases, stages, before→after), and the delay has to *be* the content. Header order is a
 reading order, which is why it qualifies and a five-card row does not.
+
+### The well tier and the sequence tier (17 Sept)
+
+The 16 Sept build animated the header and nothing else, and the author's read was that it
+felt unelevated. **The diagnosis was not "too little motion" — it was that every slide landed
+identically**: three lines faded in over content that never moved, so by about slide 3 the
+motion stopped registering and the header read as floating on top of a static page.
+
+Two tiers were added. Neither breaks the peer-row rule above; the first one *enforces* it.
+
+| Tier | What moves | Delay | Where |
+|---|---|---|---|
+| **Well** | the content well, as **one block** | `lead + 3×step` = **230ms** | 51 slides |
+| **Sequence** | a genuine chain, one beat per stage | 230 / 290 / 350 / 410ms | 30, 32, 59 |
+
+**The well arrives as one block, and that is the whole point.** The rule against staggering
+siblings bans encoding a false order among *peers* — it does not ban animating the group they
+live in. Slide 10's four stat cards fade in together at one opacity; staggering them would
+claim 80% comes before 93%, which is exactly the failure the rule names. One block also does
+the thing the author asked for: the slide *lands* instead of the header sliding in over
+furniture.
+
+**The sequence tier is the exception this file already allowed and had never built.** Three
+slides earn it, and only because the delay genuinely *is* the content:
+
+- **30** and **32** — numbered stages (`01…04`, `1…4`) whose argument is the order.
+- **59** — four stages where the label and its bar are **one** stage, hence
+  `data-sequence="pairs"`: children are staggered in twos so *Simplify* and its 25% bar
+  arrive together. Rendered and checked; the bars building 25 → 50 → 75 → 100 as they land
+  *is* the slide's claim that each stage keeps what the one before it built.
+
+**A chain replaces the well's single arrival; it does not queue behind it.** The sequence
+starts at 230ms — exactly where the block would have — so adding a chain costs no extra time.
+
+**Slide 30 is why there is a third rule, and only the render caught it.** Its well holds the
+chain *and* three commentary rows about the chain. Excluding the whole well from the block
+rule left those rows fully drawn and motionless while the cards staggered above them — a
+moving top half over a dead bottom half. They now animate on the chain's **last** beat
+(`lead + 6×step` = 410ms), so they read as following the chain and the slide still settles at
+730ms rather than growing a fifth beat. Every checker was clean while that looked wrong.
+
+**The budget, measured rather than asserted.** The `motion-system` skill's rule is that a
+staggered sequence should not exceed 500ms:
+
+| Tier | Elements | Stagger | Span | Verdict |
+|---|---|---|---|---|
+| Header | 3 | 60ms | 440ms | within |
+| Well | 1 | — | 320ms | within |
+| **Sequence** | 4 beats | 60ms | **exactly 500ms** (230 → 730) | at the line |
+| **Display** — cover + dividers | 4 | 110ms | **650ms** | **30% over** |
+
+**Measure the span of a group, not the wall-clock from slide arrival.** The sequence settles
+at 730ms but *spans* 500 — the 230ms before it is the header's, not its own. Conflating the
+two makes every nested tier look broken.
+
+**The display tier is still the slow one, and that is the open decision.** Dropping
+`--motion-step-display` 110 → 60ms would put it at exactly 500ms and leave the deck with one
+stagger value everywhere. It is a one-token change. It is **not** made here because the 110ms
+was preserved deliberately so the dividers' feel would not change, and changing a feel is the
+author's call, not an audit's.
+
+**Every animated element matches exactly one tier — asserted, not assumed.** 277 elements
+animate and `notExactlyOneRule` is empty. Note the weak version of this check: if two rules
+match, the winner is still a *single* `animationName`, so counting commas in `animationName`
+reports zero overlaps on a deck that has them. Test with `matches()` against each tier's
+selector instead.
+
+**`animation-fill-mode:both` leaves an identity transform, which keeps the layer composited
+and changes text antialiasing.** Static and settled renders differ on ~5% of pixels on a
+text-dense slide and 0.8% on a sparse one — the proportion tracks text density, which is the
+tell that it is rasterization and not layout. Verified separately: all 277 elements settle to
+opacity 1, an identity matrix and **zero** positional drift. It does not matter in the deck
+because `data-deck-active` is always set on the visible slide, so no audience ever sees the
+un-composited state. **Do not "fix" it by switching to `backwards`** — `both` is what makes
+entrance animations resolve on paper (`deck-stage.js:721`), and `backwards` would print every
+animated element at `opacity:0`.
 
 **What is still true from the old standard**, and should be said plainly when it comes up:
 *"add the animations back in"* was a feature request, not a restoration. A Sep 16 review
@@ -1257,7 +1361,7 @@ below the content instead of pooling at the bottom.
 .s > [data-well="grid"]{align-content:center}
 ```
 
-**`data-well` marks the first content element on each of the 54 content slides.** Dividers,
+**`data-well` marks the first content element on each of the 53 content slides.** Dividers,
 the cover, the closer, the centred statement slides (07, 09, 11, 59) and the bibliography (63)
 have no well and are untouched — they already centre or are too tight to move.
 

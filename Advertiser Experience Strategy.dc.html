@@ -118,9 +118,32 @@
     transform:translateX(-50%);white-space:nowrap;font-family:var(--font-ui);
     font-size:var(--text-xs,12px);font-weight:500;letter-spacing:.01em;
     color:var(--wm-bentonville-blue,#001e60);background:var(--wm-white,#fff);
-    padding:6px 10px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .12s ease}
+    padding:6px 10px;border-radius:8px;opacity:0;pointer-events:none}
   .secnav .dot:hover::after,.secnav .dot:focus-visible::after{opacity:1}
-  @media (prefers-reduced-motion:reduce){.secnav .dot::after{transition:none}}
+  /* Hover and focus transitions: ONE vocabulary, on the design-system tokens.
+     Six interactive states existed and only the chart bars were on a token —
+     the tooltip ran a literal .12s ease and the other four snapped, so the
+     deck had three timings for one kind of feedback. Interaction feedback is
+     --dur-fast/--ease-standard; entrance motion is --motion-in/--motion-ease.
+     They are different jobs and must not be collapsed into one another. */
+  a,.s .src a,.s .srclink,.s .cmrow,.secnav .dot,.secnav .dot::after{
+    transition:color var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1)),
+      background-color var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1)),
+      opacity var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1))}
+  @media (prefers-reduced-motion:reduce){
+    a,.s .src a,.s .srclink,.s .cmrow,.secnav .dot,.secnav .dot::after{transition:none}}
+  /* Paper has no cursor. Chromium keeps :hover in the print rendering, so a
+     presenter printing with the pointer on a navigator dot baked the tooltip
+     ("07 · Measuring Success") onto the divider page at full opacity, and the
+     hovered dot printed white — losing the aria-current mark that says which
+     section you are in. Reproduced under emulateMedia('print') before fixing.
+     The chart bars have carried this reset since the hover shipped; these
+     three never did. Every hover state in the deck now resets on paper. */
+  @media print{
+    .secnav .dot::after{opacity:0 !important}
+    .secnav .dot{background:rgba(255,255,255,.4) !important;background-clip:content-box !important}
+    .secnav .dot[aria-current="true"]{background:var(--wm-everyday-blue,#4dbdf5) !important;background-clip:content-box !important}
+    .s .cmrow{background:none !important}}
   /* ---- Motion -------------------------------------------------------------
      Duration and easing are design-system tokens (tokens/spacing.css). The
      deck adds only the two values the system has no token for: the lead-in
@@ -147,6 +170,41 @@
     [data-deck-active]:not([data-divider]) > .k{animation:deck-fade-up var(--motion-in) var(--motion-lead) var(--motion-ease) both}
     [data-deck-active]:not([data-divider]) > h2{animation:deck-fade-up var(--motion-in) calc(var(--motion-lead) + var(--motion-step)) var(--motion-ease) both}
     [data-deck-active]:not([data-divider]) > .d{animation:deck-fade-up var(--motion-in) calc(var(--motion-lead) + 2*var(--motion-step)) var(--motion-ease) both}
+    /* The content well arrives as ONE block, a clean beat after the header.
+       No stagger: the rule against staggering siblings bans encoding a false
+       order among PEERS, not animating the group they live in. This is what
+       stops the header floating in over content that never moves. A well
+       holding a genuine chain is excluded and handled by the tier below. */
+    [data-deck-active]:not([data-divider]) > [data-well]:not(:has([data-sequence])){
+      animation:deck-fade-up var(--motion-in) calc(var(--motion-lead) + 3*var(--motion-step)) var(--motion-ease) both}
+    /* Sequence tier — the exception this file already allowed and had never
+       built. Only where the content really is ordered and the delay IS the
+       content: 30 and 32 (numbered stages) and 59, whose label and its bar are
+       one stage, hence data-sequence="pairs". It starts where the well would
+       have, so a chain REPLACES the well's single arrival rather than queueing
+       behind it, and it reuses --motion-step: the deck has one stagger
+       vocabulary, not three. Four beats only; a longer chain needs more rules
+       and checkdeck asserts the count. */
+    [data-deck-active] [data-sequence] > *{--beat:0;
+      animation:deck-fade-up var(--motion-in) calc(var(--motion-lead) + 3*var(--motion-step) + var(--beat)*var(--motion-step)) var(--motion-ease) both}
+    [data-deck-active] [data-sequence] > :nth-child(2){--beat:1}
+    [data-deck-active] [data-sequence] > :nth-child(3){--beat:2}
+    [data-deck-active] [data-sequence] > :nth-child(4){--beat:3}
+    [data-deck-active] [data-sequence="pairs"] > :nth-child(2){--beat:0}
+    [data-deck-active] [data-sequence="pairs"] > :nth-child(3),
+    [data-deck-active] [data-sequence="pairs"] > :nth-child(4){--beat:1}
+    [data-deck-active] [data-sequence="pairs"] > :nth-child(5),
+    [data-deck-active] [data-sequence="pairs"] > :nth-child(6){--beat:2}
+    [data-deck-active] [data-sequence="pairs"] > :nth-child(7),
+    [data-deck-active] [data-sequence="pairs"] > :nth-child(8){--beat:3}
+    /* A well that holds a chain usually holds commentary ON the chain too
+       (slide 30's three rows, slide 32's capability strip). Excluding the
+       whole well left those siblings dead-static while the chain staggered
+       above them — the bottom half of the slide never moved. They arrive on
+       the chain's LAST beat, so they read as following it and the slide still
+       settles at 730ms rather than growing a fifth beat. */
+    [data-deck-active]:not([data-divider]) > [data-well]:has([data-sequence]) > *:not([data-sequence]){
+      animation:deck-fade-up var(--motion-in) calc(var(--motion-lead) + 6*var(--motion-step)) var(--motion-ease) both}
   }
 </style>
 </helmet>
@@ -656,7 +714,7 @@
   <h2 class="t" style="margin-top:8px">The vision does not change, but the sequence does</h2>
   <p class="d">Building channel-first and reconciling later is what created today&#8217;s fragmentation. Foundation first reverses the order.</p>
   <div data-well="flex" style="flex:1;display:flex;flex-direction:column;justify-content:center;margin-top:28px">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+    <div data-sequence style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
       <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:16px"><span class="cap">01</span><h3 class="h" style="font-size:var(--text-h3-lg,28px);margin:12px 0 10px">Stabilize foundations</h3><p style="font-size:var(--text-14-5,14.5px);line-height:1.5;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Shared identity, navigation, terminology and design foundations.</p></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:16px"><span class="cap">02</span><h3 class="h" style="font-size:var(--text-h3-lg,28px);margin:12px 0 10px">Remove friction</h3><p style="font-size:var(--text-14-5,14.5px);line-height:1.5;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Take cost out of the workflows advertisers use most.</p></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:16px"><span class="cap">03</span><h3 class="h" style="font-size:var(--text-h3-lg,28px);margin:12px 0 10px">Connect workflows</h3><p style="font-size:var(--text-14-5,14.5px);line-height:1.5;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">One journey across products, with context that carries.</p></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:16px"><span class="cap">04</span><h3 class="h" style="font-size:var(--text-h3-lg,28px);margin:12px 0 10px">Add decision support</h3><p style="font-size:var(--text-14-5,14.5px);line-height:1.5;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Differentiated recommendations on a foundation that can carry them.</p></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:30px;align-items:center">
@@ -704,7 +762,7 @@
   <h2 class="t" style="margin-top:8px">Establish, simplify, connect, then advance</h2>
   <p class="d">Each phase creates immediate usability improvements while steadily reducing the cost and complexity of future delivery.</p>
   <div data-well="flex" style="flex:1;display:flex;flex-direction:column;margin-top:36px">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:stretch">
+    <div data-sequence style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:stretch">
       <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h3,26px)">1</span><h3 class="h" style="font-size:var(--text-h3,26px)">Establish</h3></div><p class="bs" style="margin-top:12px;font-size:var(--text-13-5,13.5px);line-height:1.45;flex:1">Validate the audit baseline, finalize charter and operating model, define IA, terminology and design-system direction, map dependencies, find quick wins.</p><span class="cap" style="margin-top:12px">Leverage &#183; A shared baseline</span></div>
       <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h3,26px)">2</span><h3 class="h" style="font-size:var(--text-h3,26px)">Simplify</h3></div><p class="bs" style="margin-top:12px;font-size:var(--text-13-5,13.5px);line-height:1.45;flex:1">Resolve critical audit findings, align Living Design, improve navigation and campaign basics, modernize Creative Hub, standardize core patterns.</p><span class="cap" style="margin-top:12px">Leverage &#183; Reusable patterns</span></div>
       <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><div style="display:flex;align-items:baseline;gap:12px"><span class="n" style="font-size:var(--text-h3,26px)">3</span><h3 class="h" style="font-size:var(--text-h3,26px)">Connect</h3></div><p class="bs" style="margin-top:12px;font-size:var(--text-13-5,13.5px);line-height:1.45;flex:1">Connect planning, activation and reporting, expand shared components, reusable channel configuration, improve API parity, consolidate entry points.</p><span class="cap" style="margin-top:12px">Leverage &#183; One connected platform</span></div>
@@ -1186,7 +1244,7 @@
 <section class="s" data-label="The opportunity" data-screen-label="59" data-speaker-notes="Build less from scratch &#8212; create more value from everything we build. Each stage keeps everything the one before it built, so by the time we advance, three layers of platform are already paid for." style="justify-content:center;gap:40px">
   <span class="k">The opportunity</span>
   <h2 class="h" style="font-size:var(--text-58,58px);max-width:1010px">Build less from scratch. Create more value from everything we build.</h2>
-  <div style="display:grid;grid-template-columns:auto 1fr;gap:0 24px;align-items:center;max-width:1010px">
+  <div data-sequence="pairs" style="display:grid;grid-template-columns:auto 1fr;gap:0 24px;align-items:center;max-width:1010px">
     <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:34px;color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:44px;line-height:1">Simplify</span></div>
     <div style="padding:14px 0"><div style="height:10px;border-radius:999px;background:var(--wm-true-blue,#0053e2);width:25%"></div></div>
     <div style="display:flex;align-items:center;gap:20px;padding:14px 0"><span style="font-family:var(--font-mono);font-size:34px;color:var(--wm-true-blue,#0053e2);line-height:1">&#8594;</span><span style="font-family:var(--font-display);font-weight:300;letter-spacing:-.022em;font-size:44px;line-height:1">Unify</span></div>
