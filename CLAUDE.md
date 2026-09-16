@@ -185,20 +185,39 @@ structure:
 ```
 navy ground, justify-content:center, gap:32px
   .k  "Section one"…"Section nine"   — mono, 8px, uppercase, white
-  h2  58px display, max-width:1010px — the section's ARGUMENT, not its name
+  h2  58px display, max-width:1010px — the section's NAME, sentence case
   progression line: 9 dots (8px, border-radius:50%) joined by
     flex:1 hairlines of rgba(255,255,255,.3); the active dot is
     Everyday Blue #4dbdf5, the rest rgba(255,255,255,.4); max-width:620px
-  .cap  the section name — Sky Blue #a9ddf7
+  .cap  the section's ARGUMENT — white, max-width:1010px
   anim-1 / -2 / -3 / -4 on the four elements, in that order
 ```
 
-**The 58px line carries the argument, not the label.** A divider reading just "Roadmap" at
-58px wastes the component and breaks the rule that someone paging only the titles should
-get the strategy. The section *name* lives in the `.cap` beneath the line; the title says
-what the section argues ("Every increment improves a real advertiser job and leaves
-something reusable behind"). Those nine lines are authored — the Sept 15 source gives each
-section only a name and a description, so a divider rewrite has to write the argument.
+**The 58px line carries the name, and the argument sits beneath it. This reversed on
+16 Sept, and the reversal is the author's.** This file argued the other way for a long time,
+and the old reasoning is worth keeping because it is the cost: a divider reading just
+"Roadmap" at 58px means someone paging only the titles no longer gets the strategy. Those
+nine argument lines are authored and they are among the best writing in the deck —
+*"Ambition is not the constraint. Sequence is."* now sets at **12px** rather than 58px.
+
+The author was shown that trade explicitly, with the three strongest lines quoted, and chose
+the flip over an intermediate option that would have set the argument at 19–24px. **If it
+reads too quiet in the canvas, the lever is the `.cap` size on dividers, not reverting the
+swap.**
+
+**The names had to be re-cased, and that is a consequence worth not missing.** They were
+Title Case — correct for a small label, wrong the moment they became 58px titles, because
+*every title in the deck is sentence case*. Seven changed: *Market shift, Where we are today,
+Our vision, Strategic reset, Operating model, Measuring success, What needs to be true*.
+"Roadmap" and "Closing" were already single words. **A flip that moves content between roles
+moves it between the rules that govern those roles** — check the destination's conventions,
+not just the swap.
+
+**The `.cap` carries white now, not Sky Blue,** and it takes `max-width:1010px` so a long
+argument wraps on the title's measure rather than running the full width. White measures
+15.50:1 on navy and 6.30:1 on True Blue, so it is correct in both tones — which matters
+because the True Blue branch already forced divider `.cap` to white, and the source now
+agrees with it instead of being overridden.
 
 **The appendix divider (62) is deliberately a different object** and keeps its own
 treatment from the previous deck: an oversized `.n` letter "A" at `top:48px; left:72px` in
@@ -344,8 +363,14 @@ appendix tier already separates itself by type size, top padding and the `.h` ti
 
 What survives from that rule is the part that was doing the work: **every title asserts.**
 Someone reading only the titles should get the strategy. A title that names its slide
-("Roadmap", "Simplify the Advertiser Experience") wastes the deck's most-read line — the
-name belongs in the `.k` eyebrow, the argument in the title.
+("Simplify the Advertiser Experience") wastes the deck's most-read line — the name belongs
+in the `.k` eyebrow, the argument in the title.
+
+**The nine section dividers are now the documented exception**, by the author's decision on
+16 Sept: their 58px line carries the section *name* and the argument sits beneath it. See
+the divider section above for the trade. The rule still holds for all 48 content titles, and
+the big-rock titles (36–39) remain the case it was written for — do not read the divider
+exception as licence to name a content slide.
 
 Either tier, the title addresses the **audience, not the author**. "Add a future
 expansion horizon" and "Add ecosystem readiness as a guardrail" are edit notes that
