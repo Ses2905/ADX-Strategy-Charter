@@ -969,34 +969,71 @@ pull, an export, an artifact publish, or anyone else opening the deck.
 
 This is the mechanism behind "my update disappeared again," and it is a class rather than a
 one-off. `dividerTone` is the case that exposed it: the author set it to *True Blue* in the
-design project, the source default reads `"Bentonville navy"`, and it reverted every time.
+design project, the source default read `"Bentonville navy"`, and it reverted every time —
+five times in all, until the default was changed in the file (see below).
 Nothing was reverting it — the choice was never written down. **If a prop value is meant to
 be the deck's state, change its `default` in `data-props`.** If it is meant to be a
 presenter toggle, leave it and expect it to reset.
 
-**The dividers stay navy, and the default stays `Bentonville navy`.** Three reasons, in
-order of weight:
+**The default is `True Blue`, and the deck's dark grounds are all True Blue.** This
+reverses what this file argued, and the reversal is the author's: they set the prop in the
+canvas **five times** and it reverted five times, because a canvas prop is runtime state
+rather than the file. Five reversions is not ambiguity. The `default` in `data-props` is
+the only place the choice holds, so that is where it now lives.
 
-1. **The tweak only targets `section[data-divider]`, and twelve slides carry a navy ground.**
-   The cover (01) and the closing slide (61) are not dividers, so flipping produces a deck
-   with *two* dark grounds — navy bookends around True Blue dividers. That is worse than
-   either colour applied consistently, and no prop can fix it because the prop cannot see
-   those two slides.
-2. **Ten dark slides punctuating sixty light ones are the deck's strongest structural
-   signal.** True Blue is a much weaker dark ground (relative luminance **0.117** against
-   navy's **0.018**), so the punctuation gets quieter for nothing gained.
-3. **Every mark on those slides gets worse, none gets better** — see the table below.
+**The flip covers twelve slides, not ten, and that was the one objection with teeth.** The
+tweak targets `section[data-divider]`, but the cover (01) and the closer (61) carry navy
+grounds and are not dividers — so changing the default alone produced *navy bookends around
+True Blue dividers*, two dark grounds in one deck. Those two slides now carry
+**`data-dark`**, and the branch reads `section[data-divider],section[data-dark]`. The
+objection was real and it was fixable; it was never a reason to keep refusing the ask.
 
-And the *navy-density* rule this looks like it should serve does not actually ask for it.
-That rule is about blanket navy **on light slides**; navy grounds are explicitly sanctioned.
-Peer-row card tops already went True Blue across 113 uses on 27 slides, which is the part of
-"use True Blue for the dividers *within* slides" that was real. The statement rule stays
-navy on purpose — `2px #001e60` closes an argument, `2px #0053e2` tops a peer card, and an
-audit has crossed those two before.
+| Slide | | |
+|---|---|---|
+| 01 | cover | `data-dark` |
+| 04 12 23 29 40 49 54 56 58 62 | dividers | `data-divider` |
+| 61 | closer | `data-dark` |
 
-**The True Blue branch is kept and is now contrast-safe**, because the option is the
-author's and a broken option is a trap. Only the background moved before, and three marks
-fell below their floor:
+**The cost that stands, honestly:** True Blue is a much weaker dark ground — relative
+luminance **0.117** against navy's **0.018** — so twelve dark slides punctuating sixty light
+ones punctuate less sharply than they did. That is a real loss and it is the author's to
+accept. It is recorded here so nobody re-derives it as a discovery.
+
+**The spark is a file, so CSS cannot reach it.** Everyday Blue measures **2.98:1** on True
+Blue, under the 3:1 non-text floor. A logotype is exempt from that floor under WCAG 1.4.11,
+so this is not a compliance fix — it is that the mark reads washed out, and squeaking
+through an exemption is not the same as looking right. `assets/logos/spark-white.svg` is the
+Everyday Blue file with its six `fill:#4DBDF5` swapped, and the component sets `src` from
+`data-spark-navy` / `data-spark-blue` on each `img.spark`. An `<img>` cannot inherit colour
+(the icon rule above says the same), so a second file and a JS swap is the whole mechanism.
+
+**There are two sparks, and the second one was found by looking, not by measuring.** Slide
+61 carries the same logo as the cover. It was missed twice over: the inspection regex
+anchored on `<img … class="…">` and slide 61's had **no class attribute**, and the contrast
+sweep walks text nodes, which an `<img>` has none of. Both ran clean on a slide whose logo
+was plainly wrong in the render. This is the *"render the slide and look at it"* rule
+earning its place a second time — the first was slide 38's ragged card footers.
+
+**Slide 62's decorative `A` is compensated, not left to fade.** At `rgba(255,255,255,.3)` it
+reads **2.54:1** on navy and only **1.78:1** on True Blue. The True Blue branch sets it to
+**`.48`**, which measures **2.55:1** — the same apparent weight against its own ground. That
+is not a third entry in the two-weight white scale above; it is one value compensating for a
+lighter ground, and it exists only inside the True Blue branch.
+
+**The navy branch is now the non-default one, and it must stay correct** — the same rule
+that kept True Blue working when navy was the default. A broken option is a trap whichever
+way the default points. Both tones were measured: **36 text nodes on the twelve dark slides,
+35 passing in both**, the sole exception being 62's decorative `A`, which is exempt and fails
+identically at 2.54 and 2.55.
+
+**And the navy-density rule never asked for this.** That rule is about blanket navy **on
+light slides**; dark grounds are explicitly sanctioned, and peer-row card tops already went
+True Blue across 113 uses on 27 slides. The statement rule stays navy on purpose —
+`2px #001e60` closes an argument, `2px #0053e2` tops a peer card, and an audit has crossed
+those two before.
+
+**Contrast, measured rather than assumed.** Only the background moved in the first version
+of this branch, and three marks fell below their floor:
 
 | Mark | On navy | On True Blue | Floor |
 |---|---|---|---|
@@ -1006,7 +1043,8 @@ fell below their floor:
 
 All three take white on True Blue at **6.30:1**. Note the override must be
 `background-color`, **not** `background`: the shorthand resets `background-clip`, and the
-dot's 8px painted mark would expand to fill its 44px hit area.
+dot's 8px painted mark would expand to fill its 44px hit area. The `.cap` rule now covers
+`data-dark` too, because slide 61's `.cap` is Sky Blue and fails exactly as the dividers' did.
 
 Two related asks that fail the same way and should not be taken as written. The dot's hover
 state is already **white at 15.50:1**; changing it to True Blue gives **2.46:1** on navy,
