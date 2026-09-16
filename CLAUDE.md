@@ -713,6 +713,51 @@ let slack fall to the bottom.
 Row padding is **not** uniform deck-wide on purpose — the 9–12px rows on slides 21, 26, 29
 and 30 are load-bearing for footer clearance. Only slides with surplus space were changed.
 
+**A matrix cell is a REGION, not a card, and slide 34 will keep getting flagged for it.**
+Its four outcome cells are 179px tall carrying 83px of content — **78px of internal void
+each**, which is exactly the shape the big-rock rule says to rank a set by. A composition
+audit on 16 Sept flagged it as the only instance of internal void in the deck and proposed
+sizing the rows to content. **Built it, rendered it, and it is worse.** Removing the
+`flex:1` and switching `grid-template-rows:1fr 1fr` → `auto auto` takes the cells to 103px
+with the void gone, and the matrix collapses into a small cluster in the top-right with
+~135px of empty slide beneath it while the rubric column runs on to 617. The two columns
+stop reading as a pair.
+
+**The first version of this note justified it as a quadrant, and that was wrong.** It said
+position carries meaning, so the cell is an area rather than a box of text. A code review
+challenged it and the markup does not support it:
+
+- **Both footer labels sit below the matrix and both point right** — *Guardrails → pass* on
+  the left, *Score → high* on the right. There is no vertical axis label, and two horizontal
+  axes is not a thing.
+- **The quadrant reading breaks on one cell.** Take x = guardrails, y = score: *Reshape*
+  (scores well, fails a guardrail) and *Accelerate* (high score, guardrails pass) sit
+  correctly, *Defer* (low score) roughly does — but **Sequence** should then read low-score /
+  passes, and it says *"Right work, unresolved dependency"*, which is a high score with a
+  guardrail problem.
+- **Confidence is a third criterion** — it appears in *Accelerate* and *Sequence* and has no
+  axis at all.
+
+So the real reasons to keep the stretch are simpler, and none of them needs a positional
+encoding: **four equal-area cells read as one object** — a set of four outcomes rather than
+four cards of differing weight — and the stretch is what lands both columns flush at 617.
+The render is better; that is the whole case, and it is enough.
+
+**Do not let this note block a legitimate revision.** A rulebook entry that defends a layout
+with a reason the layout does not have will suppress good changes. If someone re-flows this
+matrix for a *better* reason, the bar is the render, not this paragraph.
+
+**Open for the author: slide 34's axis labels do not work as written.** Two right-pointing
+arrows under a 2×2, one criterion with no axis, and one cell that does not sit where the
+labels imply. Either the matrix is a genuine quadrant and needs a vertical label plus a cell
+that matches it, or it is four named outcomes and the arrows should go. **It is content, not
+layout** — a question for the author, like slide 42's week numbers.
+
+The *original* observation still stands as a method note: this began as a **card** heuristic
+applied to something that is not a card row, which is the *"counting table rows as card
+rows"* error again. `consist2`, `clip` and `collide` are clean either way, so only the render
+decides.
+
 ## Roles carry their own styling — don't rely on remembering an override
 
 **Numbers (`.n`) are True Blue by class.** They were uncoloured, so they inherited navy and
