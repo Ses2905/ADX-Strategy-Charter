@@ -233,6 +233,54 @@ Two mechanics worth not rediscovering:
 The click handler is wired in the deck's own `text/x-dc` component on mount and update, not
 as an inline `onclick`, and it is idempotent (`el.__dcGoto`).
 
+**The progression line is no longer the only thing carrying `data-goto`.** Slide 02's
+content map has ten rows naming the nine sections and the appendix, and since 16 Sept each
+is a `<button class="cmrow" data-goto="N">` jumping to that divider. It reuses the existing
+mechanism rather than growing a parallel one: the component wires *every* `[data-goto]` on
+mount, so the rows needed no new script.
+
+They are **buttons, not clickable divs**, and that is not pedantry — a `<div role="button">`
+does not fire `click` on Enter or Space, and the handler only listens for `click`, so a div
+would be mouse-only. A real button also brings focus order and `:focus-visible` for free.
+
+**But Space is not free, and the button alone does not get it.** `deck-stage`'s window-level
+`_onKey` treats `' '` / `'Spacebar'` as next-slide and `preventDefault()`s it — and that
+branch is deliberately *not* gated on `!e.defaultPrevented` the way `ArrowDown`/`ArrowUp`
+are, so it fires even though the focused button has its own default action. A jump button
+pressed with Space therefore advanced one slide and had its activation cancelled. Every
+`[data-goto]` now stops Space on its own `keydown` before it reaches the window, which is
+the same escape the rail thumbs already use for ↑/↓. **Enter was never affected** — `_onKey`
+has no Enter branch and leaves it to the focused control — so only Space is stopped, and
+the arrow keys still page as normal.
+
+This applies to the progression-line dots too, since they are `[data-goto]` buttons on the
+same handler. Any future keyboard-activated control on a slide inherits the same problem:
+check what `_onKey` already claims before assuming a native default survives.
+The UA styles are reset back to the row's own grid, and `box-sizing:border-box` is set
+**explicitly**: the deck has no global box-sizing rule, so the UA's button default is the
+only thing supplying it, and relying on that is how the navigator dot's hit area was
+silently lost once already. Measured after the change — all ten rows still 1136px wide at
+the 72px rail, one distinct height, identical grid columns.
+
+Because of this, **`checkdeck.py` no longer validates only the dot rows.** It asserts that
+*every* `data-goto` in the deck, wherever authored, lands on a divider slide. A content-map
+target that drifts onto a content slide still renders, still hovers and still clicks — it
+just goes to the wrong place, which is the same failure the dot rows have and was invisible
+outside `.secnav` until that check existed.
+
+**The appendix toggle hides 63–70, not 62, and its label says 62–70.** `showAppendix`
+attaches `data-deck-skip` to every `section[data-appendix]`, and slide 62 — the appendix
+divider — does not carry that attribute. So with the appendix off, the deck ends on a
+divider announcing nine slides that are not there. That is pre-existing and the label is the
+part that is wrong, but it became reachable in one click once the content map grew an
+*Appendix* row, so that row now carries `data-appendix-row` and the same handler hides it
+with the appendix.
+
+**Open, and not a one-line fix:** giving 62 `data-appendix` would make the toggle match its
+own label, but it also moves 62 onto the appendix padding tier (64px → 42px top) and would
+make the content-map jump land on a genuinely hidden slide — `_go()` clamps but does not
+skip `data-deck-skip` slides. Decide it deliberately; do not just add the attribute.
+
 **The navigator works — confirmed in Claude Design on 15 Sept, all nine dots.** This was the
 last unverified thing in the build and it is worth saying plainly, because the sandbox
 limitation that made it unverifiable has not gone away: `deck-stage` still does not boot
@@ -350,6 +398,30 @@ the title without moving the name would have lost it.
 have broken the set — one rock at a different size reads as a different kind of object.
 The title was shortened instead. If a big-rock title will not fit at the size the other
 three use, cut the title, not the size.
+
+**The set had come apart, and this file was asserting the opposite.** It said the four sat
+at 188–202px each, "identical across all four". Measured on 16 Sept they were **47 / 228 /
+112 / 162**, and only 37 and 39 were on the template at all. Slide 38 was a four-column
+table, not cards. Slide 36 used `.cap` for its numerals instead of `.n`, 26px headings
+instead of 17px with the two-line reservation, and `margin:auto 0 0` on each card's footer.
+Both closed with a True Blue rule where the statement rule is navy.
+
+Restored: 38's table is five cards carrying the same content (the third column became the
+optional footer), 36 is on the role, the size and the reservation, and both statements are
+navy. **The four are now 167 / 228 / 155 / 162** — a 73px spread that reflects whether a
+rock has the optional footer row, not template drift.
+
+**Slide 36's 47px was the metric being gamed, and it read as the best of the four.** The
+`margin:auto 0 0` pin held each footer at the card bottom with **75–126px of void above it,
+inside every card** — the trap this file names by hand. Unpinning it packs the content and
+lets the slack fall to the bottom, which is why 36's honest number is 167 and not 47.
+Its grid also carried `flex:1;min-height:0`, so it stretched to fill while the other three
+size to content; that is gone too. **Rank this set by internal gap, never by bottom slack** —
+by slack alone, the worst slide in it looked like the best.
+
+**The optional footer.** Two of the four rocks have a per-card footer — *Pattern it leaves*
+on 36, *What it buys* on 38 — a `.cap` label in gray-600 over a 14.5px line. It is part of
+the template where the content has one, and it is `margin-top:16px`, never `auto`.
 
 The earlier *Evidence behind this priority* strip belonged to the Sep 12 priority slides
 (17–20) and is not in this build. It is preserved in the archive file if the traceability
@@ -470,7 +542,8 @@ alone will mislead you here.
 
 | Shape | Treatment |
 |---|---|
-| A row of cards spanning the measure | **Re-flow to two columns.** Slide 48's four phases went 4-across → 2×2: 271px → 90px, and the wider columns set each body in two lines instead of four. |
+| A row of cards spanning the measure, **each body flowing prose** | **Re-flow to two columns.** Slide 48's four phases went 4-across → 2×2: 271px → 90px, and the wider columns set each body in two lines instead of four. |
+| The same row, but the bodies are **lists or a comparison** | **Leave it.** See the precondition below — reflow either overflows or breaks the argument. |
 | A table | **Row height.** Rows at 13–15px went to 20px on slides 42, 43, 44, 52 and 54, roughly halving their dead space. 24px would fill more but leaves slides 42 and 54 at 0–1px of marker clearance, which is not survivable in a font we cannot verify. |
 | A lifecycle of six or seven stages | **Leave it.** Compressing a seven-stage row to fill height costs more than the space is worth. |
 | Genuinely under-written | **Leave it, or write more.** Slide 45's three horizons do not fill the height at any type size, and stacking them as full-width bands overflows by 174px. That is a content gap, not a layout one. Same for slide 50, whose roles are still placeholders. |
@@ -480,6 +553,52 @@ In the Sept 15 build the worst genuine case was slide 32 (four phase cards, 253p
 was **content, not layout**: the source deck's capability strip had been dropped in
 transcription. Restoring it took the slide to 100px and put back something the author wrote.
 Check the source before reaching for a layout lever.
+
+**Re-flow has a precondition, and it is the body, not the card count.** The rule works on
+slide 48 because those four bodies are *prose*: double the column width and the text rewraps
+to half the lines, so two rows of short cards cost less height than one row of tall ones.
+Tested on the three other 4-across rows and it fails on every one, each differently:
+
+- **Slide 60** (125px) — the card bodies are `div.li` list items, four discrete blocks with
+  their own padding. They do not rewrap at any width, so 2×2 simply doubled the grid to
+  447px and the slide overflowed the marker by **110px**. Card heights did not move at all:
+  212px before, 212px after. That is the tell — *measure the card height after the change,
+  not just the slack*; if the cards did not get shorter, reflow bought nothing.
+- **Slide 10** (188px) — four stat cards. The reflow works mechanically (188 → **2px**) and
+  is wrong anyway, twice over: 2px is the no-headroom state slide 57 is on record about, and
+  four big numerals side by side *are* the argument. Stacking them 2×2 makes the reader
+  zigzag between figures that exist to be compared at a glance. A comparison row is not a
+  card row.
+- **Slide 06** (146px) — five cards. Five does not split into two columns, and 5-across is
+  the deck's own convention (the FY28 big rocks use it).
+- **Slide 17** (111px) — reads as a 5-across row and is *two* rows of five in a before/after.
+  Reflowing it would delete the comparison. Same slide the single-out rule already calls out
+  as a false positive; it is a false positive here too.
+
+So of the four slides that look like slide 48, **none of them are.** Their dead space is the
+honest price of the shape, and the only lever left on 10 is content — a synthesis line under
+the four stats saying what they add up to — not layout. Do not reach for the reflow again
+without checking that the bodies actually rewrap.
+
+**The four appendix segment maps (65–68) are a set, and their row rhythm had drifted.** They
+ran four different cell paddings — 8 / 8 / 10 / 12px — across four sibling reference slides
+that are read one after another. Unified at **12px**: on the 4px scale, already slide 68's
+value, and the fullest of the four (65, eight rows) keeps 61px of clearance. 65 went
+121 → 61px and 66 181 → 145px.
+
+**It does not fix 67 and 68, and no padding value would.** They are 5 and 4 body rows to
+65's 8, so the same treatment buys them 18px and nothing. They are not under-padded, they
+are under-rowed — and padding them to fill would make two tables visibly airier than their
+siblings to serve a metric, which is the trap the whole section is about.
+
+**Slide 68 is a content gap, and a parallelism one.** The three functional investment maps
+are meant to run the same dimensions against different populations. 66 (brand) and 67
+(agency) both carry five — *What they care about · Budget influence · Where they invest ·
+Retail media wishlist · Critical pain points*. **68 (3P seller) carries four: it has no
+"What they care about" row.** That missing row is most of its 225px, and writing it is the
+author's — it is segment research, not layout. Restoring it fixes the dead space and the
+parallelism in one move, which is the slide-32 lesson again: check the content before
+reaching for a layout lever.
 
 Slide 70 came down from the canvas at 188px — a two-column table with room to spare, which
 is the one shape the table rule fits. Rows went `padding-top:8px` → `20px` and the column
@@ -794,6 +913,59 @@ while the Sept 15 deck cites *eMarketer Forecast, June 2026* for the same series
 different vintages of the same forecast, and it is not obvious which is current. Left as
 found — a citation date is not something to change on inference.
 
+## Deck props are view settings, not source edits
+
+The deck's `text/x-dc` component exposes three props — `showTakeaways`, `showAppendix` and
+`dividerTone`. **What you pick in the canvas lives in the canvas's runtime state, not in the
+`.dc.html`.** So a prop set there is not in the file, not in `main`, and does not survive a
+pull, an export, an artifact publish, or anyone else opening the deck.
+
+This is the mechanism behind "my update disappeared again," and it is a class rather than a
+one-off. `dividerTone` is the case that exposed it: the author set it to *True Blue* in the
+design project, the source default reads `"Bentonville navy"`, and it reverted every time.
+Nothing was reverting it — the choice was never written down. **If a prop value is meant to
+be the deck's state, change its `default` in `data-props`.** If it is meant to be a
+presenter toggle, leave it and expect it to reset.
+
+**The dividers stay navy, and the default stays `Bentonville navy`.** Three reasons, in
+order of weight:
+
+1. **The tweak only targets `section[data-divider]`, and twelve slides carry a navy ground.**
+   The cover (01) and the closing slide (61) are not dividers, so flipping produces a deck
+   with *two* dark grounds — navy bookends around True Blue dividers. That is worse than
+   either colour applied consistently, and no prop can fix it because the prop cannot see
+   those two slides.
+2. **Ten dark slides punctuating sixty light ones are the deck's strongest structural
+   signal.** True Blue is a much weaker dark ground (relative luminance **0.117** against
+   navy's **0.018**), so the punctuation gets quieter for nothing gained.
+3. **Every mark on those slides gets worse, none gets better** — see the table below.
+
+And the *navy-density* rule this looks like it should serve does not actually ask for it.
+That rule is about blanket navy **on light slides**; navy grounds are explicitly sanctioned.
+Peer-row card tops already went True Blue across 113 uses on 27 slides, which is the part of
+"use True Blue for the dividers *within* slides" that was real. The statement rule stays
+navy on purpose — `2px #001e60` closes an argument, `2px #0053e2` tops a peer card, and an
+audit has crossed those two before.
+
+**The True Blue branch is kept and is now contrast-safe**, because the option is the
+author's and a broken option is a trap. Only the background moved before, and three marks
+fell below their floor:
+
+| Mark | On navy | On True Blue | Floor |
+|---|---|---|---|
+| White 58px title | 15.50:1 | 6.30:1 | 4.5 (3 for large) — fine |
+| Sky Blue `.cap` section name | 10.61:1 | **4.31:1** | 4.5 — failed |
+| Active dot, and the focus ring | 7.32:1 | **2.97:1** | 3 — failed |
+
+All three take white on True Blue at **6.30:1**. Note the override must be
+`background-color`, **not** `background`: the shorthand resets `background-clip`, and the
+dot's 8px painted mark would expand to fill its 44px hit area.
+
+Two related asks that fail the same way and should not be taken as written. The dot's hover
+state is already **white at 15.50:1**; changing it to True Blue gives **2.46:1** on navy,
+and on a True Blue ground it would be invisible. A connector stays recessive by being small,
+not by being unreadable — the same rule the Everyday Blue glyph fix turned on.
+
 ## Navigation chrome (`deck-nav.js`)
 
 The deck is read unattended as often as it is presented, so the nav *is* part of the
@@ -812,9 +984,23 @@ reading experience. Three rules it now holds:
   and the progress fill still animated. Transitions are now disabled under the query.
 
 **This deck does not get decorative motion.** Entrance animation is deliberately
-confined to the cover and the four act dividers (`.anim-1`–`.anim-4`); content slides
+confined to the cover and the **ten dividers** (`.anim-1`–`.anim-4`); content slides
 have none. A leadership strategy deck earns trust by being still and legible — no
-signature-moment flourishes on the evidence slides.
+signature-moment flourishes on the evidence slides. (This said "the four act dividers"
+until 16 Sept, which was the 68-slide build's count.)
+
+**"Add the animations back in" is a feature request, not a restoration — they were never
+there.** A Sep 16 review export described content-slide entrance animation as "lost
+somewhere in the rebuild passes." It was not lost. Checked three ways: the current deck has
+49 `anim-*` uses, all on the cover and the ten dividers and **none on any content slide**;
+the Sep 12 archive has the same shape; and across every commit that touched the deck the
+count went `25 → 48 → 49` and **never once decreased**. Chart hovers are the same story —
+the deck has four `:hover` rules (links, source links, nav dots) against the archive's one,
+so hover states have only ever been added.
+
+Say this plainly when it comes up again, because "restore" and "add" are different
+conversations: one is a bug to fix, the other reverses a documented standard and needs a
+decision. The standard can be reversed — but on its merits, not on a false memory.
 
 **Testing limit:** `deck-stage` needs a runtime that does not boot in a sandbox without
 network egress, so nav *behaviour* (prev/next, seek, slide sync) cannot be exercised

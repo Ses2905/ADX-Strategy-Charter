@@ -67,6 +67,19 @@
      24px so the hit target clears the accessibility floor, with a negative
      margin so the row lays out exactly as the static line did. */
   .secnav{display:flex;align-items:center;gap:0;max-width:620px;margin-bottom:16px}
+  /* Content-map rows are navigation, so they are buttons, not clickable divs:
+     a button gets Enter/Space, focus order and :focus-visible from the UA, and
+     the x-dc component already wires every [data-goto] on mount. UA button
+     styles are reset back to the row's own layout; box-sizing is explicit
+     because the deck sets no global rule and the UA gives buttons border-box. */
+  .s .cmrow{display:grid;grid-template-columns:40px 300px 1fr;gap:24px;
+    align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3;
+    box-sizing:border-box;width:100%;margin:0;border-left:0;border-right:0;
+    border-bottom:0;background:none;font:inherit;color:inherit;text-align:left;
+    cursor:pointer}
+  .s .cmrow:hover{background:#f5f6f8}
+  .s .cmrow:focus-visible{outline:2px solid var(--wm-true-blue,#0053e2);
+    outline-offset:-2px}
   .secnav .rule{flex:1;height:1px;background:rgba(255,255,255,.3)}
   .secnav .dot{position:relative;width:8px;height:8px;padding:18px;margin:-18px;border:0;
     box-sizing:content-box;border-radius:50%;background:rgba(255,255,255,.4);background-clip:content-box;
@@ -106,16 +119,16 @@
   <span class="k">Content map</span>
   <h2 class="t" style="margin-top:8px">The narrative at a glance</h2>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;margin-top:44px">
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">01.</span><span class="bs" style="font-weight:400">Market Shift</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How commerce media is evolving</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">02.</span><span class="bs" style="font-weight:400">Where We Are Today</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What&#8217;s working and what&#8217;s holding us back</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">03.</span><span class="bs" style="font-weight:400">Our Vision</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Where we&#8217;re going next and why</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">04.</span><span class="bs" style="font-weight:400">Strategic Reset</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Why we&#8217;re changing our approach</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">05.</span><span class="bs" style="font-weight:400">Roadmap</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll get there, in the right order</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">06.</span><span class="bs" style="font-weight:400">Operating Model</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll work differently to deliver it</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">07.</span><span class="bs" style="font-weight:400">Measuring Success</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll know we&#8217;re winning</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">08.</span><span class="bs" style="font-weight:400">What Needs To Be True</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What we&#8217;ll need to be successful</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">09.</span><span class="bs" style="font-weight:400">Closing</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Bringing it all together</span></div>
-      <div style="display:grid;grid-template-columns:40px 300px 1fr;gap:24px;align-items:baseline;padding:11px 0;border-top:1px solid #eef0f3"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs" style="font-weight:400">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></div>
+      <button type="button" class="cmrow" data-goto="3" aria-label="Go to Market Shift"><span class="n" style="font-size:var(--text-h5,17px)">01.</span><span class="bs" style="font-weight:400">Market Shift</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How commerce media is evolving</span></button>
+      <button type="button" class="cmrow" data-goto="11" aria-label="Go to Where We Are Today"><span class="n" style="font-size:var(--text-h5,17px)">02.</span><span class="bs" style="font-weight:400">Where We Are Today</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What&#8217;s working and what&#8217;s holding us back</span></button>
+      <button type="button" class="cmrow" data-goto="22" aria-label="Go to Our Vision"><span class="n" style="font-size:var(--text-h5,17px)">03.</span><span class="bs" style="font-weight:400">Our Vision</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Where we&#8217;re going next and why</span></button>
+      <button type="button" class="cmrow" data-goto="28" aria-label="Go to Strategic Reset"><span class="n" style="font-size:var(--text-h5,17px)">04.</span><span class="bs" style="font-weight:400">Strategic Reset</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Why we&#8217;re changing our approach</span></button>
+      <button type="button" class="cmrow" data-goto="39" aria-label="Go to Roadmap"><span class="n" style="font-size:var(--text-h5,17px)">05.</span><span class="bs" style="font-weight:400">Roadmap</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll get there, in the right order</span></button>
+      <button type="button" class="cmrow" data-goto="48" aria-label="Go to Operating Model"><span class="n" style="font-size:var(--text-h5,17px)">06.</span><span class="bs" style="font-weight:400">Operating Model</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll work differently to deliver it</span></button>
+      <button type="button" class="cmrow" data-goto="53" aria-label="Go to Measuring Success"><span class="n" style="font-size:var(--text-h5,17px)">07.</span><span class="bs" style="font-weight:400">Measuring Success</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll know we&#8217;re winning</span></button>
+      <button type="button" class="cmrow" data-goto="55" aria-label="Go to What Needs To Be True"><span class="n" style="font-size:var(--text-h5,17px)">08.</span><span class="bs" style="font-weight:400">What Needs To Be True</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What we&#8217;ll need to be successful</span></button>
+      <button type="button" class="cmrow" data-goto="57" aria-label="Go to Closing"><span class="n" style="font-size:var(--text-h5,17px)">09.</span><span class="bs" style="font-weight:400">Closing</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Bringing it all together</span></button>
+      <button type="button" class="cmrow" data-appendix-row data-goto="61" aria-label="Go to Appendix"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs" style="font-weight:400">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></button>
   </div>
   <div class="pg">02</div>
 </section>
@@ -263,7 +276,7 @@
   <div class="pg">09</div>
 </section>
 
-<section class="s" data-label="Revenue connection" data-screen-label="10" data-speaker-notes="Experience is no longer a UX metric &#8212; it is a revenue strategy. Complexity and low confidence are concentrating spend into fewer networks.">
+<section class="s" data-label="Revenue connection" data-screen-label="10" data-speaker-notes="Experience is no longer a UX metric &#8212; it is a revenue strategy. Complexity and low confidence are concentrating spend into fewer networks. Read the four figures together rather than separately: access removes the barrier &#8212; 80% and 93% both say programmatic reach into onsite inventory would move budget, including budget that is not retail media today &#8212; consolidation then decides who captures it, and an average NPS of &#8722;20 says no incumbent has earned the loyalty to be safe. The opportunity is winnable precisely because nobody is currently winning it. If pressed on the numbers: the 50% consolidation figure is not supported by published summaries of the Skai 2025 report, which give 57% and &#8220;nearly 60%&#8221; &#8212; footnote 1 says so on the slide, and this deck is not fit for external use until that is resolved. The &#8722;20 is solid (Bain, 235 respondents, 34 major European and US retailers rating their networks, more than 80% below zero) but the underlying data set is November 2022, so treat it as the most recent published benchmark rather than a current reading.">
   <span class="k">The revenue connection</span>
   <h2 class="t" style="font-size:var(--text-38,38px);margin-top:8px">Experience is no longer a UX metric, it&#8217;s a revenue growth strategy</h2>
   <p class="d">Advertisers are shifting budget toward platforms that make buying simpler and more connected. As trust declines and investment consolidates, experience determines who wins the next dollar.</p>
@@ -745,10 +758,10 @@
   <h2 class="t" style="margin-top:8px">Every workflow we fix should leave a pattern behind</h2>
   <p class="d">Make core workflows faster, clearer and more consistent &#8212; while turning each channel improvement into a reusable pattern.</p>
   <div style="flex:1;display:flex;flex-direction:column;margin-top:34px;min-height:0">
-    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:stretch;flex:1;min-height:0">
-      <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="cap">01</span><h3 class="h" style="font-size:var(--text-h3,26px);margin:12px 0 0;line-height:1.15">Modernize Sponsored</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Creation, management and editing with fewer steps.</p><div style="margin:auto 0 0;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Campaign creation flow</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="cap">02</span><h3 class="h" style="font-size:var(--text-h3,26px);margin:12px 0 0;line-height:1.15">Modernize Display</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Simpler workflows built on shared patterns.</p><div style="margin:auto 0 0;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Objective-led setup</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="cap">03</span><h3 class="h" style="font-size:var(--text-h3,26px);margin:12px 0 0;line-height:1.15">Cross-channel management</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Common tables, filters, bulk actions and budgets.</p><div style="margin:auto 0 0;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Table, filter and bulk-edit patterns</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="cap">04</span><h3 class="h" style="font-size:var(--text-h3,26px);margin:12px 0 0;line-height:1.15">Shared creative</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Create, reuse, moderate, approve and appeal once.</p><div style="margin:auto 0 0;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Asset and approval model</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="cap">05</span><h3 class="h" style="font-size:var(--text-h3,26px);margin:12px 0 0;line-height:1.15">Extend self-service</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Planning, Offsite and In-Store guided experiences.</p><div style="margin:auto 0 0;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Guided-flow pattern</p></div></div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:stretch">
+      <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">01</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Modernize Sponsored</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Creation, management and editing with fewer steps.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Campaign creation flow</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">02</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Modernize Display</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Simpler workflows built on shared patterns.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Objective-led setup</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">03</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Cross-channel management</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Common tables, filters, bulk actions and budgets.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Table, filter and bulk-edit patterns</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">04</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Shared creative</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Create, reuse, moderate, approve and appeal once.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Asset and approval model</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">05</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Extend self-service</h3><p class="bs" style="margin-top:10px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Planning, Offsite and In-Store guided experiences.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">Pattern it leaves</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Guided-flow pattern</p></div></div>
     </div>
-    <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;display:grid;grid-template-columns:132px 1fr;gap:32px;align-items:baseline;margin-top:26px">
+    <div style="border-top:2px solid var(--wm-bentonville-blue,#001e60);padding-top:18px;display:grid;grid-template-columns:132px 1fr;gap:32px;align-items:baseline;margin-top:26px">
       <span class="cap">Why it matters</span>
       <p style="font-size:var(--text-19,19px);line-height:1.45;font-weight:300;margin:0">Reduce task time, errors and launch friction today; avoid rebuilding the same workflow tomorrow.</p>
     </div>
@@ -781,13 +794,8 @@
   <h2 class="t" style="margin-top:8px">One platform layer makes every future channel cheaper</h2>
   <p class="d">Create one platform layer that reduces fragmentation, accelerates every hallway, and keeps future ecosystem expansion configurable.</p>
   <div style="flex:1;display:flex;flex-direction:column;margin-top:30px;min-height:0">
-    <div style="display:grid;grid-template-columns:28px 1.05fr 1.3fr 1fr;gap:24px;padding-bottom:9px"><span></span><span class="cap">Layer</span><span class="cap">What it establishes</span><span class="cap" style="color:var(--wm-true-blue,#0053e2)">What it buys every product above it</span></div>
-    <div style="display:grid;grid-template-columns:28px 1.05fr 1.3fr 1fr;gap:24px;border-top:1px solid var(--wm-gray-300,#c3c6cd);padding:15px 0;align-items:baseline"><span style="font-family:var(--font-mono);font-size:var(--text-13,13px);color:var(--wm-true-blue,#0053e2)">01</span><span style="font-size:var(--text-h5,17px);font-weight:400;line-height:1.3">Global IA and navigation</span><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">One app model, shell, entry point and hallway logic.</p><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0">Every product inherits one way in</p></div>
-    <div style="display:grid;grid-template-columns:28px 1.05fr 1.3fr 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:15px 0;align-items:baseline"><span style="font-family:var(--font-mono);font-size:var(--text-13,13px);color:var(--wm-true-blue,#0053e2)">02</span><span style="font-size:var(--text-h5,17px);font-weight:400;line-height:1.3">Standards and design system</span><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Shared terminology, content and interaction rules.</p><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0">Every screen speaks the same language</p></div>
-    <div style="display:grid;grid-template-columns:28px 1.05fr 1.3fr 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:15px 0;align-items:baseline"><span style="font-family:var(--font-mono);font-size:var(--text-13,13px);color:var(--wm-true-blue,#0053e2)">03</span><span style="font-size:var(--text-h5,17px);font-weight:400;line-height:1.3">Shared apps foundation</span><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Reusable workspace, context, permissions and deep links.</p><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0">Context carries between products</p></div>
-    <div style="display:grid;grid-template-columns:28px 1.05fr 1.3fr 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:15px 0;align-items:baseline"><span style="font-family:var(--font-mono);font-size:var(--text-13,13px);color:var(--wm-true-blue,#0053e2)">04</span><span style="font-size:var(--text-h5,17px);font-weight:400;line-height:1.3">Data, metrics and events</span><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Common definitions, instrumentation and attribution boundaries.</p><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0">One number means one thing</p></div>
-    <div style="display:grid;grid-template-columns:28px 1.05fr 1.3fr 1fr;gap:24px;border-top:1px solid var(--wm-gray-100,#eef0f3);padding:15px 0;align-items:baseline"><span style="font-family:var(--font-mono);font-size:var(--text-13,13px);color:var(--wm-true-blue,#0053e2)">05</span><span style="font-size:var(--text-h5,17px);font-weight:400;line-height:1.3">API and hallway infrastructure</span><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0;color:var(--wm-gray-700,#46474a)">Parity plans and reusable integration contracts.</p><p style="font-size:var(--text-13-5,13.5px);line-height:1.45;font-weight:300;margin:0">New channels connect, not rebuild</p></div>
-    <div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding-top:18px;margin-top:22px;display:grid;grid-template-columns:132px 1fr;gap:32px;align-items:baseline">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:stretch"><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">01</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Global IA and navigation</h3><p class="bs" style="margin-top:8px;line-height:1.5;color:var(--wm-gray-700,#46474a)">One app model, shell, entry point and hallway logic.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">What it buys</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Every product inherits one way in</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">02</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Standards and design system</h3><p class="bs" style="margin-top:8px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Shared terminology, content and interaction rules.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">What it buys</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Every screen speaks the same language</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">03</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Shared apps foundation</h3><p class="bs" style="margin-top:8px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Reusable workspace, context, permissions and deep links.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">What it buys</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">Context carries between products</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">04</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">Data, metrics and events</h3><p class="bs" style="margin-top:8px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Common definitions, instrumentation and attribution boundaries.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">What it buys</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">One number means one thing</p></div></div><div style="border-top:2px solid var(--wm-true-blue,#0053e2);padding:18px 0 0;display:flex;flex-direction:column"><span class="n" style="font-size:var(--text-h3,26px);display:block">05</span><h3 class="h" style="font-size:var(--text-h5,17px);margin:12px 0 0;line-height:1.25;min-height:42px">API and hallway infrastructure</h3><p class="bs" style="margin-top:8px;line-height:1.5;color:var(--wm-gray-700,#46474a)">Parity plans and reusable integration contracts.</p><div style="margin-top:16px;padding-top:16px"><span class="cap" style="color:var(--wm-gray-600,#5e636e)">What it buys</span><p style="font-size:var(--text-14-5,14.5px);line-height:1.4;font-weight:400;margin:6px 0 0">New channels connect, not rebuild</p></div></div></div>
+    <div style="border-top:2px solid var(--wm-bentonville-blue,#001e60);padding-top:18px;margin-top:22px;display:grid;grid-template-columns:132px 1fr;gap:32px;align-items:baseline">
       <span class="cap">Platform test</span>
       <p style="font-size:var(--text-19,19px);line-height:1.45;font-weight:300;margin:0">The goal is configurable reuse across hallways &#8212; not a new layer of one-off shared UI.</p>
     </div>
@@ -1242,69 +1250,69 @@
     <span style="font-size:var(--text-13,13px);font-weight:400;border-bottom:1px solid var(--wm-bentonville-blue,#001e60);padding-bottom:8px;color:var(--wm-bentonville-blue,#001e60)">Non-endemic</span>
     <span style="font-size:var(--text-13,13px);font-weight:400;border-bottom:1px solid var(--wm-bentonville-blue,#001e60);padding-bottom:8px;color:var(--wm-bentonville-blue,#001e60)">Internal teams</span>
 
-    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Who they are</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Large national + global brands</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Regional, challenger + growing brands</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Holding companies + independent agencies</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Marketplace sellers + digitally native brands</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Brands outside traditional retail (travel, auto, finance)</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Walmart Ads sales, account management, ad ops + support</span>
+    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Who they are</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Large national + global brands</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Regional, challenger + growing brands</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Holding companies + independent agencies</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Marketplace sellers + digitally native brands</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Brands outside traditional retail (travel, auto, finance)</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Walmart Ads sales, account management, ad ops + support</span>
 
-    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Service model</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Agency-represented</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Self-serve</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Self-serve / API</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Self-serve</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Self-serve</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Internal</span>
+    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Service model</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Agency-represented</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Self-serve</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Self-serve / API</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Self-serve</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Self-serve</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Internal</span>
 
-    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Digital maturity</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">High</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Medium</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Very high</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Low–medium</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Medium</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Expert</span>
+    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Digital maturity</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">High</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Medium</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Very high</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Low–medium</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Medium</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Expert</span>
 
-    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Buying complexity</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Very high</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Medium</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Very high</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Low</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Medium–high</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">High</span>
+    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Buying complexity</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Very high</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Medium</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Very high</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Low</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Medium–high</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">High</span>
 
-    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Investment source</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Brand, shopper, trade + commerce marketing</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Marketing + commerce budgets</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Client media budgets</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Seller P&amp;L</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Brand + performance marketing</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Internal operating budget</span>
+    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Investment source</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Brand, shopper, trade + commerce marketing</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Marketing + commerce budgets</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Client media budgets</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Seller P&amp;L</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Brand + performance marketing</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Internal operating budget</span>
 
-    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Primary needs</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Connected planning, advanced measurement, AI insights, portfolio management</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Guided onboarding, automation, best practices</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Multi-account management, APIs, bulk workflows</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Simplicity, education, recommendations</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Audience discovery, transparent measurement, familiar workflows</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Shared workspaces, collaboration, operational visibility</span>
+    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Primary needs</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Connected planning, advanced measurement, AI insights, portfolio management</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Guided onboarding, automation, best practices</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Multi-account management, APIs, bulk workflows</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Simplicity, education, recommendations</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Audience discovery, transparent measurement, familiar workflows</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Shared workspaces, collaboration, operational visibility</span>
 
-    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Pain points</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Fragmented workflow, disconnected channels, inconsistent measurement</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Limited resources, platform complexity, operational overhead</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Context switching, inconsistent retailer experiences, reporting complexity</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Advertising expertise, confusing setup, manual optimization</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Learning curve, unfamiliar terminology, fragmented planning</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Manual processes, duplicate work, disconnected systems</span>
+    <span class="cap" style="border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Pain points</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Fragmented workflow, disconnected channels, inconsistent measurement</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Limited resources, platform complexity, operational overhead</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Context switching, inconsistent retailer experiences, reporting complexity</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Advertising expertise, confusing setup, manual optimization</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Learning curve, unfamiliar terminology, fragmented planning</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Manual processes, duplicate work, disconnected systems</span>
 
-    <span class="cap" style="padding:8px 0">Experience priorities</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Connected workflows, portfolio insights, intelligent recommendations</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Guided experiences, templates, automation</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Efficiency, scalability, standardized workflows</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Simplicity, education, proactive guidance</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Familiar experiences, planning support, confidence</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Collaboration, operational efficiency, customer health insights</span>
+    <span class="cap" style="padding:12px 0">Experience priorities</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Connected workflows, portfolio insights, intelligent recommendations</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Guided experiences, templates, automation</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Efficiency, scalability, standardized workflows</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Simplicity, education, proactive guidance</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Familiar experiences, planning support, confidence</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Collaboration, operational efficiency, customer health insights</span>
   </div>
   <div class="tk"><span>One interface cannot serve very-high and low buying complexity equally well. That is the case for adaptive paths.</span><b>65</b></div>
 </section>
@@ -1321,45 +1329,45 @@
     <span style="font-size:var(--text-12-5,12.5px);font-weight:400;border-bottom:1px solid var(--wm-bentonville-blue,#001e60);padding-bottom:8px;color:var(--wm-bentonville-blue,#001e60)">eCommerce<span style="display:block;font-size:var(--text-9-5,9.5px);color:var(--wm-gray-600,#5e636e);font-weight:300">VP eCommerce / directors</span></span>
     <span style="font-size:var(--text-12-5,12.5px);font-weight:400;border-bottom:1px solid var(--wm-bentonville-blue,#001e60);padding-bottom:8px;color:var(--wm-bentonville-blue,#001e60)">Analytics / insights<span style="display:block;font-size:var(--text-9-5,9.5px);color:var(--wm-gray-600,#5e636e);font-weight:300">BI / marketing science</span></span>
 
-    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">What they care about</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Market-share growth, brand equity, revenue impact, portfolio performance</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Category growth, campaign launches, product innovation support</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Retailer-specific performance, joint business planning, in-store + digital alignment</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Retailer relationships, volume commitments, shelf positioning</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Digital shelf velocity, conversion rates, search dominance</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Attribution integrity, cross-channel lift, model inputs (MMM / MTA)</span>
+    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">What they care about</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Market-share growth, brand equity, revenue impact, portfolio performance</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Category growth, campaign launches, product innovation support</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Retailer-specific performance, joint business planning, in-store + digital alignment</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Retailer relationships, volume commitments, shelf positioning</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Digital shelf velocity, conversion rates, search dominance</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Attribution integrity, cross-channel lift, model inputs (MMM / MTA)</span>
 
-    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Budget influence<span class="fn">1</span></span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">60–80% allocation authority; approve retail media shifts</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">30–50% within category; control activation budgets</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">40–70% at retailer level; retailer-specific budgets</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Indirect but powerful; influence retailer allocation</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">30–60% in digital-heavy orgs; often own evergreen search</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Veto on scale decisions; gate incremental budget</span>
+    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Budget influence<span class="fn">1</span></span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">60–80% allocation authority; approve retail media shifts</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">30–50% within category; control activation budgets</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">40–70% at retailer level; retailer-specific budgets</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Indirect but powerful; influence retailer allocation</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">30–60% in digital-heavy orgs; often own evergreen search</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Veto on scale decisions; gate incremental budget</span>
 
-    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Where they invest</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Upper + lower funnel, omnichannel impact, multi-retailer allocation</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Offsite media, omnichannel packages, seasonal pushes</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Onsite search, onsite display, in-store extensions</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Retailer-driven media packages to secure placement</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Sponsored search, evergreen conversion media, performance display</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Channels with strong KPIs, test-and-learn pilots</span>
+    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Where they invest</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Upper + lower funnel, omnichannel impact, multi-retailer allocation</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Offsite media, omnichannel packages, seasonal pushes</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Onsite search, onsite display, in-store extensions</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Retailer-driven media packages to secure placement</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Sponsored search, evergreen conversion media, performance display</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Channels with strong KPIs, test-and-learn pilots</span>
 
-    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Retail media wishlist</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Incrementality beyond ROAS, clean MMM integration, executive-ready reporting</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Visibility during launches, share-of-voice insights, competitive benchmarking</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Retailer-exclusive insights, closed-loop sales reporting, promotional tie-ins</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Easy JBP integration, clear proof of retailer impact</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Real-time reporting, keyword insights, algorithm transparency</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:8px 0">Clean data exports, API access, transparent methodology</span>
+    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Retail media wishlist</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Incrementality beyond ROAS, clean MMM integration, executive-ready reporting</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Visibility during launches, share-of-voice insights, competitive benchmarking</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Retailer-exclusive insights, closed-loop sales reporting, promotional tie-ins</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Easy JBP integration, clear proof of retailer impact</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Real-time reporting, keyword insights, algorithm transparency</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Clean data exports, API access, transparent methodology</span>
 
-    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;padding:8px 0">Critical pain points</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">ROAS ≠ business growth, no cross-channel narrative, inconsistent measurement</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Limited creative flexibility, weak competitive reporting, platform silos</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">In-store + digital linkage, reporting delays, no unified retail view</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Hard to tie media to sell-in, complex planning cycles</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Reporting latency, limited bid controls, no automation</span>
-    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:8px 0">Black-box attribution, lack of standardization, manual data pulls</span>
+    <span style="font-size:var(--text-10-5,10.5px);font-weight:400;padding:12px 0">Critical pain points</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">ROAS ≠ business growth, no cross-channel narrative, inconsistent measurement</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Limited creative flexibility, weak competitive reporting, platform silos</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">In-store + digital linkage, reporting delays, no unified retail view</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Hard to tie media to sell-in, complex planning cycles</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Reporting latency, limited bid controls, no automation</span>
+    <span style="font-size:var(--text-10-5,10.5px);line-height:1.4;padding:12px 0">Black-box attribution, lack of standardization, manual data pulls</span>
   </div>
   <div class="tk"><span>Six functions, one platform, six different definitions of success. &nbsp;<span class="fnl">1</span>Allocation ranges are directional estimates from account-team experience, not surveyed data.</span><b>66</b></div>
 </section>
@@ -1375,40 +1383,40 @@
     <span style="font-size:var(--text-13-5,13.5px);font-weight:400;border-bottom:1px solid var(--wm-bentonville-blue,#001e60);padding-bottom:9px;color:var(--wm-bentonville-blue,#001e60)">Agency analytics</span>
     <span style="font-size:var(--text-13-5,13.5px);font-weight:400;border-bottom:1px solid var(--wm-bentonville-blue,#001e60);padding-bottom:9px;color:var(--wm-bentonville-blue,#001e60)">Client services</span>
 
-    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">What they care about</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Portfolio performance, cross-retailer efficiency, client retention, scalable operating models</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">JBP alignment, lower-funnel performance, retailer relationship optics</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Performance optimization, pacing control, bid adjustments</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Performance validation, cross-channel comparability, model inputs</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Client satisfaction, predictable performance, clear storytelling</span>
+    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">What they care about</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Portfolio performance, cross-retailer efficiency, client retention, scalable operating models</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">JBP alignment, lower-funnel performance, retailer relationship optics</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Performance optimization, pacing control, bid adjustments</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Performance validation, cross-channel comparability, model inputs</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Client satisfaction, predictable performance, clear storytelling</span>
 
-    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Budget influence<span class="fn">1</span></span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">50–70% tactical allocation; decides which RMNs scale</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">40–60% at retailer level; retailer-specific allocations</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">40–60% spend movement; shifts budget week to week</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Veto power on scaling; influences annual budget shifts</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Moderate but strategic; influences scale decisions</span>
+    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Budget influence<span class="fn">1</span></span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">50–70% tactical allocation; decides which RMNs scale</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">40–60% at retailer level; retailer-specific allocations</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">40–60% spend movement; shifts budget week to week</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Veto power on scaling; influences annual budget shifts</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Moderate but strategic; influences scale decisions</span>
 
-    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Where they invest</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Platforms with automation, cross-retailer reporting, auction environments</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Sponsored search, onsite display, retail-exclusive placements</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Auction environments, search-heavy platforms, predictable pacing channels</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Platforms with clean exports, incrementality-tested channels</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Stable platforms, easy reporting narratives, low operational friction</span>
+    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Where they invest</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Platforms with automation, cross-retailer reporting, auction environments</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Sponsored search, onsite display, retail-exclusive placements</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Auction environments, search-heavy platforms, predictable pacing channels</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Platforms with clean exports, incrementality-tested channels</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Stable platforms, easy reporting narratives, low operational friction</span>
 
-    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Retail media wishlist</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">API access, bulk campaign management, portfolio-level reporting</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Closed-loop sales reporting, retail-specific dashboards, fast approvals</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Bulk editing, real-time reporting, transparent auction logic</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Standardized data feeds, API access, methodology transparency</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:10px 0">Clean decks, consistent reporting cadence, clear benchmarks</span>
+    <span style="font-size:var(--text-11,11px);font-weight:400;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Retail media wishlist</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">API access, bulk campaign management, portfolio-level reporting</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Closed-loop sales reporting, retail-specific dashboards, fast approvals</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Bulk editing, real-time reporting, transparent auction logic</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Standardized data feeds, API access, methodology transparency</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;border-bottom:1px solid var(--wm-gray-100,#eef0f3);padding:12px 0">Clean decks, consistent reporting cadence, clear benchmarks</span>
 
-    <span style="font-size:var(--text-11,11px);font-weight:400;padding:10px 0">Critical pain points</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:10px 0">Managed-service bottlenecks, non-standard reporting, manual trafficking</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:10px 0">Reporting delays, in-store + digital disconnect, limited creative flexibility</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:10px 0">Manual workflows, no automation, limited controls</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:10px 0">Black-box attribution, inconsistent retailer definitions, cross-network normalization</span>
-    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:10px 0">Inconsistent metrics, complex billing, performance swings</span>
+    <span style="font-size:var(--text-11,11px);font-weight:400;padding:12px 0">Critical pain points</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:12px 0">Managed-service bottlenecks, non-standard reporting, manual trafficking</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:12px 0">Reporting delays, in-store + digital disconnect, limited creative flexibility</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:12px 0">Manual workflows, no automation, limited controls</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:12px 0">Black-box attribution, inconsistent retailer definitions, cross-network normalization</span>
+    <span style="font-size:var(--text-11,11px);line-height:1.45;padding:12px 0">Inconsistent metrics, complex billing, performance swings</span>
   </div>
   <div class="tk"><span>Automation, interoperability and clean data are what earn agency allocation. &nbsp;<span class="fnl">1</span>Allocation ranges are directional estimates from account-team experience, not surveyed data.</span><b>67</b></div>
 </section>
@@ -1514,7 +1522,18 @@
     let css = "";
     if (!showTakeaways) css += ".tk{display:none !important}";
     if (dividerTone === "True Blue") {
-      css += 'section[data-divider]{background:#0053e2 !important}';
+      // A True Blue ground is much lighter than navy (L .117 vs .018), so three
+      // marks fall below their floor if only the background moves: the Sky Blue
+      // .cap lands at 4.31:1 (needs 4.5), and the active navigator dot and its
+      // focus ring at 2.97:1 (need 3). White clears all three at 6.30:1.
+      // background-COLOR, not background: the shorthand resets background-clip
+      // and the dot's 8px painted mark would fill its 44px hit area.
+      css += 'section[data-divider]{background:#0053e2 !important}'
+           + 'section[data-divider] .cap{color:var(--wm-white,#fff) !important}'
+           + 'section[data-divider] .secnav .dot[aria-current="true"]'
+           + '{background-color:var(--wm-white,#fff) !important}'
+           + 'section[data-divider] .secnav .dot:focus-visible'
+           + '{outline-color:var(--wm-white,#fff) !important}';
     }
     let tag = document.getElementById("om-deck-tweaks");
     if (!tag) {
@@ -1526,6 +1545,17 @@
     document.querySelectorAll('[data-goto]').forEach((el) => {
       if (el.__dcGoto) return;
       el.__dcGoto = true;
+      // Space has to be claimed before it reaches the window. deck-stage's
+      // _onKey treats ' '/'Spacebar' as next-slide and preventDefault()s it,
+      // and that branch is deliberately NOT gated on !e.defaultPrevented the
+      // way ArrowDown/ArrowUp are — so a focused jump button pressed with
+      // Space advances one slide and its native activation is cancelled.
+      // Enter is unaffected (_onKey has no Enter branch and leaves it to the
+      // focused button), so only Space is stopped. stopPropagation is the
+      // same escape the rail thumbs already use for ↑/↓.
+      el.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Spacebar') e.stopPropagation();
+      });
       el.addEventListener('click', (e) => {
         e.stopPropagation();
         const stage = document.querySelector('deck-stage');
@@ -1536,6 +1566,15 @@
     document.querySelectorAll('section[data-appendix]').forEach((el) => {
       if (showAppendix) el.removeAttribute("data-deck-skip");
       else el.setAttribute("data-deck-skip", "");
+    });
+    // The content map's Appendix row points at slide 62, the appendix divider.
+    // 62 does NOT carry data-appendix (only 63-70 do), so it survives the
+    // toggle and the jump never lands on a hidden slide — but with the
+    // appendix off it lands on a divider announcing nine slides that are not
+    // there. An affordance for content the presenter just removed is worse
+    // than no affordance, so the row goes with it.
+    document.querySelectorAll('[data-appendix-row]').forEach((el) => {
+      el.style.display = showAppendix ? "" : "none";
     });
   }
 }</script>
