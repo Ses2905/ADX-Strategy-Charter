@@ -997,16 +997,39 @@ supports and one of three states:
 | **Check figure** | the URL is real but the number attributed to it does not match the published report |
 | **Needs link** | no URL available — either not supplied, or internal and only the author can provide it |
 
-**A link is an assertion that the source supports the claim.** Only link inline, next to a
-figure, when both are true. Slide 10's Skai figure is the case that made this rule: the
-report page is real and verifiable, but published summaries of it give **~60%** and **68%**
-on spend consolidation where the slide says **50%**. The link therefore sits in the
-bibliography under *Check figure*, not beside the number on slide 10, and both the row and
-the slide's takeaway say why. Resolve the figure before linking it inline.
+**A link is an assertion that the source supports the claim** — so an inline link needs a
+footnote marker on the figure whenever the two do not agree. The rule used to be absolute
+(no inline link until the figure resolves) and the Sep 16 pass amended it: slide 10's Skai
+card now links the report beside the number *and* carries footnote 1 on the number itself,
+saying the 2025 report gives **57%** and *"nearly 60%"* on consolidation where the slide
+says **50%**, and that the **68%** figure is from the **2026** report. That is the amended
+form — link plus a marker on the figure, never a bare link — and it is the author's call,
+made deliberately. A disputed figure with no marker is still forbidden.
 
-Two links are live: the Koddi playbook (author-supplied in the source deck's speaker notes)
-and the Skai report page. Six sources still need links, four of them internal — the
-platform audit, the Pendo exports, and the two figure sets carried without citation.
+**Slide 10's 50% is now contradicted by its own footnote, not merely unverified**, which is
+a harder state than the guardrail table below describes. It stays *Check figure* on slide
+63 and it is the one open blocker for external use. Resolving it means replacing the number
+with a sourced one or cutting the card — not adding more caveat.
+
+Four links are live: the Koddi playbook (author-supplied in the source deck's speaker
+notes), the Koddi *State of Programmatic Retail Media* PDF behind slides 09 and 10, the
+Skai report page, and the Bain RMN NPS benchmark via Oliver Banks. The Bain link resolved
+a *Needs link* row but carries its own caveat, recorded on both slide 10 and slide 63: 235
+respondents across 34 major European and US retailers, **November 2022** — the most recent
+published benchmark of its kind, and four years old. Five sources still need links, two of
+them internal — the platform audit and the Pendo exports.
+
+**Slide 63's rows sit at `padding:6px 0`, not 8px.** Adding the Bain methodology subline
+put a tenth line into the table and pushed the last row 5px onto the takeaway marker;
+`collide.js` caught it. Two pixels off nine rows bought 36px and the slide measures clean.
+The bibliography is the deck's tightest table — any new row or subline needs a collide run,
+not an eyeball.
+
+**The bibliography is half of every citation change.** Slides 09 and 10 gained their links
+in the design project while slide 63 stayed byte-identical, so for one pass the deck linked
+three sources the bibliography still listed as *Needs link* and the lead line still said
+"Two are linked". Same failure mode as slides 19 and 70: one argument split across two
+places, and only one of them edited.
 
 Citation links are `<a target="_blank" rel="noopener">` and inherit `.src a` / `.srclink`:
 True Blue, underlined at 1px with a 2px offset. Do not restyle them per slide.

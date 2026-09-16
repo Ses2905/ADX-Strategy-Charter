@@ -82,6 +82,21 @@ read "updated 15 Sept", which is exactly as much as a modification date can tell
 **Diff content, never dates.** `tools/checkdeck.py` gives the slide count and structure in
 a second; the markers above are greppable. If a copy claims to be ahead, make it prove it.
 
+**Normalise before you diff, and never copy an artifact's markup wholesale.** On 16 Sept a
+second artifact genuinely *was* ahead — and a raw slide-by-slide hash said 57 of 70 slides
+differed. Fifty-four of those were the renderer, not the author: it emits raw UTF-8 where
+the deck writes entities (`&#8212;`, `&#183;`, `&#8217;`), and it rewrites every `src` to a
+bundler asset id. Unescape entities, blank the `src` values and collapse whitespace first
+and the count drops to **five**; three of those five are the renderer too. Two slides had
+actually changed.
+
+Worse, the renderer mangles SVG attributes: **8 of the deck's 9 `viewBox` become
+`sc-camel-view-box`**, and `preserveAspectRatio` becomes `sc-camel-preserve-aspect-ratio`.
+Those are dead attributes. Dropping that file in would have silently flattened all four
+charts and the six icons on slide 24 — and it would have passed `checkdeck.py`, which
+checks structure, not attribute spelling. **Port the content delta by hand; never take the
+render.**
+
 When a pass *does* happen in Claude Design, it has to come back by hand, and the bridge is
 a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way:
 
