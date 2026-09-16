@@ -104,9 +104,19 @@
     box-sizing:border-box;width:100%;margin:0;border-left:0;border-right:0;
     border-bottom:0;background:none;font:inherit;color:inherit;text-align:left;
     cursor:pointer}
+  /* The row title sits at 400 against the .bs body weight of 300, so the
+     hover step is 400 -> 500 -- the deck's UI-medium, the same step .cap
+     takes -- plus True Blue on the same element. Measured before shipping:
+     the 300px track has 161px of slack at the longest title even at 500, so
+     the weight change cannot rewrap a row or move the 1136px measure. The
+     numeral is already True Blue by role and the description stays gray-700,
+     so the row gains emphasis without lighting up wholesale. */
+  .s .cmrow .cmttl{font-weight:400}
   .s .cmrow:hover{background:var(--wm-gray-50,#f5f6f8)}
-  .s .cmrow:focus-visible{outline:2px solid var(--wm-true-blue,#0053e2);
-    outline-offset:-2px}
+  .s .cmrow:hover .cmttl,.s .cmrow:focus-visible .cmttl{
+    font-weight:500;color:var(--wm-true-blue,#0053e2)}
+  .s .cmrow:focus-visible{background:var(--wm-gray-50,#f5f6f8);
+    outline:2px solid var(--wm-true-blue,#0053e2);outline-offset:-2px}
   .secnav .rule{flex:1;height:1px;background:rgba(255,255,255,.3)}
   .secnav .dot{position:relative;width:8px;height:8px;padding:18px;margin:-18px;border:0;
     box-sizing:content-box;border-radius:50%;background:rgba(255,255,255,.4);background-clip:content-box;
@@ -126,12 +136,12 @@
      deck had three timings for one kind of feedback. Interaction feedback is
      --dur-fast/--ease-standard; entrance motion is --motion-in/--motion-ease.
      They are different jobs and must not be collapsed into one another. */
-  a,.s .src a,.s .srclink,.s .cmrow,.secnav .dot,.secnav .dot::after{
+  a,.s .src a,.s .srclink,.s .cmrow,.s .cmrow .cmttl,.secnav .dot,.secnav .dot::after{
     transition:color var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1)),
       background-color var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1)),
       opacity var(--dur-fast,120ms) var(--ease-standard,cubic-bezier(.2,0,0,1))}
   @media (prefers-reduced-motion:reduce){
-    a,.s .src a,.s .srclink,.s .cmrow,.secnav .dot,.secnav .dot::after{transition:none}}
+    a,.s .src a,.s .srclink,.s .cmrow,.s .cmrow .cmttl,.secnav .dot,.secnav .dot::after{transition:none}}
   /* Paper has no cursor. Chromium keeps :hover in the print rendering, so a
      presenter printing with the pointer on a navigator dot baked the tooltip
      ("07 · Measuring Success") onto the divider page at full opacity, and the
@@ -140,14 +150,18 @@
      The chart bars have carried this reset since the hover shipped; these
      three never did — and the first version of this block still missed the
      links, so a citation hovered on slides 09, 10 or 63 printed var(--wm-true-blue-hover,#0045bd).
-     Enumerating hover states by hand is what went wrong twice; if a seventh
-     appears, it belongs in BOTH the transition list above and here. */
+     Enumerating hover states by hand is what went wrong twice; a new one
+     belongs in BOTH the transition list above and here. The content-map row
+     title is the most recent to be added on those terms -- it changes weight
+     and colour on hover, and paper would otherwise bake one row heavier and
+     bluer than its nine siblings. */
   @media print{
     a,.s .src a,.s .srclink{color:var(--wm-true-blue,#0053e2) !important}
     .secnav .dot::after{opacity:0 !important}
     .secnav .dot{background:rgba(255,255,255,.4) !important;background-clip:content-box !important}
     .secnav .dot[aria-current="true"]{background:var(--wm-everyday-blue,#4dbdf5) !important;background-clip:content-box !important}
-    .s .cmrow{background:none !important}}
+    .s .cmrow{background:none !important}
+    .s .cmrow .cmttl{font-weight:400 !important;color:inherit !important}}
   /* ---- Motion -------------------------------------------------------------
      Duration and easing are design-system tokens (tokens/spacing.css). The
      deck adds only the two values the system has no token for: the lead-in
@@ -228,16 +242,16 @@
   <span class="k">Content map</span>
   <h2 class="t" style="margin-top:8px">The narrative at a glance</h2>
   <div data-well="flex" style="flex:1;display:flex;flex-direction:column;margin-top:44px">
-      <button type="button" class="cmrow" data-goto="3" aria-label="Go to Market Shift"><span class="n" style="font-size:var(--text-h5,17px)">01.</span><span class="bs" style="font-weight:400">Market Shift</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How commerce media is evolving</span></button>
-      <button type="button" class="cmrow" data-goto="11" aria-label="Go to Where We Are Today"><span class="n" style="font-size:var(--text-h5,17px)">02.</span><span class="bs" style="font-weight:400">Where We Are Today</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What&#8217;s working and what&#8217;s holding us back</span></button>
-      <button type="button" class="cmrow" data-goto="22" aria-label="Go to Our Vision"><span class="n" style="font-size:var(--text-h5,17px)">03.</span><span class="bs" style="font-weight:400">Our Vision</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Where we&#8217;re going next and why</span></button>
-      <button type="button" class="cmrow" data-goto="28" aria-label="Go to Strategic Reset"><span class="n" style="font-size:var(--text-h5,17px)">04.</span><span class="bs" style="font-weight:400">Strategic Reset</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Why we&#8217;re changing our approach</span></button>
-      <button type="button" class="cmrow" data-goto="39" aria-label="Go to Roadmap"><span class="n" style="font-size:var(--text-h5,17px)">05.</span><span class="bs" style="font-weight:400">Roadmap</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll get there, in the right order</span></button>
-      <button type="button" class="cmrow" data-goto="48" aria-label="Go to Operating Model"><span class="n" style="font-size:var(--text-h5,17px)">06.</span><span class="bs" style="font-weight:400">Operating Model</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll work differently to deliver it</span></button>
-      <button type="button" class="cmrow" data-goto="53" aria-label="Go to Measuring Success"><span class="n" style="font-size:var(--text-h5,17px)">07.</span><span class="bs" style="font-weight:400">Measuring Success</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll know we&#8217;re winning</span></button>
-      <button type="button" class="cmrow" data-goto="55" aria-label="Go to What Needs To Be True"><span class="n" style="font-size:var(--text-h5,17px)">08.</span><span class="bs" style="font-weight:400">What Needs To Be True</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What we&#8217;ll need to be successful</span></button>
-      <button type="button" class="cmrow" data-goto="57" aria-label="Go to Closing"><span class="n" style="font-size:var(--text-h5,17px)">09.</span><span class="bs" style="font-weight:400">Closing</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Bringing it all together</span></button>
-      <button type="button" class="cmrow" data-appendix-row data-goto="61" aria-label="Go to Appendix"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs" style="font-weight:400">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></button>
+      <button type="button" class="cmrow" data-goto="3" aria-label="Go to Market Shift"><span class="n" style="font-size:var(--text-h5,17px)">01.</span><span class="bs cmttl">Market Shift</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How commerce media is evolving</span></button>
+      <button type="button" class="cmrow" data-goto="11" aria-label="Go to Where We Are Today"><span class="n" style="font-size:var(--text-h5,17px)">02.</span><span class="bs cmttl">Where We Are Today</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What&#8217;s working and what&#8217;s holding us back</span></button>
+      <button type="button" class="cmrow" data-goto="22" aria-label="Go to Our Vision"><span class="n" style="font-size:var(--text-h5,17px)">03.</span><span class="bs cmttl">Our Vision</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Where we&#8217;re going next and why</span></button>
+      <button type="button" class="cmrow" data-goto="28" aria-label="Go to Strategic Reset"><span class="n" style="font-size:var(--text-h5,17px)">04.</span><span class="bs cmttl">Strategic Reset</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Why we&#8217;re changing our approach</span></button>
+      <button type="button" class="cmrow" data-goto="39" aria-label="Go to Roadmap"><span class="n" style="font-size:var(--text-h5,17px)">05.</span><span class="bs cmttl">Roadmap</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll get there, in the right order</span></button>
+      <button type="button" class="cmrow" data-goto="48" aria-label="Go to Operating Model"><span class="n" style="font-size:var(--text-h5,17px)">06.</span><span class="bs cmttl">Operating Model</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll work differently to deliver it</span></button>
+      <button type="button" class="cmrow" data-goto="53" aria-label="Go to Measuring Success"><span class="n" style="font-size:var(--text-h5,17px)">07.</span><span class="bs cmttl">Measuring Success</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">How we&#8217;ll know we&#8217;re winning</span></button>
+      <button type="button" class="cmrow" data-goto="55" aria-label="Go to What Needs To Be True"><span class="n" style="font-size:var(--text-h5,17px)">08.</span><span class="bs cmttl">What Needs To Be True</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">What we&#8217;ll need to be successful</span></button>
+      <button type="button" class="cmrow" data-goto="57" aria-label="Go to Closing"><span class="n" style="font-size:var(--text-h5,17px)">09.</span><span class="bs cmttl">Closing</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">Bringing it all together</span></button>
+      <button type="button" class="cmrow" data-appendix-row data-goto="61" aria-label="Go to Appendix"><span class="n" style="font-size:var(--text-h5,17px)">10.</span><span class="bs cmttl">Appendix</span><span class="bs" style="color:var(--wm-gray-700,#46474a)">The evidence behind the strategy</span></button>
   </div>
   <div class="pg">02</div>
 </section>

@@ -158,6 +158,25 @@ def bare_body_leading(html):
     return html.replace(old, 'font-size:var(--text-13-5,13.5px);line-height:1.45', 1)
 
 
+def hover_missing_print(html):
+    """Drop the content-map title from the print reset — the exact bug that has
+    shipped three times: a hover state added to the transition list and forgotten
+    in the print block, so paper bakes one row heavier and bluer than its nine
+    siblings."""
+    old = "    .s .cmrow .cmttl{font-weight:400 !important;color:inherit !important}"
+    assert old in html, 'print reset for .cmttl not found'
+    return html.replace(old + '}', '}').replace(old, '')
+
+
+def hover_missing_transition(html):
+    """Drop the same target from the interaction transition list. A hover that
+    snaps instead of easing is the other half of the same defect, and no renderer
+    or layout checker sees either one."""
+    old = ",.s .cmrow .cmttl,.secnav .dot,.secnav .dot::after{\n    transition:color"
+    assert old in html, 'transition list not found'
+    return html.replace(old, ",.secnav .dot,.secnav .dot::after{\n    transition:color", 1)
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -183,6 +202,10 @@ CASES = [
      'not on var(--lh-normal,1.4)'),
     ('two content-map rows swapped (both still dividers)', swapped_goto_targets,
      'content map points at'),
+    ('a hover state dropped from the @media print reset', hover_missing_print,
+     'missing from a @media print reset'),
+    ('a hover state dropped from the transition list', hover_missing_transition,
+     'missing from the interaction transition list'),
 ]
 
 

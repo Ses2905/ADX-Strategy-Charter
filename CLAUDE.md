@@ -300,6 +300,28 @@ is a `<button class="cmrow" data-goto="N">` jumping to that divider. It reuses t
 mechanism rather than growing a parallel one: the component wires *every* `[data-goto]` on
 mount, so the rows needed no new script.
 
+**The rows carry a hover state, and its whole design constraint was "no reflow."** The
+resting fill (`#f5f6f8` gray-50 on white) is nearly imperceptible, so the row read as inert.
+On hover and on `:focus-visible` the title now goes **weight 400 → 500 and navy → True
+Blue** over that fill. Three things make it safe, all measured rather than assumed:
+
+- **The 300px title track has 161px of slack** at the longest title (*What Needs To Be True*)
+  even at weight 500, so the weight change cannot rewrap a row. Measured after: row width
+  1136px, row height 44px, title ink delta **0px**. Nothing moves.
+- **Everyday Sans UI has a real 500 face and it is loaded**, so this is not synthetic bolding
+  — rasterised, 400 → 500 is **+36% ink** and **+23% covered pixels** at the same width.
+  `document.fonts.check()` returns false for every weight on this family, which is the
+  *"registered is not loaded"* trap inverted: read the `status` of the `FontFace` entries and
+  the raster, not the shorthand.
+- **True Blue on gray-50 measures 5.82:1**, clear of the 4.5 floor.
+
+The numeral is already True Blue by role and the description stays gray-700, so the row
+gains emphasis without lighting up wholesale — one element changes, on two coordinated
+levers, not four. `font-weight` is deliberately **not** in the transition list: on a static
+face it transitions discretely at the 50% mark and would arrive 60ms late, so the weight
+snaps while the colour eases. Focus takes the same state as hover, matching what
+`.secnav .dot` already does.
+
 They are **buttons, not clickable divs**, and that is not pedantry — a `<div role="button">`
 does not fire `click` on Enter or Space, and the handler only listens for `click`, so a div
 would be mouse-only. A real button also brings focus order and `:focus-visible` for free.
@@ -1187,9 +1209,21 @@ hover states now reset in print. Confirmed after: tooltip `opacity:0`, dot back 
 first `@media print` block covered the tooltip, the dot and the content-map row and **missed
 the links** — so a citation hovered on 09, 10 or 63 still printed `#0045bd` while the comment
 above the block claimed every hover state now reset. Enumerating hover states by hand is the
-thing that keeps failing. **A seventh hover state belongs in both lists — the transition
+thing that keeps failing. **A new hover state belongs in both lists — the transition
 declaration and the print reset — or it is already broken.** A hover that ever surfaces a
 value owes a focus state too.
+
+**`checkdeck.py` asserts both halves now, so the list is no longer kept by hand.** It parses
+every `:hover` rule in the stylesheet, reduces each selector to the element it actually
+styles, and requires that element to appear in a real transition declaration *and* inside a
+`@media print` block. Two things the first version got wrong, both worth not rediscovering:
+a hover selector's ancestors are scaffolding rather than identity, so
+`.s .bars .bar-row:hover .bar` and `.s .bars .bar` are one target and must reduce to the same
+key — but `.dot` and `.dot::after` must **not**, being two marks with two resets. And
+**`transition:none` is not a transition**: counting the reduced-motion branch as coverage
+made the guard blind, because dropping a target from the real declaration still passed while
+the `reduce` branch named the same selectors. Both failures are injected in
+`checkdeck_selftest.py`, which now runs 14 cases.
 
 **Slide 59 is not a chart and must not get this.** Its four bars are 25/50/75/100% pills
 illustrating that each stage keeps what the one before it built — a progression mark with no
