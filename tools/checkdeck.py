@@ -60,7 +60,15 @@ def check(path):
     # every section with data-divider: the appendix divider (62) is a divider and
     # deliberately has no progression line, which is why the line has nine dots
     # and not ten. Deriving from data-divider reports all nine as broken.
-    secs = re.split(r'(?=<section\b)', html)[1:]
+    # A commented-out navigator is not a navigator. `<!-- ... -->` around a
+    # divider's .secnav leaves the substring in the file, so a naive `in` test
+    # reports the row present and the data-goto regex happily reads its dead
+    # buttons — the browser renders nothing and the checker says clean. Scan a
+    # comment-stripped copy. Only the navigator block uses it; the singleton and
+    # tail checks above deliberately count the raw text, because a stray closing
+    # tag inside a comment is still worth knowing about.
+    live = re.sub(r'<!--.*?-->', '', html, flags=re.S)
+    secs = re.split(r'(?=<section\b)', live)[1:]
     nav_slides, nav_gotos, dividers = [], [], []
     for sec in secs:
         tag = sec[:sec.find('>') + 1]
@@ -82,10 +90,39 @@ def check(path):
     # and it carries no data-appendix attribute to key on, so it is identified
     # structurally: it is the LAST divider. Any other divider missing its
     # navigator is a real loss.
-    missing = [n for n, has_nav in dividers if not has_nav]
-    if len(missing) > 1 or (missing and dividers and missing[0] != dividers[-1][0]):
-        fails.append('dividers without a navigator: %s — only the last divider '
-                     '(the appendix) may omit one' % missing)
+    # The relationship is a biconditional, and each direction fails differently.
+    #
+    # Divider -> navigator, with exactly one exception. The LAST divider is the
+    # appendix (62), which must NOT carry a progression line: the appendix is
+    # reference material, not the tenth step of the argument, which is why the
+    # line has nine dots and not ten. Merely *allowing* it to omit one is too
+    # weak — give 62 a .secnav and a tenth dot to every row and the deck stays
+    # internally consistent and reports clean while contradicting that rule.
+    # So: every divider but the last carries one, and the last carries none.
+    if dividers:
+        last_n, last_has_nav = dividers[-1]
+        missing = [n for n, has_nav in dividers[:-1] if not has_nav]
+        if missing:
+            fails.append('narrative dividers without a navigator: %s — every '
+                         'divider but the appendix carries one' % missing)
+        if last_has_nav:
+            fails.append('the appendix divider (slide %d) carries a navigator — '
+                         'it must not: the progression line has nine dots because '
+                         'the appendix is not the tenth step of the argument'
+                         % last_n)
+
+    # Navigator -> divider, the direction the above cannot see. Strip
+    # data-divider from a narrative divider and leave its .secnav alone: the
+    # slide drops out of `dividers` entirely, every target check still passes,
+    # and the deck reports clean — while the text/x-dc component's True Blue
+    # option styles `section[data-divider]` only, so that one divider stays navy
+    # while the other eight change colour.
+    divider_ns = {n for n, _ in dividers}
+    orphans = [n for n in nav_slides if n not in divider_ns]
+    if orphans:
+        fails.append('slides carrying a navigator but not data-divider: %s — '
+                     'the text/x-dc component styles section[data-divider], so '
+                     'these drop out of any divider-wide treatment' % orphans)
 
     if nav_slides:
         expected = [n - 1 for n in nav_slides]
@@ -106,6 +143,17 @@ def check(path):
     m = re.search(r'<x-import\b[^>]*>(.*)</x-import>', html, re.S)
     if m:
         region = m.group(1)
+        # And the converse: a slide can be well-formed, correctly labelled and
+        # still outside the slot. Move `</x-import>` ahead of a trailing section
+        # during a splice and the label, balance and tail checks above all pass
+        # — they count sections document-wide — while _collectSlides() never
+        # sees it. The deck silently loses slides off the end and every
+        # navigation target past the cut clamps. Count them inside the region.
+        inside = len(re.findall(r'<section\b', region))
+        if inside != opens:
+            fails.append('%d of %d sections sit inside <x-import> — the rest are '
+                         'outside the slot, so deck-stage never collects them'
+                         % (inside, opens))
         leftover = re.sub(r'<section\b.*?</section>', '', region, flags=re.S).strip()
         if leftover:
             fails.append('non-section content slotted beside the slides (%d chars, '
