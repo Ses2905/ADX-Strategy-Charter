@@ -199,6 +199,16 @@ def well_alignment_recentred(html):
     return html.replace(old, '.s > [data-well="flex"]{justify-content:center}')
 
 
+def role_sized_body_leading(html):
+    """Revert the big-rock template's body leading. These carry class="bs" with NO inline
+    font-size -- the size comes from the role -- so the first version of the guard, which
+    read the band off an inline font-size, reported `structure: clean` on all 20 of them
+    for an entire sweep. An external audit measuring the delivered file found it."""
+    old = 'class="bs" style="margin-top:8px;line-height:var(--lh-normal,1.4);color:var(--wm-gray-700,#46474a)"'
+    assert old in html, 'big-rock body style not found'
+    return html.replace(old, old.replace('var(--lh-normal,1.4)', '1.5'))
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -232,6 +242,8 @@ CASES = [
      'constant per tier'),
     ('the wells put back on centre', well_alignment_recentred,
      'wells top-align'),
+    ('a role-sized body element reverted to a literal line-height', role_sized_body_leading,
+     'not on var(--lh-normal,1.4)'),
 ]
 
 

@@ -343,14 +343,29 @@ def check(path):
         if re.search(r'line-height:\s*(?!var)[0-9.]', rule):
             bare_lh.append('%s rule' % sel)
 
-    for m in re.finditer(r'style="([^"]*line-height\s*:[^"]*)"', html):
-        style = m.group(1)
+    # Match the whole TAG, not the style attribute alone. The first version keyed the
+    # size band on an inline font-size, so an element that takes its size from its ROLE
+    # was invisible to it: the big-rock template ships
+    # `class="bs" style="margin-top:8px;line-height:1.5;..."` with no inline font-size,
+    # and 20 of them sat at 1.50 through the whole leading sweep while checkdeck
+    # reported `structure: clean`. Found by an external audit measuring the delivered
+    # file rather than trusting CLAUDE.md's count -- which is the whole argument for
+    # putting a number in a checker instead of in prose.
+    BODY_CLASSES = ('bs', 'li', 'src', 'fnote')
+    for m in re.finditer(r'<[a-zA-Z][^>]*style="([^"]*line-height\s*:[^"]*)"[^>]*>', html):
+        tag, style = m.group(0), m.group(1)
         if not re.search(r'line-height:\s*(?!var)[0-9.]', style):
             continue
+        lh = re.search(r'line-height:\s*((?!var)[0-9.]+)', style).group(1)
         fs = re.search(r'font-size:\s*(?:var\([^,]+,\s*)?([0-9.]+)px', style)
-        if fs and float(fs.group(1)) <= BODY_MAX:
-            lh = re.search(r'line-height:\s*((?!var)[0-9.]+)', style)
-            bare_lh.append('%spx@%s' % (fs.group(1), lh.group(1)))
+        cls = re.search(r'class="([^"]*)"', tag)
+        role = cls and any(c in cls.group(1).split() for c in BODY_CLASSES)
+        if fs:
+            if float(fs.group(1)) <= BODY_MAX:
+                bare_lh.append('%spx@%s' % (fs.group(1), lh))
+        elif role:
+            # No inline size: the role supplies it, and every body role is in the band.
+            bare_lh.append('.%s@%s' % (cls.group(1).split()[0], lh))
 
     if bare_lh:
         fails.append('%d body leading(s) not on var(--lh-normal,1.4): %s%s'

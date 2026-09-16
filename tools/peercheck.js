@@ -37,12 +37,39 @@ const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const FILE = process.argv[2] || 'Advertiser Experience Strategy.dc.html';
 const TOL = 1.0;   // sub-pixel layout noise; a real defect is many px
 
-// Documented false positives — each has its reason in CLAUDE.md.
-const EXCLUDE = {
-  34: 'matrix cells are REGIONS not cards; the equal-area stretch is deliberate',
-  59: 'the 25/50/75/100% pills are progression marks, not data bars',
-  17: 'two rows in a before/after contrast, not siblings within one row',
-};
+// The ONE documented exception, keyed to the exact finding rather than the slide.
+//
+// It was slide-wide first, and a review caught that: suppressing a whole slide discards
+// any LATER regression on it too — a heading that starts wrapping, a baseline that
+// shifts — and the checker still reports clean. That is the "a checker that reports
+// nothing may simply be blind" failure, built into the checker written to avoid it.
+//
+// So an exception matches a kind AND the geometry it was written for, and a stale one
+// reports itself rather than passing silently.
+//
+// Three other entries (17, 34, 59) were removed rather than narrowed: with the
+// exclusions off, those slides emit NOTHING, so all three were suppressing findings
+// that do not exist while standing ready to swallow ones that might. Their reasons are
+// kept here so nobody re-adds them on the strength of a render:
+//   17 — two rows in a before/after contrast, not siblings within one row
+//   34 — matrix cells are REGIONS not cards; the equal-area stretch is deliberate
+//   59 — the 25/50/75/100% pills are progression marks, not data bars
+const EXCEPTIONS = [
+  {
+    // An exception is derived from ONE deck's geometry, so it is bound to that deck.
+    // Without this, running the documented filename argument against another build --
+    // the Sep 12 archive, whose slide 55 is a different slide entirely -- reports this
+    // entry as STALE and exits 1 on a deck with no defect. Reproduced before fixing:
+    // archive exit code 1, "STALE suppression(s)", zero row findings.
+    deck: 'Advertiser Experience Strategy.dc.html',
+    n: '55',
+    kind: 'row heights differ',
+    match: /^341\.8 \/ 299\.8 \/ 299\.8\b/,
+    why: "card 1 carries SIX measures to the others' five — under-rowed, not under-padded. " +
+         'Reserving 42px in the other two buys internal void to serve this metric, which ' +
+         'is the slide-68 trap. Content, and the author\'s.',
+  },
+];
 
 (async () => {
   const b = await chromium.launch();
@@ -149,8 +176,28 @@ const EXCLUDE = {
     return out;
   }, TOL);
 
-  const kept = findings.filter(f => !(f.n in EXCLUDE || String(+f.n) in EXCLUDE));
+  // Only exceptions written for THIS deck apply, and only those can go stale.
+  //
+  // `used` holds the exception OBJECTS, not indices. The first version filtered
+  // EXCEPTIONS into [exception, originalIndex] pairs, then recorded the index that
+  // findIndex returned -- which is an index into the FILTERED array -- and compared it
+  // against original indices when computing staleness. With one exception both spaces
+  // are 0 and it works; add a second exception for another deck ahead of this one and a
+  // successfully matched suppression is ALSO reported stale, exiting 1. Reproduced
+  // before fixing: the run printed "1 suppressed" and a STALE line for the same entry.
+  // Two parallel index spaces is the bug; identity has only one.
+  const applicable = EXCEPTIONS.filter(e => e.deck === FILE);
+  const used = new Set();
+  const kept = findings.filter(f => {
+    const e = applicable.find(e => e.n === f.n && e.kind === f.kind && e.match.test(f.detail));
+    if (!e) return true;
+    used.add(e);
+    return false;
+  });
   const dropped = findings.length - kept.length;
+  // A suppression that no longer matches anything is stale: either the defect was fixed
+  // (delete the entry) or its geometry moved (re-derive it). Either way, say so.
+  const stale = applicable.filter(e => !used.has(e));
   const fail = kept.filter(f => !f.advisory);
   const advise = kept.filter(f => f.advisory);
   const show = f => console.log(`  slide ${f.n}  ${f.kind}\n      ${f.detail}   ${f.label}`);
@@ -172,6 +219,10 @@ const EXCLUDE = {
                 `a ruled table row is allowed to vary with its content:`);
     advise.forEach(show);
   }
+  if (stale.length) {
+    console.log(`\nSTALE suppression(s) — matched nothing on this run; re-derive or delete:`);
+    stale.forEach(e => console.log(`  slide ${e.n}  ${e.kind}  ${e.match}`));
+  }
   await b.close();
-  process.exit(fail.length ? 1 : 0);
+  process.exit(fail.length || stale.length ? 1 : 0);
 })();

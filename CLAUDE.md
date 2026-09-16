@@ -30,8 +30,18 @@ at real size before deciding.**
 ## Leading: body copy is `--lh-normal`, leads and headings are not
 
 **Every body role leads at `var(--lh-normal,1.4)`.** That covers `.bs`, `.li`, `.src`,
-`.fnote`, `.tk span` and every inline declaration on an element at **15.5px or smaller** —
-466 uses in all.
+`.fnote`, `.tk span` and every inline declaration on an element at **15.5px or smaller**.
+**The count lives in `checkdeck.py`, not here** — this file said "466 uses in all" and an
+external audit measuring the *delivered file* found **20 counter-examples**: the four
+big-rock slides (36–39) share one template whose bodies carry `class="bs"` with **no inline
+`font-size`**, so the sweep missed them and they sat at 1.50 for a full pass. The deck had
+two body leadings again, which is the exact condition this rule exists to remove.
+
+**And `checkdeck` reported `structure: clean` throughout**, because its guard read the size
+band off an *inline* font-size. An element sized by its **role** was invisible to it. The
+guard now matches the whole tag and treats a body-role class as in-band on its own; the case
+is injected in `checkdeck_selftest.py`. **A number in prose describes a copy that has already
+moved — put it in a checker.**
 
 **What is deliberately excluded**, because 1.4 is too tight above the body band:
 
@@ -100,9 +110,16 @@ doing its job.
 
 **Navy fill is now reserved for genuine dependency foundations** — where the content is
 literally what everything else on the slide rests on, not merely the closing thought. In
-the Sept 15 build **two** survive on light slides: **the shared platform foundation** band
-at the base of slide 53, and the *Accelerate* cell of the 2×2 matrix on slide 34 (the
-matrix's own fill ramp, which encodes rank, not emphasis). If a new block is a summary, a
+the Sept 15 build **three** survive on light slides: **the shared platform foundation** band
+at the base of slide 53, the *Accelerate* cell of the 2×2 matrix on slide 34 (the matrix's
+own fill ramp, which encodes rank, not emphasis), and **slide 51's band — which this rule
+did not name until an audit measured it.** This file said "two" and the file said three.
+
+**Slide 51 is undecided and must not be swept either way.** It is either a genuine dependency
+foundation, in which case it belongs in this list with its reason, or it is a summary, in
+which case it takes the statement pattern. **Author's call, open.** Note that a naive
+"navy background" grep also hits slides 17 and 41 — those are 9px progression dots and a 2px
+rule, marks rather than fills, and are correctly excluded. Count fills, not backgrounds. If a new block is a summary, a
 caveat or a conclusion, it takes the statement pattern, not a fill.
 
 Slide 44's "Core message" arrived from the Sep 12 appendix as a 545×450 navy panel — 27% of
@@ -604,6 +621,40 @@ slide 38 shipped with its footers 23px out, and the scratchpad `peers.js` it rep
 only `querySelector('*')` — the first descendant — on siblings carrying a border-top, so a
 row with no rule (13) and an offset below line one (38) were both invisible to it.
 
+**A suppression is keyed to a FINDING, never to a slide — and this checker shipped the
+other way first.** Excluding a whole slide discards any *later* regression on it too: a
+heading that starts wrapping, a baseline that shifts. The run still reports clean. That is
+the *"a checker that reports nothing may simply be blind"* failure, built into the checker
+written to avoid it, and a review caught it. Each exception now matches a **kind plus the
+geometry it was written for**, and a **stale one reports itself** rather than passing
+silently — if slide 55's cards ever change height, the suppression stops matching and says
+so instead of quietly covering the new number. Proven both ways: pushing one of slide 55's
+headings 24px out of line now yields **four** findings that the slide-wide version swallowed.
+
+**Three reviews in a row found the same shape on this one file: a suppression scoped wider
+than the thing it was written for.** First across *findings* on a slide, then across *decks*,
+then across *indices* — `used` recorded an index into the filtered array while staleness
+compared original `EXCEPTIONS` indices, so with a second exception ahead of this one a
+successfully matched suppression was **also** reported stale. It was latent, because one
+exception makes both index spaces 0. The fix is not a translation between them: `used` holds
+the exception **objects**. **Two parallel index spaces is the bug; identity has only one.**
+Each narrowing was re-verified not to have disabled the guard it narrowed — that check is the
+point, because a narrowed guard and a dead guard look identical from a clean run.
+
+**And an exception is bound to the DECK it was derived from.** `peercheck.js` takes an
+optional filename, and without that binding, running it against the Sep 12 archive — whose
+slide 55 is a different slide entirely — reported the slide-55 entry as **stale** and exited
+**1 on a deck with no defect**. Reproduced before fixing. Only exceptions written for the
+file under test apply, and only those can go stale. Both paths verified after: the archive
+now exits 1 for its own six real row findings and prints no STALE line, and breaking the
+pattern on the default deck still fires it.
+
+**Three of the four exceptions were deleted rather than narrowed.** With suppression off,
+slides **17, 34 and 59 emit nothing at all** — so all three were suppressing findings that
+do not exist while standing ready to swallow ones that might. Their reasons are kept as a
+comment in the file so nobody re-adds them on the strength of a render. Only slide 55 has a
+real, documented exception.
+
 **Self-tested.** Removing slide 13's `min-height:35px` reservation reproduces
 `45.8 / 63.3 / 63.3 / 45.8 / 45.8` and pitch `57.8 / 75.3 / 75.3 / 57.8` — the exact numbers
 from before that fix. A checker that reports nothing may simply be blind.
@@ -612,19 +663,29 @@ from before that fix. A checker that reports nothing may simply be blind.
 (75.8 / 96.8 / 75.8) and slide 15's (127.6 / 127.6 / 148.6), each because one block's body
 wrapped past its siblings'. Reserved at two and three lines respectively.
 
-**Seven row findings remain open**, on five slides, all the same shape — one card's copy
-wraps and pushes everything below it out of line:
+**Six of the seven row findings are closed**, all the same shape — one card's copy wraps
+and pushes everything below it out of line:
 
-| slide | what wraps | reserve |
+| slide | what wraps | reserved at |
 |---|---|---|
-| 26 | the 13.5px description, 1/2/1/2 lines | 37.8px |
+| 26 | a 14.5px body 2/2/1/2 and a 13.5px description 1/2/1/2 | 40.6px, 37.8px |
 | 30 | the 28px `.h` card heading, 1/1/1/2 | 59.4px |
-| 43 | a 15px block, 5/6/5/5 lines | 139.5px |
-| 45 | the 28px `.h` heading, 1/1/2, and a 14px body, 3/3/3 | 59.4px |
-| 55 | row heights 341.8 / 299.8 / 299.8 | — needs looking at |
+| 43 | the disposition header block, only *Reshape* wrapping | **90.5px, measured** |
+| 45 | the 28px `.h` heading, 1/1/2 | 59.4px |
 
-Reserving two lines on a 28px heading adds ~30px to every non-wrapping card, so **run
-`collide.js` after** — these are not free the way the 13.5px ones are.
+**Derive a reservation from the element's own line-height ONLY where the element sets one
+size.** Slide 43's header block mixes a 40px title row with a 14px description, so
+`lines × line-height` gave 139.5px against a true tallest of **90.5px** — a 49px overshoot
+applied to all four columns, which opened a visible void under every one of them. Every
+checker passed; **only the render caught it.** Where a block is mixed, measure the natural
+heights and reserve the tallest. The uniform cases (26, 30, 45) are safe to derive.
+
+**Slide 55 is the seventh and it stays open, because it is not a layout problem.** Its three
+cards run 341.8 / 299.8 / 299.8, and card 1 simply carries **six** measures to the others'
+**five** — 12 body lines against 10. Reserving 42px in the other two buys internal void to
+serve the metric, which is exactly the slide-68 trap: *not under-padded, under-rowed*. It is
+in `peercheck.js`'s documented exclusion list with that reason. **Either the other two
+outcomes want a sixth measure, or the row is honestly uneven — the author's call.**
 
 ## The grid
 
