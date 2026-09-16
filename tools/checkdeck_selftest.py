@@ -97,6 +97,28 @@ def swapped_goto_targets(html):
     return html[:a] + sec + html[b:]
 
 
+def extra_sequence_child(html):
+    """A 5th card in slide 30's chain: it inherits --beat:0 and arrives with
+    the FIRST stage, so a four-stage chain silently reads as three-plus-one."""
+    s, e = secspan(html, 30)
+    sec = html[s:e]
+    m = re.search(r'<div\s+data-sequence[^>]*>', sec)
+    card = ('<div style="border-top:2px solid var(--wm-true-blue,#0053e2);'
+            'padding-top:16px"><span class="cap">05</span></div>')
+    return html[:s] + sec[:m.end()] + card + sec[m.end():] + html[e:]
+
+
+def odd_pairs_sequence(html):
+    """Slide 59's pairs chain losing one cell: the label/bar pairing breaks and
+    every stage after the gap arrives on the wrong beat."""
+    s, e = secspan(html, 59)
+    sec = html[s:e]
+    m = re.search(r'<div\s+data-sequence="pairs"[^>]*>', sec)
+    tail = sec[m.end():]
+    cut = re.search(r'<div\b[^>]*>.*?</div>\s*', tail, re.S)
+    return html[:s] + sec[:m.end()] + tail[cut.end():] + html[e:]
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -108,6 +130,10 @@ CASES = [
      'sit inside <x-import>'),
     ('content-map jump target moved off a divider', stray_goto_target,
      'not divider slides'),
+    ('a 5th child added to a 4-beat sequence chain', extra_sequence_child,
+     'the tier enumerates 4'),
+    ('a cell removed from slide 59\'s paired chain', odd_pairs_sequence,
+     'the tier enumerates 8'),
     ('two content-map rows swapped (both still dividers)', swapped_goto_targets,
      'content map points at'),
 ]

@@ -196,6 +196,40 @@ def check(path):
                          'starts %r) — deck-stage counts it as a slide and every '
                          'data-goto after it shifts' % (len(leftover), leftover[:60]))
 
+    # The sequence motion tier enumerates beats as :nth-child rules and stops at
+    # four. A fifth child does not fail loudly — it keeps the --beat:0 the
+    # catch-all rule gives it and animates SIMULTANEOUSLY with the first stage,
+    # which is the one thing the tier exists to avoid. Nothing in a browser
+    # catches that: it renders, it animates, it just says the wrong thing about
+    # the content. "pairs" staggers in twos, so it takes exactly eight.
+    for sec in secs:
+        m0 = re.search(r'data-screen-label="(\d+)"', sec[:sec.find('>') + 1])
+        if not m0:
+            continue
+        slide = m0.group(1)
+        for m in re.finditer(r'<div\s+data-sequence(?:="([^"]*)")?[^>]*>', sec):
+            mode = m.group(1) or ''
+            # Count DIRECT children by walking div depth. Note </div matches
+            # without its closing '>' if you anchor on \b, which is how an
+            # earlier matcher in this repo went off by one at both ends.
+            depth, kids = 1, 0
+            for t in re.finditer(r'<(/?)div\b[^>]*?(/?)>', sec[m.end():]):
+                if t.group(1):
+                    depth -= 1
+                    if depth == 0:
+                        break
+                else:
+                    if depth == 1:
+                        kids += 1
+                    if not t.group(2):
+                        depth += 1
+            want = 8 if mode == 'pairs' else 4
+            if kids != want:
+                fails.append('slide %s: data-sequence%s has %d direct children, '
+                             'the tier enumerates %d — the extras inherit '
+                             '--beat:0 and animate with the first stage'
+                             % (slide, '="%s"' % mode if mode else '', kids, want))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:
