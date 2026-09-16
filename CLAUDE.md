@@ -1077,6 +1077,27 @@ place this breaks is a promoted appendix slide: check `rules.js` after any promo
 appendix-era markup can carry `#c3c6cd` literals that the deck-wide replacement in the
 builder does not see if they are written a different way.
 
+## Negative tracking is on the tokens, including the `.n` role
+
+`--ls-tight` is `-0.02em` and `--ls-snug` is `-0.01em`. The deck ran three bespoke values
+beside them — `-.022em` ×6 on slide 59's stage labels, `-.012em` ×1 on slide 03's lead, and
+**`-.03em` on the `.n` role itself**. All eight are on the tokens now.
+
+**The `.n` one is the case worth recording, because an audit that counted the three together
+missed what it was.** The other two are inline near-misses two thousandths of an em off a
+token. `.n` is a **role default** setting the tracking of every numeral in the deck — 58
+elements — and `-.03em` against `-0.02em` is a 0.01em delta, **five times** the other two.
+So it is not the same finding and it did not get the same treatment on trust.
+
+Measured before snapping: **median 0.52px, max 4.06px** across all 58. That is the `.26em`
+eyebrow decision on the same evidence — a value imperceptibly off the system is pure
+downside, because it will not follow a re-tune. **Display numerals do not need a tighter step
+on our account**, and that is recorded in `DESIGN-SYSTEM-REQUESTS.md` so nobody asks for one.
+
+**Count with a plain match, not a context window.** `grep -o '.\{70\}letter-spacing:-\.0'`
+found five of the eight, because several sit on one line and a fixed lookbehind cannot
+overlap. It read as "five bespoke values" until counted properly.
+
 ## Hairlines on navy: two weights only
 
 White rules inside navy blocks are `rgba(255,255,255,.30)` for a rule and `.18` for a
