@@ -612,6 +612,40 @@ def check(path):
                          'exactly one row may carry role="columnheader"'
                          % (label, slide, headers))
 
+    # The bibliography states its own counts in three places -- the speaker
+    # notes, the lead and the takeaway -- and the table beneath them is the
+    # only one that is true. They drifted once already: the notes kept saying
+    # "four are linked, five still need links" for a pass after the eMarketer
+    # row resolved, because a citation change edits the row and forgets the
+    # prose. Derive the counts from the rows and require the prose to agree.
+    for i, (a, b) in enumerate(spans, start=1):
+        body = html[a:b]
+        if '>Linked<' not in body:
+            continue
+        linked = body.count('>Linked<')
+        needs = body.count('>Needs link<')
+        words = {1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five',
+                 6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten'}
+        for label, text in (('speaker notes',
+                             re.search(r'data-speaker-notes="(.*?)"', body, re.S)),
+                            ('lead', re.search(r'<p class="d"[^>]*>(.*?)</p>', body, re.S)),
+                            ('takeaway',
+                             re.search(r'<div class="tk"><span>(.*?)</span>', body, re.S))):
+            if not text:
+                continue
+            t = text.group(1)
+            m = re.search(r'\b(One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten)\b'
+                          r'[^.]*?\blinked\b', t, re.I)
+            if m and m.group(1).capitalize() != words.get(linked):
+                fails.append('slide %d %s says "%s ... linked" but the table has %d '
+                             'Linked rows — a citation change edits the row and '
+                             'forgets the prose' % (i, label, m.group(1), linked))
+            m = re.search(r'\b(One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten)\b'
+                          r'[^.]*?\b(?:still need|need)\b', t, re.I)
+            if m and m.group(1).capitalize() != words.get(needs):
+                fails.append('slide %d %s says "%s ... need" but the table has %d '
+                             'Needs link rows' % (i, label, m.group(1), needs))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:

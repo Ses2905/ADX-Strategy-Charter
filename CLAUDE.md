@@ -2221,6 +2221,17 @@ three sources the bibliography still listed as *Needs link* and the lead line st
 "Two are linked". Same failure mode as slides 19 and 70: one argument split across two
 places, and only one of them edited.
 
+**And it happened again, in the other direction.** When the eMarketer row resolved
+*Needs link → Linked*, the slide's lead and takeaway were updated and its
+`data-speaker-notes` were not — so for a pass the table read **5 Linked / 4 Needs link**
+while the presenter's cue still said *"Four are linked … Five still need links"*, and
+carried the author-facing *"only you can supply them"* that the visible copy had already
+dropped. **Slide 63 states its own counts in four places and only one of them is true:
+the rows.** `checkdeck.py` derives the counts from the rows and requires the notes, the
+lead and the takeaway to agree, with the real drift injected in
+`checkdeck_selftest.py`. A citation change edits the row and forgets the prose — so the
+prose is no longer where the number lives.
+
 Citation links are `<a target="_blank" rel="noopener">` and inherit `.src a` / `.srclink`:
 True Blue, underlined at 1px with a 2px offset. Do not restyle them per slide.
 

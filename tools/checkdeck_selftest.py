@@ -267,6 +267,21 @@ def table_without_rows(html):
     return html[:i] + body + html[end:]
 
 
+
+def bibliography_count_drift(html):
+    """Put the bibliography's speaker notes back to the counts they carried
+    before the eMarketer row resolved, while the table stays at 5 / 4.
+
+    This is the real drift, reproduced: the row moved Needs link -> Linked and
+    the prose describing it did not.
+    """
+    return html.replace(
+        'Five are linked and every figure now matches its published source. '
+        'Four still need a URL',
+        'Four are linked and every figure now matches its published source. '
+        'Five still need a URL', 1)
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -314,6 +329,8 @@ CASES = [
      'header rows'),
     ('the row roles stripped from a table', table_without_rows,
      'invalid ARIA'),
+    ('the bibliography prose left behind by a resolved citation',
+     bibliography_count_drift, 'forgets the prose'),
 ]
 
 
