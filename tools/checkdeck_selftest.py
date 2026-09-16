@@ -150,6 +150,14 @@ def bare_token_size(html):
     return html.replace(old, 'font-size:44px', 1)
 
 
+def bare_body_leading(html):
+    """A body-sized element reverted to a literal line-height. Renders almost
+    identically; reintroduces the one-role-two-values drift the rule closed."""
+    old = 'font-size:var(--text-13-5,13.5px);line-height:var(--lh-normal,1.4)'
+    assert old in html, 'no 13.5px body element on the token to revert'
+    return html.replace(old, 'font-size:var(--text-13-5,13.5px);line-height:1.45', 1)
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -171,6 +179,8 @@ CASES = [
      'will not follow a _ds re-sync'),
     ('a tokened font-size rewritten as a raw px value', bare_token_size,
      'bare font-size value'),
+    ('a body element reverted to a literal line-height', bare_body_leading,
+     'not on var(--lh-normal,1.4)'),
     ('two content-map rows swapped (both still dividers)', swapped_goto_targets,
      'content map points at'),
 ]

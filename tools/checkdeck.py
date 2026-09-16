@@ -319,6 +319,42 @@ def check(path):
         fails.append('%d bare font-size value(s) that have a token: %s'
                      % (len(bare_sz), ', '.join('%s (%s)' % s for s in bare_sz[:4])))
 
+    # Body copy leads at --lh-normal. The failure this guards against is not an ugly
+    # value, it is ONE ROLE WITH TWO VALUES: .bs rendered at 1.45 on some slides and
+    # 1.50 on others, .li at 1.5 and 1.55. Scoped by type size because leads (20px)
+    # and headings (17-26px) are deliberately NOT 1.4 -- see CLAUDE.md.
+    #
+    # It must check BOTH places. The first version scanned only inline style="..."
+    # attributes and reported clean when the self-test reverted the `.s .tk span`
+    # CSS RULE -- which is the worse regression of the two, since a role default
+    # moves the whole deck rather than one element.
+    BODY_MAX = 15.5
+    BODY_ROLES = ('.s .bs', '.s .li', '.s .src', '.s .fnote', '.s .tk span')
+    bare_lh = []
+
+    for sel in BODY_ROLES:
+        i = html.find(sel + '{')
+        if i < 0:
+            fails.append('body role %s is missing from the stylesheet' % sel)
+            continue
+        rule = html[i:html.find('}', i)]
+        if re.search(r'line-height:\s*(?!var)[0-9.]', rule):
+            bare_lh.append('%s rule' % sel)
+
+    for m in re.finditer(r'style="([^"]*line-height\s*:[^"]*)"', html):
+        style = m.group(1)
+        if not re.search(r'line-height:\s*(?!var)[0-9.]', style):
+            continue
+        fs = re.search(r'font-size:\s*(?:var\([^,]+,\s*)?([0-9.]+)px', style)
+        if fs and float(fs.group(1)) <= BODY_MAX:
+            lh = re.search(r'line-height:\s*((?!var)[0-9.]+)', style)
+            bare_lh.append('%spx@%s' % (fs.group(1), lh.group(1)))
+
+    if bare_lh:
+        fails.append('%d body leading(s) not on var(--lh-normal,1.4): %s%s'
+                     % (len(bare_lh), ', '.join(bare_lh[:5]),
+                        ', …' if len(bare_lh) > 5 else ''))
+
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)
     if want not in html and want.replace('&#8211;', '–') not in html:

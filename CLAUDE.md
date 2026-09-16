@@ -5,7 +5,7 @@
 Two distinct eyebrow roles. Never style them the same.
 
 **Title eyebrow** — the label directly above a slide title (`.k`)
-- Everyday Sans Mono, **8px**, uppercase, letter-spacing `.26em`
+- Everyday Sans Mono, **8px**, uppercase, letter-spacing **`var(--ls-eyebrow,.25em)`**
 - Color: True Blue (`var(--wm-true-blue, #0053e2)`); white on navy/dark slides
 - One per slide, sitting above the title
 
@@ -17,6 +17,48 @@ Two distinct eyebrow roles. Never style them the same.
   vs sentence-case/12px, not color.
 
 These are the defaults for new slides and any new deck in this project.
+
+**The eyebrow was `.26em` and the design system says `.25em`.** This file documented the
+`.26` for a long time, so the deck's own rulebook had quietly forked from `--ls-eyebrow` on
+the most repeated role in the deck — 69 slides. Measured before changing it: the difference
+is a **median 1.45px of width** across all 69, max 4.25px on the longest. Invisible at 8px,
+which is exactly why it was worth closing rather than keeping. A value that differs from the
+system by an imperceptible amount is pure downside: it will not follow a re-tune, and it
+makes the documentation contradict the source. **Author's call, 17 Sept, shown both at 4× and
+at real size before deciding.**
+
+## Leading: body copy is `--lh-normal`, leads and headings are not
+
+**Every body role leads at `var(--lh-normal,1.4)`.** That covers `.bs`, `.li`, `.src`,
+`.fnote`, `.tk span` and every inline declaration on an element at **15.5px or smaller** —
+466 uses in all.
+
+**What is deliberately excluded**, because 1.4 is too tight above the body band:
+
+| role | size | leading |
+|---|---|---|
+| `.d` lead | 20px | 1.5 |
+| `.b` | 17px | 1.55 |
+| `.h3` headings | 17–26px | 1.2 / 1.25 / 1.3 |
+| `.t` / `.h` display | 42px+ | 1.06 |
+| `.n` numerals | — | .9 |
+
+**The problem was never which value looked best — it was that one role had two.** `.bs`
+rendered at **1.45 on some slides and 1.50 on others**; `.li` ran 1.5 and 1.55. Same class,
+different leading, depending on which slide you landed on. Before the fix the deck carried
+**six** body leadings (1.35, 1.4, 1.45, 1.5, 1.55 and inherited), four of them within 11% of
+each other — the same near-miss continuum this file already documents for the 4px spacing
+scale, in a different property.
+
+**1.4 was the author's pick over 1.45**, shown as a three-way specimen at real size on real
+copy. 1.45 was the deck's most-used value (196 declarations) and the softer read; 1.4 is the
+only one of the three that **is** a design-system token. The cost is a slightly tighter set
+on the densest slides — rendered and checked on 30 and 65 (10.5px cells) before shipping,
+and both gained bottom clearance rather than losing legibility.
+
+**Do not sweep leads or headings into this.** The rule is scoped by type size for a reason:
+a 20px lead at 1.4 reads cramped, and the heading values (1.2/1.25/1.3) are doing real work
+that no token currently covers — see `DESIGN-SYSTEM-REQUESTS.md`.
 
 ## Color — reduce navy density
 
