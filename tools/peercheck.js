@@ -42,6 +42,9 @@ const EXCLUDE = {
   34: 'matrix cells are REGIONS not cards; the equal-area stretch is deliberate',
   59: 'the 25/50/75/100% pills are progression marks, not data bars',
   17: 'two rows in a before/after contrast, not siblings within one row',
+  55: 'card 1 carries SIX measures to the others\' five — under-rowed, not under-padded. ' +
+      'Reserving 42px in the other two would buy internal void to serve this metric, ' +
+      'which is the slide-68 trap. Content, and the author\'s.',
 };
 
 (async () => {

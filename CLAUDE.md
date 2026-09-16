@@ -612,19 +612,29 @@ from before that fix. A checker that reports nothing may simply be blind.
 (75.8 / 96.8 / 75.8) and slide 15's (127.6 / 127.6 / 148.6), each because one block's body
 wrapped past its siblings'. Reserved at two and three lines respectively.
 
-**Seven row findings remain open**, on five slides, all the same shape — one card's copy
-wraps and pushes everything below it out of line:
+**Six of the seven row findings are closed**, all the same shape — one card's copy wraps
+and pushes everything below it out of line:
 
-| slide | what wraps | reserve |
+| slide | what wraps | reserved at |
 |---|---|---|
-| 26 | the 13.5px description, 1/2/1/2 lines | 37.8px |
+| 26 | a 14.5px body 2/2/1/2 and a 13.5px description 1/2/1/2 | 40.6px, 37.8px |
 | 30 | the 28px `.h` card heading, 1/1/1/2 | 59.4px |
-| 43 | a 15px block, 5/6/5/5 lines | 139.5px |
-| 45 | the 28px `.h` heading, 1/1/2, and a 14px body, 3/3/3 | 59.4px |
-| 55 | row heights 341.8 / 299.8 / 299.8 | — needs looking at |
+| 43 | the disposition header block, only *Reshape* wrapping | **90.5px, measured** |
+| 45 | the 28px `.h` heading, 1/1/2 | 59.4px |
 
-Reserving two lines on a 28px heading adds ~30px to every non-wrapping card, so **run
-`collide.js` after** — these are not free the way the 13.5px ones are.
+**Derive a reservation from the element's own line-height ONLY where the element sets one
+size.** Slide 43's header block mixes a 40px title row with a 14px description, so
+`lines × line-height` gave 139.5px against a true tallest of **90.5px** — a 49px overshoot
+applied to all four columns, which opened a visible void under every one of them. Every
+checker passed; **only the render caught it.** Where a block is mixed, measure the natural
+heights and reserve the tallest. The uniform cases (26, 30, 45) are safe to derive.
+
+**Slide 55 is the seventh and it stays open, because it is not a layout problem.** Its three
+cards run 341.8 / 299.8 / 299.8, and card 1 simply carries **six** measures to the others'
+**five** — 12 body lines against 10. Reserving 42px in the other two buys internal void to
+serve the metric, which is exactly the slide-68 trap: *not under-padded, under-rowed*. It is
+in `peercheck.js`'s documented exclusion list with that reason. **Either the other two
+outcomes want a sixth measure, or the row is honestly uneven — the author's call.**
 
 ## The grid
 
