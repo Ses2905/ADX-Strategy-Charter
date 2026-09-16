@@ -209,6 +209,15 @@ def role_sized_body_leading(html):
     return html.replace(old, old.replace('var(--lh-normal,1.4)', '1.5'))
 
 
+def motion_tier_dropped_from_reduce(html):
+    """Drop one tier from the reduced-motion branch. Nothing renders differently for a
+    reader with no preference set, and the reader who DOES set reduce silently loses that
+    arrival. Two hand-maintained lists is the shape that broke hover/print three times."""
+    old = '    [data-deck-active]:not([data-divider]) > .d,\n'
+    assert html.count(old) == 1, 'reduce-branch .d selector not found exactly once'
+    return html.replace(old, '')
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -244,6 +253,8 @@ CASES = [
      'wells top-align'),
     ('a role-sized body element reverted to a literal line-height', role_sized_body_leading,
      'not on var(--lh-normal,1.4)'),
+    ('a tier dropped from the reduced-motion branch', motion_tier_dropped_from_reduce,
+     'not under reduce'),
 ]
 
 

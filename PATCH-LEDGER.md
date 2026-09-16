@@ -321,6 +321,29 @@ depends on what the content *is*, and a slack metric alone will mislead you.
   as air rather than absence. **Open, and it is the author's:** these want content, not
   layout.
 
+- **`PENDING-UPSTREAM.md`'s six patches are applied**, five verbatim and one ported. Patch 3
+  (slide 63's lead) no longer matched, because its second half — removing *"only you can
+  supply them"* — had already landed in `1ffa9a7` as the `FEEL-AUDIT` F1 fix. Per that file's
+  own instruction, the intent was ported rather than the string forced: only the counts
+  changed, four linked → five, five open → four. Measured after: slide 63 at **22px** of
+  marker clearance (the file predicted 20.1), slide 10's four stat cards still one height at
+  217.7px, two eMarketer links live, and **zero orphaned footnote markers** deck-wide.
+
+- **Slide 10's vintage moved into the card body rather than being lost.** Patches 5 and 6
+  delete the footnote and its marker at the author's instruction, which removes the age
+  framing from the deck's oldest evidence — `DESIGN-DEBT-REGISTER.md` D10, and an open item
+  on the decision worksheet. CLAUDE.md's evidence guardrail says the on-slide caveats *"must
+  survive any edit to those slides"*, so D10's own first recommendation was taken: the body
+  now reads *"rating their retail media networks **in a November 2022 study**"*. One clause,
+  no new line, no layout change. **If the author wants the figure to read as current, deleting
+  that clause is the whole revert** — but it puts slide 10 back outside external use.
+
+- **Slide 05 sits at 10px of marker clearance**, and it is pre-existing rather than caused by
+  the citation patch: the source line measures 15.4px on one line both before and after. Note
+  the trap — `getClientRects()` on a `<p>` containing an `<a>` and an `<em>` returns one rect
+  per *inline fragment*, so it read as five lines. Measure the element's height against its
+  line-height instead. 10px is the slide-57 no-headroom shape; watch it.
+
 - **Press Tab on a divider slide** and confirm the focus ring renders. Three
   `focus-visible` rules are present, and `:focus-visible` matches only keyboard-initiated
   focus, so programmatic probing cannot settle it. Needs a human.
