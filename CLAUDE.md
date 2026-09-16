@@ -231,10 +231,46 @@ Two mechanics worth not rediscovering:
   `margin-bottom:16px` so the `.cap` clears it at 48px.
 
 The click handler is wired in the deck's own `text/x-dc` component on mount and update, not
-as an inline `onclick`, and it is idempotent (`el.__dcGoto`). **`goTo()` itself is unverified
-locally** — `deck-stage` does not boot in a sandbox without network egress, so the markup,
-CSS, geometry and hover state were measured but the actual jump was not. Click through the
-nine dots in Claude Design before presenting.
+as an inline `onclick`, and it is idempotent (`el.__dcGoto`).
+
+**The navigator works — confirmed in Claude Design on 15 Sept, all nine dots.** This was the
+last unverified thing in the build and it is worth saying plainly, because the sandbox
+limitation that made it unverifiable has not gone away: `deck-stage` still does not boot
+without network egress, so markup, CSS, geometry and hover state can be measured here but a
+*jump* cannot. Everything about `goTo()` and `data-goto` in this section was inference until
+someone clicked it.
+
+Which means the standing instruction is unchanged for the **next** change, not retired —
+and the list of things that invalidate it is wider than it looks. **`data-goto` is a raw
+child index, so any slide inserted, deleted or reordered before a divider repoints every
+dot after it** without anyone editing a `data-goto`, the dot markup or the handler. Nothing
+in a browser catches that either: the dots still render, still hover, still click. They
+just land on the wrong slide.
+
+Two failure modes, two different gates, and neither covers the other:
+
+- **Wrong indices** — now checked, three ways, each self-tested against an injected defect:
+  every dot row must equal `slide number − 1` for the navigator-carrying slides; every
+  divider must carry a navigator *except the last one*; and the slot must hold nothing but
+  `<section>`s.
+- **The jump not firing at all** — still only provable in Claude Design. Editing the
+  `text/x-dc` handler, the dot markup or `deck-stage` puts it back to unverified.
+
+Three things that check got wrong before it got them right, all worth not rediscovering:
+
+1. **Derive expectations from slides carrying `.secnav`, not from `data-divider`.** Slide 62
+   is a divider with no progression line, so a check keyed on `data-divider` expects ten
+   dots and reports all nine navigators as broken.
+2. **But comparing the rows only against each other proves nothing.** Lose a divider's
+   navigator *and* drop the matching dot from the other rows and everything stays
+   internally consistent — a nine-section navigator silently becomes an eight-section one.
+   Hence the separate assertion that every divider carries one. Slide 62 has no
+   `data-appendix` attribute to key on, so it is identified structurally: it is the **last**
+   divider, and only the last may omit a navigator.
+3. **`data-goto` indexes `deck-stage`'s slide list, not the authored sections.**
+   `_collectSlides()` keeps every slotted element except `TEMPLATE`, `SCRIPT` and `STYLE`,
+   so one stray `<div>` beside the sections becomes a runtime slide and shifts every index
+   after it while a label-based check still reports clean.
 
 The previous 68-slide build (31 core + 4 acts + 33 appendix) is preserved verbatim as
 `Advertiser Experience Strategy (Sep 12 archive).dc.html`. Content that lived only in that
@@ -961,16 +997,39 @@ supports and one of three states:
 | **Check figure** | the URL is real but the number attributed to it does not match the published report |
 | **Needs link** | no URL available — either not supplied, or internal and only the author can provide it |
 
-**A link is an assertion that the source supports the claim.** Only link inline, next to a
-figure, when both are true. Slide 10's Skai figure is the case that made this rule: the
-report page is real and verifiable, but published summaries of it give **~60%** and **68%**
-on spend consolidation where the slide says **50%**. The link therefore sits in the
-bibliography under *Check figure*, not beside the number on slide 10, and both the row and
-the slide's takeaway say why. Resolve the figure before linking it inline.
+**A link is an assertion that the source supports the claim** — so an inline link needs a
+footnote marker on the figure whenever the two do not agree. The rule used to be absolute
+(no inline link until the figure resolves) and the Sep 16 pass amended it: slide 10's Skai
+card now links the report beside the number *and* carries footnote 1 on the number itself,
+saying the 2025 report gives **57%** and *"nearly 60%"* on consolidation where the slide
+says **50%**, and that the **68%** figure is from the **2026** report. That is the amended
+form — link plus a marker on the figure, never a bare link — and it is the author's call,
+made deliberately. A disputed figure with no marker is still forbidden.
 
-Two links are live: the Koddi playbook (author-supplied in the source deck's speaker notes)
-and the Skai report page. Six sources still need links, four of them internal — the
-platform audit, the Pendo exports, and the two figure sets carried without citation.
+**Slide 10's 50% is now contradicted by its own footnote, not merely unverified**, which is
+a harder state than the guardrail table below describes. It stays *Check figure* on slide
+63 and it is the one open blocker for external use. Resolving it means replacing the number
+with a sourced one or cutting the card — not adding more caveat.
+
+Four links are live: the Koddi playbook (author-supplied in the source deck's speaker
+notes), the Koddi *State of Programmatic Retail Media* PDF behind slides 09 and 10, the
+Skai report page, and the Bain RMN NPS benchmark via Oliver Banks. The Bain link resolved
+a *Needs link* row but carries its own caveat, recorded on both slide 10 and slide 63: 235
+respondents across 34 major European and US retailers, **November 2022** — the most recent
+published benchmark of its kind, and four years old. Five sources still need links, two of
+them internal — the platform audit and the Pendo exports.
+
+**Slide 63's rows sit at `padding:6px 0`, not 8px.** Adding the Bain methodology subline
+put a tenth line into the table and pushed the last row 5px onto the takeaway marker;
+`collide.js` caught it. Two pixels off nine rows bought 36px and the slide measures clean.
+The bibliography is the deck's tightest table — any new row or subline needs a collide run,
+not an eyeball.
+
+**The bibliography is half of every citation change.** Slides 09 and 10 gained their links
+in the design project while slide 63 stayed byte-identical, so for one pass the deck linked
+three sources the bibliography still listed as *Needs link* and the lead line still said
+"Two are linked". Same failure mode as slides 19 and 70: one argument split across two
+places, and only one of them edited.
 
 Citation links are `<a target="_blank" rel="noopener">` and inherit `.src a` / `.srclink`:
 True Blue, underlined at 1px with a 2px offset. Do not restyle them per slide.

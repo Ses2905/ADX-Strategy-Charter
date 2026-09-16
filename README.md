@@ -82,8 +82,28 @@ read "updated 15 Sept", which is exactly as much as a modification date can tell
 **Diff content, never dates.** `tools/checkdeck.py` gives the slide count and structure in
 a second; the markers above are greppable. If a copy claims to be ahead, make it prove it.
 
+**Normalise before you diff, and never copy an artifact's markup wholesale.** On 16 Sept a
+second artifact genuinely *was* ahead — and a raw slide-by-slide hash said 57 of 70 slides
+differed. Fifty-four of those were the renderer, not the author: it emits raw UTF-8 where
+the deck writes entities (`&#8212;`, `&#183;`, `&#8217;`), and it rewrites every `src` to a
+bundler asset id. Unescape entities, blank the `src` values and collapse whitespace first
+and the count drops to **five**; three of those five are the renderer too. Two slides had
+actually changed.
+
+Worse, the renderer mangles SVG attributes: **8 of the deck's 9 `viewBox` become
+`sc-camel-view-box`**, and `preserveAspectRatio` becomes `sc-camel-preserve-aspect-ratio`.
+Those are dead attributes. Dropping that file in would have silently flattened all four
+charts and the six icons on slide 24 — and it would have passed `checkdeck.py`, which
+checks structure, not attribute spelling. **Port the content delta by hand; never take the
+render.**
+
 When a pass *does* happen in Claude Design, it has to come back by hand, and the bridge is
-a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way:
+a patch doc. **There is one, `PATCH-LEDGER.md`**, and it is a ledger rather than a queue:
+every item carries a status, and an applied item stays in it as the provenance record. The
+three per-change `PATCH-*.md` files it replaced were deleted once their contents landed —
+three docs describing one deck is how a repo ends up unsure which is current.
+
+Two rules for writing an entry, both learned the hard way:
 
 - **Carry markup, not prose, for anything past roughly slide 56.** The deck is ~290 KB and
   growing, so a full-file read truncates in the tail — exactly where a prose summary
@@ -92,7 +112,15 @@ a patch doc (`PATCH-*.md`). Two rules for writing one, both learned the hard way
   them to small side files (see `uploads/tail-57-59-70.html` and
   `uploads/tail-58-60-69.html`, which together carry slides 57–70 verbatim).
 - **Prefer copying the deck file wholesale** over replaying described edits. The patch doc
-  is a change *record* for review; the `.dc.html` is the artifact.
+  is a change *record* for review; the `.dc.html` is the artifact. *Wholesale* means the
+  design project's own file — never the published artifact's, for the reason above.
+
+**A ledger written in the design project has a shelf life.** It describes that copy, and
+`main` moves. Four claims in the 15 Sept ledger were stale or wrong a day later — one of
+them ("convert the remaining wells to `space-between`") would have undone a decision that
+had already been tested and rejected. Re-verify each claim against `main` before merging
+one in, and say which copy a claim was checked against. Two of the four were true of a grep
+and false of a render, which is the same trap the checkers section below describes.
 
 ## Working on the deck
 
