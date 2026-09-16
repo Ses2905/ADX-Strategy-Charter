@@ -1,14 +1,34 @@
 #!/usr/bin/env python3
 """Rewrite SYNC-STATE.md from git, per SYNC-CONTRACT.md section 5.1.
 
-    python3 tools/syncstate.py            # record origin/main
-    python3 tools/syncstate.py HEAD       # record the current checkout
+    python3 tools/syncstate.py                 # fetch, then record origin/main
+    python3 tools/syncstate.py --no-fetch      # trust the local cache (offline)
+    python3 tools/syncstate.py HEAD            # record the current checkout
 
-The contract asks for this file on every push. Written by hand it goes stale
-immediately -- it did, on its own first use: it recorded a feature-branch
-commit while main moved four commits ahead within the hour. The design side
-cannot tell a stale sync-state from a current one, which makes a wrong file
-worse than no file. So it is generated, and regenerating is one command.
+The contract asks for this file on every push. Written by hand it went stale
+immediately -- it recorded a feature-branch commit while main moved four ahead
+within the hour -- so it is generated. Three things this generator has to get
+right, each of which the first version got wrong:
+
+1. FETCH FIRST. `origin/main` is refs/remotes/origin/main, a LOCAL cache. When
+   a PR is merged remotely while this checkout stays on the feature branch --
+   exactly the workflow this repo uses -- that ref does not advance until a
+   fetch. Resolving it without one reproduces the original failure: an
+   arbitrarily old sha, written with full confidence. A fetch that fails is
+   reported in the file and on stdout; it never silently writes a stale sha.
+
+2. GIT HAS NO PUSH TIMESTAMP. A commit object carries author and committer
+   dates and nothing else, so a field labelled `pushed:` filled from `%cI` is
+   a false freshness signal for any commit pushed later than it was made. The
+   field is `commit-date:` and it says what it is. This amends the contract's
+   section 5.1 template, as section 7 allows -- a field that lies is worse
+   than a renamed one.
+
+3. THE SHA IS A LOWER BOUND, NOT THE HEAD. This file is committed, so the
+   commit carrying it necessarily comes after the sha it records. That lag is
+   structural and cannot be removed from inside the commit whose identity it
+   records. It is stated in the block itself rather than in prose underneath,
+   because prose under a fenced block does not get read.
 """
 import subprocess
 import sys
@@ -21,30 +41,38 @@ thing the design side cannot get for itself -- it turns "what changed since" fro
 inference into a fact.
 
 ```
-commit: {sha}
-branch: {branch}
-pushed: {when}
-```
+commit:      {sha}
+branch:      {branch}
+commit-date: {when}
+generated:   {now}
+bound:       LOWER -- this file is committed, so upstream head is `commit` or later
+{fetch}```
 
-{subject}
+Head commit: *{subject}*
 
-**Regenerate this rather than editing it**, and do it after the push lands on `main`:
+## Reading it
+
+**`commit` is a lower bound, not the head.** The commit that carries this file comes after
+the sha recorded in it -- necessarily, since a file cannot contain the id of the commit that
+contains it. So upstream is at `commit` **or later**, never earlier. To diff "what changed
+since", start from `commit` and accept that you may replay a merge you already have; that is
+the safe direction of the error.
+
+**`commit-date` is not a push time, and no such field is possible.** A git commit object
+carries an author date and a committer date; the moment it reached the remote is not recorded
+anywhere in the object. A commit made Friday and pushed Monday reports Friday. This deviates
+from section 5.1's `pushed:` on purpose -- an accurate name beats a template.
+
+**Regenerate rather than editing**, after the merge lands on `main`:
 
 ```bash
 python3 tools/syncstate.py && git add SYNC-STATE.md
 ```
 
-**Why it is generated.** The first version was written by hand and was stale within the
-hour -- it recorded a feature-branch commit while `main` moved four ahead. Nothing on the
-design side can tell a stale sync-state from a current one, so a wrong file is worse than
-no file. The contract's own section 2 rule applies to the contract's own artifact: if a
-claim contains a number, it belongs in a checker or a generator, not in prose someone
-remembers to update.
-
-**Development runs on `updated-outline-(sep-11)` and reaches `main` by pull request**, so
-a sha taken between a push and its merge is not on `main` at all. Run this after the merge
-and the sha above is the merge commit -- which is what section 5.1's template wanted and
-could not express, since it assumed a direct push.
+It fetches `origin/main` first. `origin/main` is a *local cached ref*, so without the fetch
+this records whatever this checkout last saw -- which, on a repo where work merges remotely
+while the checkout stays on a feature branch, is exactly the staleness the file exists to
+prevent. Use `--no-fetch` only offline, and expect the warning it writes into the block.
 """
 
 
@@ -53,20 +81,36 @@ def git(*args):
                           check=True).stdout.strip()
 
 
-def main(ref='origin/main'):
+def main(argv):
+    args = [a for a in argv if not a.startswith('--')]
+    do_fetch = '--no-fetch' not in argv
+    ref = args[0] if args else 'origin/main'
+
+    fetch_note = ''
+    if do_fetch and ref.startswith('origin/'):
+        try:
+            git('fetch', 'origin', ref.split('/', 1)[1])
+        except subprocess.CalledProcessError as exc:
+            fetch_note = ('fetch:       FAILED -- `%s` may be stale (%s)\n'
+                          % (ref, (exc.stderr or '').strip().splitlines()[-1:] or 'no detail'))
+            print('WARNING: fetch failed; %s may be stale' % ref, file=sys.stderr)
+    elif not do_fetch:
+        fetch_note = 'fetch:       SKIPPED (--no-fetch) -- `%s` is this checkout\'s cached ref\n' % ref
+
     sha = git('rev-parse', ref)
     subject = git('log', '-1', '--pretty=%s', sha)
     when = git('log', '-1', '--pretty=%cI', sha)
-    # Name the branch the sha is actually on, not the one checked out.
-    heads = git('branch', '-r', '--contains', sha)
-    branch = 'main' if any(h.strip() == 'origin/main' for h in heads.split('\n')) \
-        else git('rev-parse', '--abbrev-ref', 'HEAD')
-    text = BODY.format(sha=sha, branch=branch, when=when,
-                       subject='Head commit: *%s*' % subject)
+    heads = git('branch', '-r', '--contains', sha).split('\n')
+    branch = ('main' if any(h.strip() == 'origin/main' for h in heads)
+              else git('rev-parse', '--abbrev-ref', 'HEAD'))
+    now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+
     with open('SYNC-STATE.md', 'w', encoding='utf-8') as fh:
-        fh.write(text)
-    print('SYNC-STATE.md -> %s (%s)' % (sha[:12], branch))
+        fh.write(BODY.format(sha=sha, branch=branch, when=when, now=now,
+                             subject=subject, fetch=fetch_note))
+    print('SYNC-STATE.md -> %s (%s)%s'
+          % (sha[:12], branch, '  [fetch skipped]' if not do_fetch else ''))
 
 
 if __name__ == '__main__':
-    main(sys.argv[1] if len(sys.argv) > 1 else 'origin/main')
+    main(sys.argv[1:])

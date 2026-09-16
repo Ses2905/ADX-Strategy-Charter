@@ -5,27 +5,35 @@ thing the design side cannot get for itself -- it turns "what changed since" fro
 inference into a fact.
 
 ```
-commit: e7860832b251933198c1bea817eb1239ed5bfa98
-branch: main
-pushed: 2026-09-16T09:02:45-05:00
+commit:      e7860832b251933198c1bea817eb1239ed5bfa98
+branch:      main
+commit-date: 2026-09-16T09:02:45-05:00
+generated:   2026-09-16T14:22:46Z
+bound:       LOWER -- this file is committed, so upstream head is `commit` or later
 ```
 
 Head commit: *Merge pull request #34 from Ses2905/updated-outline-(sep-11)*
 
-**Regenerate this rather than editing it**, and do it after the push lands on `main`:
+## Reading it
+
+**`commit` is a lower bound, not the head.** The commit that carries this file comes after
+the sha recorded in it -- necessarily, since a file cannot contain the id of the commit that
+contains it. So upstream is at `commit` **or later**, never earlier. To diff "what changed
+since", start from `commit` and accept that you may replay a merge you already have; that is
+the safe direction of the error.
+
+**`commit-date` is not a push time, and no such field is possible.** A git commit object
+carries an author date and a committer date; the moment it reached the remote is not recorded
+anywhere in the object. A commit made Friday and pushed Monday reports Friday. This deviates
+from section 5.1's `pushed:` on purpose -- an accurate name beats a template.
+
+**Regenerate rather than editing**, after the merge lands on `main`:
 
 ```bash
 python3 tools/syncstate.py && git add SYNC-STATE.md
 ```
 
-**Why it is generated.** The first version was written by hand and was stale within the
-hour -- it recorded a feature-branch commit while `main` moved four ahead. Nothing on the
-design side can tell a stale sync-state from a current one, so a wrong file is worse than
-no file. The contract's own section 2 rule applies to the contract's own artifact: if a
-claim contains a number, it belongs in a checker or a generator, not in prose someone
-remembers to update.
-
-**Development runs on `updated-outline-(sep-11)` and reaches `main` by pull request**, so
-a sha taken between a push and its merge is not on `main` at all. Run this after the merge
-and the sha above is the merge commit -- which is what section 5.1's template wanted and
-could not express, since it assumed a direct push.
+It fetches `origin/main` first. `origin/main` is a *local cached ref*, so without the fetch
+this records whatever this checkout last saw -- which, on a repo where work merges remotely
+while the checkout stays on a feature branch, is exactly the staleness the file exists to
+prevent. Use `--no-fetch` only offline, and expect the warning it writes into the block.
