@@ -12,6 +12,8 @@ This checks the things a renderer will forgive and a reviewer will not.
 
     python3 tools/checkdeck.py "Advertiser Experience Strategy.dc.html"
 """
+import glob
+import io
 import re
 import sys
 
@@ -262,6 +264,60 @@ def check(path):
                              'children, an odd count — pairs stagger in twos, so '
                              'the last one is a label with no bar on its own beat'
                              % (slide, kids))
+
+    # Token drift. _ds/** is replaced WHOLESALE on re-sync, which is the whole
+    # reason that boundary exists — so a colour written bare does not follow
+    # the design system when it moves, while the same colour written as
+    # var(--wm-x,#hex) does. The deck had 95 bare uses against ~900 tokened
+    # ones; gray-200 alone was 42 bare against 93 tokened. Nothing renders
+    # differently today, which is exactly why it goes unnoticed until a
+    # re-sync splits one colour into two.
+    #
+    # Three things this check must not trip over: HTML entities (&#183; looks
+    # like #183), the literal inside an existing var(--x,#hex) fallback, and
+    # the generated __bundler_thumbnail block, which is not authored.
+    ds_hex = {}
+    for tf in sorted(glob.glob('_ds/*/tokens/*.css')):
+        with io.open(tf, encoding='utf-8') as fh:
+            for m in re.finditer(r'(--wm-[a-z0-9-]+):\s*(#[0-9a-fA-F]{3,8})', fh.read()):
+                ds_hex.setdefault(m.group(2).lower(), m.group(1))
+    if ds_hex:
+        thumb = re.search(r'<template id="__bundler_thumbnail".*?</template>', html, re.S)
+        tspan = (thumb.start(), thumb.end()) if thumb else (-1, -1)
+        ents = [(m.start(), m.end()) for m in re.finditer(r'&#\d+;', html)]
+        stray = []
+        for m in re.finditer(r'#[0-9a-fA-F]{3}\b|#[0-9a-fA-F]{6}\b', html):
+            i = m.start()
+            if tspan[0] <= i < tspan[1]:
+                continue
+            if any(a <= i < b for a, b in ents):
+                continue
+            if re.search(r'var\(\s*--[a-z0-9-]+\s*,\s*$', html[max(0, i - 70):i]):
+                continue
+            h = m.group(0).lower()
+            if len(h) == 4:
+                h = '#' + ''.join(c * 2 for c in h[1:])
+            if h in ds_hex:
+                stray.append((m.group(0), ds_hex[h]))
+        if stray:
+            shown = ', '.join('%s (%s)' % s for s in stray[:4])
+            fails.append('%d literal hex value(s) that have a design-system token '
+                         'and are not written as var(--token,#hex): %s%s — these '
+                         'will not follow a _ds re-sync'
+                         % (len(stray), shown, ', …' if len(stray) > 4 else ''))
+
+    # Same argument for type: a size that has a token should name it.
+    ds_size = {}
+    for tf in sorted(glob.glob('_ds/*/tokens/typography.css')):
+        with io.open(tf, encoding='utf-8') as fh:
+            for m in re.finditer(r'(--text-[a-z0-9-]+):\s*([0-9.]+px)', fh.read()):
+                ds_size.setdefault(m.group(2), m.group(1))
+    bare_sz = [(m.group(1), ds_size[m.group(1)])
+               for m in re.finditer(r'font-size:\s*([0-9.]+px)', html)
+               if m.group(1) in ds_size]
+    if bare_sz:
+        fails.append('%d bare font-size value(s) that have a token: %s'
+                     % (len(bare_sz), ', '.join('%s (%s)' % s for s in bare_sz[:4])))
 
     # The appendix toggle label is written by hand and does not compute itself.
     want = 'slides 62&#8211;%d' % len(labels)

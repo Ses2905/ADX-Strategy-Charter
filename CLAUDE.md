@@ -348,6 +348,43 @@ deck. Pull from the archive rather than rewriting if any of it is wanted back.
 
 ## Slide titles — core vs appendix
 
+**Colour and type are written as `var(--token,#literal)`, never bare.** `_ds/**` is replaced
+wholesale on re-sync — that is the entire point of the boundary — so a value written bare
+does not follow the design system when it moves. The deck carried **95 bare colour uses** and
+**11 bare font-sizes**, every one of which had a token. Nothing rendered differently, which
+is precisely why it went unnoticed: `#dee1e6` ran 93 tokened against **42 bare**, so one
+re-sync would have split gray-200 into two greys, 31% of its uses drifting silently.
+
+The deck's colour palette itself was clean — **15 distinct colours, all real design-system
+values, zero off-palette**. This was never a brand-drift problem; it was a *reference* problem.
+
+`checkdeck.py` now asserts it, and not `consist2.js` as first proposed: **the JS checkers live
+in a session scratchpad and do not survive the container, while `tools/*.py` is
+version-controlled.** Bare hex is a property of the text, not of the render, so it needs no
+browser and belongs in the durable checker. Three traps it has to dodge, all of which bit the
+first draft: `&#183;` looks like `#183`, the literal inside an existing `var(--x,#hex)`
+fallback is not bare, and `__bundler_thumbnail` is generated rather than authored.
+
+**Titles run two grammars, and only one is documented.** The rule below says *every title
+asserts*. Seven do not — they instruct: *Build one connected experience…* (25), *Create room
+now…* (31), *Extend the platform ambition…* (44), and the display line on 59. An imperative
+recommends rather than asserts, and most of these are legitimate: they address the
+**audience** ("we should build this"), which is the test the rule actually sets. Slide 47 was
+the exception and is fixed — *"Extend Walmart International market by market"* was the *before*
+shape of this file's own worked example, and now reads *"Walmart International extends the
+platform, market by market."* At 58 characters it wraps at base 42px and sets at **40px** with
+52px of clearance.
+
+**Slide 44 is the same shape as 47 was, and is deliberately left alone** pending the author's
+call on whether the imperative is a sanctioned second register. Do not "fix" it on the
+strength of the assert rule alone; that decision is open.
+
+**Changing a title changes the speaker notes.** Slide 47's `data-speaker-notes` opened by
+repeating its title verbatim as the presenter's cue, so a blind replace would have rewritten
+half of it and left the other half stale. An exact-count assertion caught it. **Check whether
+a title also appears in its own notes before replacing it.**
+
+
 **Every title in the deck is sentence case.** This reverses what this file said until the
 Sep 15 markup-decisions pass, and the reversal is the author's, made against the design
 system's own casing rule: "Advertisers do not experience one Walmart Ads platform", not
@@ -1250,16 +1287,19 @@ reading order, which is why it qualifies and a five-card row does not.
 ### The well tier and the sequence tier (17 Sept)
 
 The 16 Sept build animated the header and nothing else, and the author's read was that it
-felt unelevated. **The diagnosis was not "too little motion" — it was that every slide landed
-identically**: three lines faded in over content that never moved, so by about slide 3 the
-motion stopped registering and the header read as floating on top of a static page.
+felt unelevated. **The working hypothesis — and it is a hypothesis, not a measurement — is
+that the problem was not "too little motion" but that every slide landed identically**: three
+lines fading in over content that never moved, so the motion stops registering after the
+first few slides and the header reads as floating on a static page. Nobody has watched this
+deck run; `deck-stage` does not boot without egress. The fix was built on a designer's read,
+which is a legitimate basis for a design decision and **not** evidence. Say which it is.
 
 Two tiers were added. Neither breaks the peer-row rule above; the first one *enforces* it.
 
 | Tier | What moves | Delay | Where |
 |---|---|---|---|
 | **Well** | the content well, as **one block** | `lead + 3×step` = **230ms** | 51 slides |
-| **Sequence** | a genuine chain, one beat per stage | 230 / 290 / 350 / 410ms | 30, 32, 59 |
+| **Sequence** | a genuine chain, one beat per stage | 230 / 290 / 350 / 410ms | 30, 32, 42, 45, 59 |
 
 **The well arrives as one block, and that is the whole point.** The rule against staggering
 siblings bans encoding a false order among *peers* — it does not ban animating the group they
@@ -1268,14 +1308,33 @@ claim 80% comes before 93%, which is exactly the failure the rule names. One blo
 the thing the author asked for: the slide *lands* instead of the header sliding in over
 furniture.
 
-**The sequence tier is the exception this file already allowed and had never built.** Three
+**The sequence tier is the exception this file already allowed and had never built.** Five
 slides earn it, and only because the delay genuinely *is* the content:
 
 - **30** and **32** — numbered stages (`01…04`, `1…4`) whose argument is the order.
+- **42** — four phases marked *Weeks 1–2, 3–5, 5–6*: the most explicitly time-ordered slide
+  in the deck.
+- **45** — three horizons, *0–12 months → 12–24 months → To be validated*. Three beats, not
+  four; fewer than the tier enumerates is fine.
 - **59** — four stages where the label and its bar are **one** stage, hence
   `data-sequence="pairs"`: children are staggered in twos so *Simplify* and its 25% bar
   arrive together. Rendered and checked; the bars building 25 → 50 → 75 → 100 as they land
   *is* the slide's claim that each stage keeps what the one before it built.
+
+**42 and 45 were missed on the first pass, and the reason is the lesson.** The tier's
+membership came from a list inherited from `PATCH-LEDGER.md` rather than from testing the
+deck against the rule this file states. Eleven slides carry numbered card sets; most are
+correctly excluded because numbering is **enumeration, not order** — the executive summary's
+four pillars, the six design principles, the five cards inside each big rock. Staggering
+those would be the exact failure the peer rule bans. But 42 and 45 meet the rule outright,
+and slide 42 is a *timeline*. **Re-derive membership from the rule; do not carry a list
+forward.**
+
+**On 42 and 45 the well IS the chain**, so `data-sequence` sits on the `[data-well]` element
+itself. That needs `:not([data-sequence])` on the block rule as well as
+`:not(:has([data-sequence]))` — **`:has()` matches descendants, not self**, so the
+`:has()` exclusion alone would have let those two wells fade in as a block *while* their
+children staggered inside them.
 
 **A chain replaces the well's single arrival; it does not queue behind it.** The sequence
 starts at 230ms — exactly where the block would have — so adding a chain costs no extra time.
