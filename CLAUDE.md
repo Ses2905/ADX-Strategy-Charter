@@ -1059,9 +1059,13 @@ dot printed white, losing the `aria-current` mark that says which section you ar
 hover states now reset in print. Confirmed after: tooltip `opacity:0`, dot back to
 `rgba(255,255,255,.4)`, screen behaviour unchanged.
 
-**This is the second time this exact bug shipped**, which makes it a class rather than an
-incident. The rule is unchanged and now has teeth: **any hover state owes a `@media print`
-reset in the same commit** — and a hover that ever surfaces a value owes a focus state too.
+**This is the third time this exact bug shipped, counting the incomplete fix for it.** The
+first `@media print` block covered the tooltip, the dot and the content-map row and **missed
+the links** — so a citation hovered on 09, 10 or 63 still printed `#0045bd` while the comment
+above the block claimed every hover state now reset. Enumerating hover states by hand is the
+thing that keeps failing. **A seventh hover state belongs in both lists — the transition
+declaration and the print reset — or it is already broken.** A hover that ever surfaces a
+value owes a focus state too.
 
 **Slide 59 is not a chart and must not get this.** Its four bars are 25/50/75/100% pills
 illustrating that each stage keeps what the one before it built — a progression mark with no
@@ -1302,6 +1306,15 @@ two makes every nested tier look broken.
 stagger value everywhere. It is a one-token change. It is **not** made here because the 110ms
 was preserved deliberately so the dividers' feel would not change, and changing a feel is the
 author's call, not an audit's.
+
+**`checkdeck` asserts the beat count, and the first version of that assertion was wrong
+twice.** It matched `<div\s+data-sequence`, so it only saw the attribute in a div's *first*
+position while the CSS selects `[data-sequence]` on any element anywhere — a five-card chain
+written `<div class="chain" data-sequence>` reported `structure: clean`. And it demanded an
+*exact* count, so a legitimate three-stage chain (beats 0/1/2, renders correctly) failed the
+build over "extras" that did not exist. **Fewer beats than the CSS enumerates is fine; more
+is the defect** — and `pairs` additionally needs an even count, or the last cell is a label
+with no bar on its own beat. All three are injected in `checkdeck_selftest.py`.
 
 **Every animated element matches exactly one tier — asserted, not assumed.** 277 elements
 animate and `notExactlyOneRule` is empty. Note the weak version of this check: if two rules

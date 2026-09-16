@@ -119,6 +119,22 @@ def odd_pairs_sequence(html):
     return html[:s] + sec[:m.end()] + tail[cut.end():] + html[e:]
 
 
+def sequence_attr_not_first(html):
+    """The CSS selects [data-sequence] on any element in any attribute position;
+    the first version of the checker matched `<div\\s+data-sequence` and so only
+    saw it as a div's FIRST attribute. Authored the way a human plausibly would,
+    a five-card chain reported clean."""
+    s, e = secspan(html, 30)
+    sec = html[s:e]
+    old = '<div data-sequence style='
+    assert old in sec, 'slide 30 no longer carries data-sequence as written'
+    sec = sec.replace(old, '<div class="chain" data-sequence style=', 1)
+    m = re.search(r'<div class="chain" data-sequence[^>]*>', sec)
+    card = ('<div style="border-top:2px solid var(--wm-true-blue,#0053e2);'
+            'padding-top:16px"><span class="cap">05</span></div>')
+    return html[:s] + sec[:m.end()] + card + sec[m.end():] + html[e:]
+
+
 CASES = [
     ('commented-out navigator on a narrative divider', comment_out_navigator,
      'narrative dividers without a navigator'),
@@ -133,7 +149,9 @@ CASES = [
     ('a 5th child added to a 4-beat sequence chain', extra_sequence_child,
      'the tier enumerates 4'),
     ('a cell removed from slide 59\'s paired chain', odd_pairs_sequence,
-     'the tier enumerates 8'),
+     'an odd count'),
+    ('data-sequence authored as a later attribute, with a 5th child',
+     sequence_attr_not_first, 'the tier enumerates 4'),
     ('two content-map rows swapped (both still dividers)', swapped_goto_targets,
      'content map points at'),
 ]

@@ -138,8 +138,12 @@
      hovered dot printed white — losing the aria-current mark that says which
      section you are in. Reproduced under emulateMedia('print') before fixing.
      The chart bars have carried this reset since the hover shipped; these
-     three never did. Every hover state in the deck now resets on paper. */
+     three never did — and the first version of this block still missed the
+     links, so a citation hovered on slides 09, 10 or 63 printed #0045bd.
+     Enumerating hover states by hand is what went wrong twice; if a seventh
+     appears, it belongs in BOTH the transition list above and here. */
   @media print{
+    a,.s .src a,.s .srclink{color:var(--wm-true-blue,#0053e2) !important}
     .secnav .dot::after{opacity:0 !important}
     .secnav .dot{background:rgba(255,255,255,.4) !important;background-clip:content-box !important}
     .secnav .dot[aria-current="true"]{background:var(--wm-everyday-blue,#4dbdf5) !important;background-clip:content-box !important}
