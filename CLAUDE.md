@@ -249,15 +249,28 @@ just land on the wrong slide.
 
 Two failure modes, two different gates, and neither covers the other:
 
-- **Wrong indices** — now checked. `tools/checkdeck.py` derives the expected list from the
-  slides that carry a navigator and compares every dot row against it. Self-tested against
-  a simulated slide insertion and a hand-edited `data-goto`; both fire.
+- **Wrong indices** — now checked, three ways, each self-tested against an injected defect:
+  every dot row must equal `slide number − 1` for the navigator-carrying slides; every
+  divider must carry a navigator *except the last one*; and the slot must hold nothing but
+  `<section>`s.
 - **The jump not firing at all** — still only provable in Claude Design. Editing the
   `text/x-dc` handler, the dot markup or `deck-stage` puts it back to unverified.
 
-Derive the expectation from slides carrying `.secnav`, **not** from `data-divider`: slide 62
-is a divider with no progression line, so a check keyed on `data-divider` expects ten dots
-and reports all nine navigators as broken. That is the first thing this check got wrong.
+Three things that check got wrong before it got them right, all worth not rediscovering:
+
+1. **Derive expectations from slides carrying `.secnav`, not from `data-divider`.** Slide 62
+   is a divider with no progression line, so a check keyed on `data-divider` expects ten
+   dots and reports all nine navigators as broken.
+2. **But comparing the rows only against each other proves nothing.** Lose a divider's
+   navigator *and* drop the matching dot from the other rows and everything stays
+   internally consistent — a nine-section navigator silently becomes an eight-section one.
+   Hence the separate assertion that every divider carries one. Slide 62 has no
+   `data-appendix` attribute to key on, so it is identified structurally: it is the **last**
+   divider, and only the last may omit a navigator.
+3. **`data-goto` indexes `deck-stage`'s slide list, not the authored sections.**
+   `_collectSlides()` keeps every slotted element except `TEMPLATE`, `SCRIPT` and `STYLE`,
+   so one stray `<div>` beside the sections becomes a runtime slide and shifts every index
+   after it while a label-based check still reports clean.
 
 The previous 68-slide build (31 core + 4 acts + 33 appendix) is preserved verbatim as
 `Advertiser Experience Strategy (Sep 12 archive).dc.html`. Content that lived only in that
