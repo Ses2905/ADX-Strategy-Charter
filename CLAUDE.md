@@ -604,6 +604,22 @@ slide 38 shipped with its footers 23px out, and the scratchpad `peers.js` it rep
 only `querySelector('*')` — the first descendant — on siblings carrying a border-top, so a
 row with no rule (13) and an offset below line one (38) were both invisible to it.
 
+**A suppression is keyed to a FINDING, never to a slide — and this checker shipped the
+other way first.** Excluding a whole slide discards any *later* regression on it too: a
+heading that starts wrapping, a baseline that shifts. The run still reports clean. That is
+the *"a checker that reports nothing may simply be blind"* failure, built into the checker
+written to avoid it, and a review caught it. Each exception now matches a **kind plus the
+geometry it was written for**, and a **stale one reports itself** rather than passing
+silently — if slide 55's cards ever change height, the suppression stops matching and says
+so instead of quietly covering the new number. Proven both ways: pushing one of slide 55's
+headings 24px out of line now yields **four** findings that the slide-wide version swallowed.
+
+**Three of the four exceptions were deleted rather than narrowed.** With suppression off,
+slides **17, 34 and 59 emit nothing at all** — so all three were suppressing findings that
+do not exist while standing ready to swallow ones that might. Their reasons are kept as a
+comment in the file so nobody re-adds them on the strength of a render. Only slide 55 has a
+real, documented exception.
+
 **Self-tested.** Removing slide 13's `min-height:35px` reservation reproduces
 `45.8 / 63.3 / 63.3 / 45.8 / 45.8` and pitch `57.8 / 75.3 / 75.3 / 57.8` — the exact numbers
 from before that fix. A checker that reports nothing may simply be blind.
