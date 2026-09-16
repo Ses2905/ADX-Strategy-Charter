@@ -955,6 +955,44 @@ was competing with the point labels sitting on top of it.
 all five points the linear-scale deviation is at most **0.12B** (0.3244 $B per px). The
 points are not hand-placed.
 
+**Hover isolates; it never reveals.** The review comment asked for "all graph hovers", and
+the deck has three charts — the market line (05), the five-theme bars (13) and the NPS range
+(15). **Only 13 earns one**, because a hover has to add something a still slide does not:
+
+| Chart | Is anything hidden? |
+|---|---|
+| 05 market line | No — all five points carry their value |
+| 13 five-theme bars | No — the count is printed beside every bar |
+| 15 NPS range | **No per-month data exists.** The 19 vertical lines are *axis ticks* at `y 430→442`, and the chart says so itself: *"Measured monthly range, not a trend line."* |
+
+So a value tooltip is impossible on all three: two have nothing hidden, and on 15 inventing a
+month's number would break the evidence guardrail outright. What a hover *can* do is
+**isolate** — and that only helps where the reader is comparing peers, which is 13 and not a
+single trend line or a range band.
+
+```css
+.s .bars .bar{transition:opacity var(--dur-fast,120ms) var(--ease-standard,…)}
+.s .bars:hover .bar{opacity:.3}
+.s .bars .bar-row:hover .bar{opacity:1}
+```
+
+**Only the bars dim. Text never does** — gray-600 at `.3` on white fails contrast, and a row
+has to stay readable while its neighbour is hovered. Verified: bar opacities go
+`1 1 1 1 1` → `.3 .3 1 .3 .3` on hover while every row's text stays at 1.
+
+**No keyboard parity is owed, and the reason is the whole justification.** A hover that
+revealed a value would need a focus state, because a keyboard user would lose information
+without it. This one reveals nothing, so nothing is lost — and five tab stops on an evidence
+slide would cost more than the effect gives. **If a chart hover ever surfaces a value, it
+owes a focus state in the same commit.**
+
+Reduced motion suppresses the transition and keeps the state, matching the rest of the deck.
+
+**Slide 59 is not a chart and must not get this.** Its four bars are 25/50/75/100% pills
+illustrating that each stage keeps what the one before it built — a progression mark with no
+data behind it. A bar-width sweep will flag it; it is a false positive, the same family as
+counting table rows as card rows.
+
 **Second open item on the same slide:** the source note reads *EMARKETER, 25 August 2026*
 while the Sept 15 deck cites *eMarketer Forecast, June 2026* for the same series. Two
 different vintages of the same forecast, and it is not obvious which is current. Left as
