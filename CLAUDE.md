@@ -423,6 +423,19 @@ by slack alone, the worst slide in it looked like the best.
 on 36, *What it buys* on 38 — a `.cap` label in gray-600 over a 14.5px line. It is part of
 the template where the content has one, and it is `margin-top:16px`, never `auto`.
 
+**The body carries a reservation too: `min-height:68px`.** The heading's `min-height:42px`
+only protects the heading, so a card whose *body* wraps to three lines drops its footer
+below its four siblings'. Slide 38 shipped that way — bodies at 2/3/3/3/2 lines and a **23px
+spread** across the footer row. A 15px body at line-height 1.5 is 22.5px a line, so three
+lines is 68px. Spread is 0 now on both footer-bearing rocks. 37 and 39 do not need it;
+nothing sits below their bodies to knock out of line.
+
+**This one only showed up in a screenshot.** `checkdeck`, `clip`, `collide` and `consist2`
+were all clean with the footers 23px out of line, because none of them compares peer
+baselines *inside* a card. The peer-baseline check this file already asks for is the right
+gate; until something automates it, **render the slide and look at it** after any change to
+a card template.
+
 The earlier *Evidence behind this priority* strip belonged to the Sep 12 priority slides
 (17–20) and is not in this build. It is preserved in the archive file if the traceability
 back to the research act is wanted again.
