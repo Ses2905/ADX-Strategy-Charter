@@ -189,6 +189,14 @@ depends on what the content *is*, and a slack metric alone will mislead you.
   Linked*. **The deck has no unresolved figure left.** Hold the distinction: a single
   *platform* is not fewer *networks* — Skai argues the fewer-networks case separately, and
   slide 60 carries that one, unattributed.
+- **Backlog items 3.1, 5.2 and 2.2 closed on 16 Sept**, all on author decisions:
+  **3.1** the nine dividers flipped — section name at 58px, argument beneath it in white;
+  **5.2** slide 07 became a centred statement carrying both figures in one line, which is
+  what let the Forrester methodology stay in the source line;
+  **2.2** slide 05's delta callout now names itself — *Projected commerce media spend growth*.
+  Remaining from that review set: **5.1**, blocked on an infographic that is not in the
+  project.
+
 - **Slide 50** — eight of nine remits read "Remit in confirmation," and headshots are not in
   the repo. Not resolved, whatever a `Role to confirm` grep says.
 - **Slide 42 dates** — weeks-from-kickoff is a placeholder; real pod dates to come.
